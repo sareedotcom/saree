@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_front_send_response_before">
+        <observer name="elsnertech_customization" instance="Elsnertech\Customization\Model\Observer" shared="false" />
+    </event>
+
+    <!--<event name="layout_load_before">-->
+    <!--    <observer name="layout_load_before_switcher" instance="Elsnertech\Customization\Observer\AddHandle" />-->
+    <!--</event>-->
+</config>

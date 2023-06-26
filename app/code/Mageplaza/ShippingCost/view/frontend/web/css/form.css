@@ -1,0 +1,106 @@
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ShippingCost
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+.mpshippingcost-rates.opc-wrapper {
+    width: auto;
+    padding: 0;
+    margin-bottom: 0;
+    position: unset;
+    float: unset;
+}
+
+.mpshippingcost-rates.opc-wrapper > .step-content,
+.modal-content .mpshippingcost-form .fieldset:last-child,
+.product.data.items .mpshippingcost-fieldset.fieldset:last-child,
+.mpshippingcost-rates > .step-title {
+    margin-bottom: 0;
+}
+
+.mpshippingcost-block > .step-title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    /*font-size: 2.6rem;
+    font-weight: 300;
+    border-bottom: 1px solid #cccccc;*/
+}
+
+.mpshippingcost-address,
+.mpshippingcost-fieldset,
+.mpshippingcost-block .step-description,
+.mpshippingcost-form > .messages {
+    margin-bottom: 20px;
+}
+
+.mpshippingcost-address > .step-title {
+    font-weight: 600;
+}
+
+table.table-checkout-shipping-method {
+    min-width: unset;
+    width: 100%;
+}
+
+.table-checkout-shipping-method tbody tr td.col-more,
+.table-checkout-shipping-method.first-rate tbody tr td {
+    padding-top: 0;
+}
+
+.table-checkout-shipping-method.first-rate tbody tr td.col-first-rate {
+    width: auto;
+}
+
+.modal-content{
+    border:none!important;
+}
+.modal-popup .modal-inner-wrap{
+    width: 35%!important;
+}
+.modal-popup .modal-title{ 
+    text-align: center; 
+    border-bottom: none!important;
+}
+.modal-popup.modal-slide .modal-footer {
+    border-top: none!important;
+    text-align: center!important;
+}
+
+@media only screen and (max-width: 767px){
+    .modal-popup .modal-inner-wrap{
+        width: 85%!important;
+    }
+.modal-popup.modal-slide._inner-scroll .modal-inner-wrap{
+    min-height:unset!important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+  aside.modal-popup .modal-content{
+   width:auto !important;
+   border-left:unset;
+   border-right:unset;
+  }
+}
+
+.mpshippingcost-address a {
+    color: #ba0c2f; 
+    text-decoration: underline;
+}
+    
+    

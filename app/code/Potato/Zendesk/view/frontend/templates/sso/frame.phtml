@@ -1,0 +1,24 @@
+<?php
+/** @var $block \Potato\Zendesk\Block\Sso */
+?>
+<div style="display:none" id="po_zendesk_sso_login"></div>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "jquery/jquery.cookie",
+        "mage/cookies"
+    ], function($){
+        let loginCookieName = <?= \Zend_Json::encode($block->getLoginCookieName());?>;
+        if (null !== $.cookie(loginCookieName)) {
+            let iframe = <?= \Zend_Json::encode($block->getLoginJwtIframe());?>;
+            $("#po_zendesk_sso_login:hidden").html(iframe);
+            jQuery.mage.cookies.clear(loginCookieName);
+        }
+        let logoutCookieName = <?= \Zend_Json::encode($block->getLogoutCookieName());?>;
+        if (null !== $.cookie(logoutCookieName)) {
+            let iframe = <?= \Zend_Json::encode($block->getLogoutJwtIframe());?>;
+            $("#po_zendesk_sso_login:hidden").html(iframe);
+            jQuery.mage.cookies.clear(logoutCookieName);
+        }
+    });
+</script>

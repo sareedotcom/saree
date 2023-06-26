@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Elsner_Productposition::parent" title="Product Position" module="Elsner_Productposition" sortOrder="40" resource="Elsner_Productposition::parent"/>
+		<add id="Elsner_Productposition::productposition" title="Product Position" module="Elsner_Productposition" sortOrder="20" parent="Elsner_Productposition::parent" action="productposition/productposition" resource="Elsner_Productposition::productposition"/>
+
+    </menu>
+</config>

@@ -1,0 +1,13 @@
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "optionDependent": {
+                "inPreconfigured" : <?php echo $this->getInPreconfigured() ?>,    
+                "config" : <?php echo $this->getConfig() ?> 
+            },
+            "validation": {
+                "ignore": ":hidden"
+            }            
+        }
+    }
+</script>

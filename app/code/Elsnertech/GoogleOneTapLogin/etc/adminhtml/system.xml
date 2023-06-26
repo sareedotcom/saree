@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author Elsner Team
+* @copyright Copyright (c) Elsner Technologies Pvt. Ltd (https://www.elsner.com/)
+* @package Elsnertech_GoogleOneTapLogin
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="elsnertech" translate="label" sortOrder="40" class="elsnertech">
+            <label>Elsnertech Extensions</label>
+        </tab>
+        <section id="googleonetaplogin" translate="label" type="text" sortOrder="141" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label><![CDATA[Google One Tap Login]]></label>
+            <tab>elsnertech</tab>
+            <resource>Elsnertech_GoogleOneTapLogin::config_googleonetaplogin</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label><![CDATA[General Settings]]></label>
+               <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Googe One Tap Login</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="clientid" translate="label" type="password" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client Id</label>
+                    <validate>required-entry</validate> 
+                    <comment><![CDATA[Create Client Id from <a href="https://code.google.com/apis/console/" target="_bank">here</a>]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="clientsecrate" translate="label" type="password" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client Secrate</label>
+                    <validate>required-entry</validate> 
+                    <comment><![CDATA[Create Client Secrate from <a href="https://code.google.com/apis/console/" target="_bank">here</a>]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                
+                <field id="closeprompt" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prompt close on Outside Click</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[Google Prompt will automatically closed when user tap outside of popup]]>
+                    </comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="redirect_url" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Elsnertech\GoogleOneTapLogin\Block\System\RedirectUrl</frontend_model>
+                    <label>REDIRECT URIS</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>  
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <swissup_saree_home>
+            <layout>
+                <body_backgroundColor>#fff</body_backgroundColor>
+                <body_backgroundImage></body_backgroundImage>
+                <body_backgroundRepeat>no-repeat</body_backgroundRepeat>
+                <body_backgroundPosition>0,0</body_backgroundPosition>
+                <page_maxWidth>none</page_maxWidth>
+                <contentContainer_maxWidth>1280px</contentContainer_maxWidth>
+            </layout>
+            <header>
+                <pageHeader_backgroundColor>#fff</pageHeader_backgroundColor>
+                <pageHeader_backgroundImage></pageHeader_backgroundImage>
+                <pageHeader_backgroundRepeat>no-repeat</pageHeader_backgroundRepeat>
+                <pageHeader_backgroundPosition>0,0</pageHeader_backgroundPosition>
+                <pageHeader_borderColor>#eff3f6</pageHeader_borderColor>
+
+                <pageHeaderPanel_backgroundColor>#f7f9fb</pageHeaderPanel_backgroundColor>
+                <pageHeaderPanel_backgroundImage></pageHeaderPanel_backgroundImage>
+                <pageHeaderPanel_backgroundRepeat>no-repeat</pageHeaderPanel_backgroundRepeat>
+                <pageHeaderPanel_backgroundPosition>0,0</pageHeaderPanel_backgroundPosition>
+                <pageHeaderPanel_borderColor>transparent</pageHeaderPanel_borderColor>
+
+                <search>
+                    <headerSearch_borderColor>#27acae</headerSearch_borderColor>
+                    <headerSearch_background>#f7f9fb</headerSearch_background>
+                    <headerSearchFolder_boxShadow>0 0 0 2px #27acae</headerSearchFolder_boxShadow>
+                    <headerSearchClose_color>#002d57</headerSearchClose_color>
+                </search>
+            </header>
+            <header_config>
+                <layout>[{"children":[{"name":"header_cms_links"}],"config":{"align":"left","grow":"","classes":""},"name":"header.top.left"},{"children":[],"config":{"align":"center","grow":"","classes":""},"name":"header.top.middle"},{"children":[{"name":"store_language"},{"name":"currency"}],"config":{"align":"right","grow":"","classes":""},"name":"header.top.right"},{"children":[{"name":"logo"}],"config":{"align":"left","grow":"none","classes":""},"name":"header.main.left"},{"children":[{"name":"navigation.sections"}],"config":{"align":"left","grow":"1","classes":""},"name":"header.main.middle"},{"children":[{"name":"top.search"},{"name":"header_account"},{"name":"header_wishlist"},{"name":"minicart"}],"config":{"align":"right","grow":"","classes":"md-flex"},"name":"header.main.right"},{"children":[],"config":{"align":"left","grow":"","classes":""},"name":"header.bottom.left"},{"children":[],"config":{"align":"center","grow":"","classes":""},"name":"header.bottom.middle"},{"children":[],"config":{"align":"right","grow":"","classes":""},"name":"header.bottom.right"}]</layout>
+                <exclude>checkout_index_index
+firecheckout_index_index</exclude>
+            </header_config>
+            <footer>
+                <footer_background>linear-gradient(to left, #e7eff4 44%, #f7f9fb 10%)</footer_background>
+                <footer_backgroundColor>initial</footer_backgroundColor>
+                <footer_backgroundRepeat>no-repeat</footer_backgroundRepeat>
+                <footer_backgroundPosition>0,0</footer_backgroundPosition>
+                <footer_color>#7a8fa3</footer_color>
+                <footerLink_color>#7a8fa3</footerLink_color>
+                <footerLinkHover_color>#7a8fa3</footerLinkHover_color>
+                <footerTitle_color>#002d57</footerTitle_color>
+                <footerTitle_fontSize>16px</footerTitle_fontSize>
+                <footerTitle_fontWeight>500</footerTitle_fontWeight>
+                <footerNewsletterButton_backgroundColor>#002d57</footerNewsletterButton_backgroundColor>
+                <footerNewsletterButtonHover_backgroundColor>#00478a</footerNewsletterButtonHover_backgroundColor>
+                <footerSocial_color>#7a8fa3</footerSocial_color>
+                <footerSocialBg_color>#fff</footerSocialBg_color>
+            </footer>
+            <buttons>
+                <button_background>#f66560</button_background>
+                <button_borderColor>#f66560</button_borderColor>
+                <button_borderWidth>0</button_borderWidth>
+                <button_borderStyle>solid</button_borderStyle>
+                <button_color>#fff</button_color>
+                <buttonHover_background>#f33630</buttonHover_background>
+                <buttonHover_borderColor>#f33630</buttonHover_borderColor>
+                <buttonHover_borderWidth>0</buttonHover_borderWidth>
+                <buttonHover_borderStyle>solid</buttonHover_borderStyle>
+                <buttonHover_color>#fff</buttonHover_color>
+
+                <buttonSecondary_background>#002d57</buttonSecondary_background>
+                <buttonSecondary_borderColor>#002d57</buttonSecondary_borderColor>
+                <buttonSecondary_borderWidth>0</buttonSecondary_borderWidth>
+                <buttonSecondary_borderStyle>solid</buttonSecondary_borderStyle>
+                <buttonSecondary_color>#fff</buttonSecondary_color>
+                <buttonSecondaryHover_background>#00478a</buttonSecondaryHover_background>
+                <buttonSecondaryHover_borderColor>#00478a</buttonSecondaryHover_borderColor>
+                <buttonSecondaryHover_borderWidth>0</buttonSecondaryHover_borderWidth>
+                <buttonSecondaryHover_borderStyle>solid</buttonSecondaryHover_borderStyle>
+                <buttonSecondaryHover_color>#fff</buttonSecondaryHover_color>
+
+                <buttonTocart_background>#f66560</buttonTocart_background>
+                <buttonTocart_borderColor>#f66560</buttonTocart_borderColor>
+                <buttonTocart_borderWidth>0</buttonTocart_borderWidth>
+                <buttonTocart_borderStyle>solid</buttonTocart_borderStyle>
+                <buttonTocart_color>#fff</buttonTocart_color>
+                <buttonTocartHover_background>#f33630</buttonTocartHover_background>
+                <buttonTocartHover_borderColor>#f33630</buttonTocartHover_borderColor>
+                <buttonTocartHover_borderWidth>0</buttonTocartHover_borderWidth>
+                <buttonTocartHover_borderStyle>solid</buttonTocartHover_borderStyle>
+                <buttonTocartHover_color>#fff</buttonTocartHover_color>
+            </buttons>
+            <fonts>
+                <pageTitle_fontFamily>'Work Sans', sans-serif</pageTitle_fontFamily>
+                <pageTitle_fontWeight>600</pageTitle_fontWeight>
+                <pageTitle_color>#002d57</pageTitle_color>
+                <blockTitle_fontFamily>'Work Sans', sans-serif</blockTitle_fontFamily>
+                <blockTitle_fontWeight>600</blockTitle_fontWeight>
+                <blockTitle_color>#002d57</blockTitle_color>
+                <finalPrice_color>#f66560</finalPrice_color>
+            </fonts>
+            <category>
+                <max_width>1280</max_width>
+                <grid>
+                    <columns_count>{"640":{"columns":"3","spacing":"6"}, "1024":{"columns":"3","spacing":"6"}}</columns_count>
+                </grid>
+            </category>
+            <product>
+                <max_width>1280</max_width>
+                <media_width>57</media_width>
+                <infomain_width>40</infomain_width>
+            </product>
+            <css_selector>
+                <body>body</body>
+                <page>.page-wrapper</page>
+                <content-container><![CDATA[.navigation, .breadcrumbs, .page-header .header.panel, .header.content, .footer.content, .page-wrapper > .widget, .page-wrapper > .page-bottom, .block.category.event, .top-container, .page-main]]></content-container>
+
+                <page-header><![CDATA[.page-header]]></page-header>
+                <page-header-panel><![CDATA[.page-header .panel.wrapper]]></page-header-panel>
+                <header-search>.page-header .block-search .input-text</header-search>
+                <header-search-folder>.block-search.block-swissup-ajaxsearch.inline .field.search .input-text</header-search-folder>
+                <header-search-close>.page-header .block-search.inline .action.close</header-search-close>
+
+                <footer>.page-footer</footer>
+                <footer-link>.footer.content .links a, .footer.content .links a:visited, .page-footer .footer-toolbar-top a, .page-footer .footer-toolbar-top .alink</footer-link>
+                <footer-link-hover>.footer.content .links a:hover, .footer.content .links a:visited:hover, .page-footer .footer-toolbar-top a:hover, .page-footer .footer-toolbar-top .alink:hover</footer-link-hover>
+                <footer-title>.page-footer div.title, .page-footer .block.newsletter .label</footer-title>
+                <footer-newsletter-button>.page-footer .footer.content .block.newsletter .action.subscribe</footer-newsletter-button>
+                <footer-newsletter-button-hover>.page-footer .footer.content .block.newsletter .action.subscribe:hover, .page-footer .footer.content .block.newsletter .action.subscribe:focus, .page-footer .footer.content .block.newsletter .action.subscribe:active</footer-newsletter-button-hover>
+                <footer-newsletter-button-image>.page-footer .block.newsletter .action.subscribe::before</footer-newsletter-button-image>
+                <footer-social>.page-footer .social-icons .fa-stack</footer-social>
+                <footer-social-bg>.page-footer .social-icons .fa-inverse</footer-social-bg>
+
+                <button>.action.primary</button>
+                <button-hover>.action.primary:hover, .action.primary:focus, .action.primary:active</button-hover>
+                <button-secondary><![CDATA[button, .abs-revert-to-action-secondary, .paypal-review .block .actions-toolbar .action.primary, .abs-discount-block .actions-toolbar .action.primary, .abs-discount-block .actions-toolbar .action.cancel, .block-compare .action.primary, .cart-summary .block .actions-toolbar > .primary .action.primary, .cart-summary .form.giftregistry .fieldset .action.primary, .paypal-review-discount .actions-toolbar .action.primary, .paypal-review-discount .actions-toolbar .action.cancel, .cart-discount .actions-toolbar .action.primary, .cart-discount .actions-toolbar .action.cancel, .product.data.items .review-add .review-form .action.submit.primary, .cms-index-index a.button:not(.primary), .cms-index-index .column.main .block .actions-toolbar .action.view, .background-divider.element .content .action]]></button-secondary>
+                <button-secondary-hover><![CDATA[button:hover, .abs-revert-secondary-color:hover, .abs-revert-to-action-secondary:hover, .paypal-review .block .actions-toolbar .action.primary:hover,.abs-discount-block .actions-toolbar .action.primary:hover, .abs-discount-block .actions-toolbar .action.cancel:hover, .block-compare .action.primary:hover, .cart-summary .block .actions-toolbar > .primary .action.primary:hover, .cart-summary .form.giftregistry .fieldset .action.primary:hover, .paypal-review-discount .actions-toolbar .action.primary:hover, .paypal-review-discount .actions-toolbar .action.cancel:hover, .cart-discount .actions-toolbar .action.primary:hover, .cart-discount .actions-toolbar .action.cancel:hover, .product.data.items .review-add .review-form .action.submit.primary:hover, .cms-index-index a.button:not(.primary):hover, .cms-index-index .column.main .block .actions-toolbar .action.view:hover, .background-divider.element .content .action:hover, /*ACTIVE STATE*/ button:active, .abs-revert-secondary-color:active, .abs-revert-to-action-secondary:active, .paypal-review .block .actions-toolbar .action.primary:active,.abs-discount-block .actions-toolbar .action.primary:active, .abs-discount-block .actions-toolbar .action.cancel:active, .block-compare .action.primary:active, .cart-summary .block .actions-toolbar > .primary .action.primary:active, .cart-summary .form.giftregistry .fieldset .action.primary:active, .paypal-review-discount .actions-toolbar .action.primary:active, .paypal-review-discount .actions-toolbar .action.cancel:active, .cart-discount .actions-toolbar .action.primary:active, .cart-discount .actions-toolbar .action.cancel:active, .product.data.items .review-add .review-form .action.submit.primary:active, .cms-index-index a.button:not(.primary):active, .cms-index-index .column.main .block .actions-toolbar .action.view:active, .background-divider.element .content .action:active, /*FOCUS STATE*/ button:focus, .abs-revert-secondary-color:focus, .abs-revert-to-action-secondary:focus, .paypal-review .block .actions-toolbar .action.primary:focus,.abs-discount-block .actions-toolbar .action.primary:focus, .abs-discount-block .actions-toolbar .action.cancel:focus, .block-compare .action.primary:focus, .cart-summary .block .actions-toolbar > .primary .action.primary:focus, .cart-summary .form.giftregistry .fieldset .action.primary:focus, .paypal-review-discount .actions-toolbar .action.primary:focus, .paypal-review-discount .actions-toolbar .action.cancel:focus, .cart-discount .actions-toolbar .action.primary:focus, .cart-discount .actions-toolbar .action.cancel:focus, .product.data.items .review-add .review-form .action.submit.primary:focus, .cms-index-index a.button:not(.primary):focus, .cms-index-index .column.main .block .actions-toolbar .action.view:focus, .background-divider.element .content .action:focus]]></button-secondary-hover>
+                <button-tocart>.tocart.action, .block.soldtogether-block .soldtogether-cart-btn, .bundle-actions .action.primary.customize</button-tocart>
+                <button-tocart-hover>.tocart.action:hover, .block.soldtogether-block .soldtogether-cart-btn:hover, .bundle-actions .action.primary.customize:hover, .tocart.action:active, .block.soldtogether-block .soldtogether-cart-btn:active, .bundle-actions .action.primary.customize:active, .tocart.action:focus, .block.soldtogether-block .soldtogether-cart-btn:focus, .bundle-actions .action.primary.customize:focus</button-tocart-hover>
+
+                <page-title><![CDATA[.page-title-wrapper .page-title, .catalog-product-view .column.main > .block .block-title [role="heading"]]]></page-title>
+                <block-title><![CDATA[div.block .block-title strong, .block.askit-question-form > .block-title strong, .contact.form .legend, .column.main .block-title [aria-level="3"], div.block .content-heading [role="heading"]]]></block-title>
+                <final-price>.product-info-main .product-info-price .price-box .price-container [data-price-type=finalPrice] .price, .product-info-main .product-info-price .price-box .price-container [data-price-type=minPrice] .price, .product-info-main .product-info-price .price-box .price-container [data-price-type=maxPrice] .price, .bundle-options-container .block-bundle-summary .price-box [data-price-type=finalPrice] .price</final-price>
+            </css_selector>
+        </swissup_saree_home>
+    </default>
+</config>

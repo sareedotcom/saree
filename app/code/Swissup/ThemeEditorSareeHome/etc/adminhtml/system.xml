@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="swissup_saree_home" translate="label" type="text" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Saree Home</label>
+            <tab>theme_editor</tab>
+            <resource>Swissup_ThemeEditorSareeHome::config</resource>
+
+            <include path="Swissup_ThemeEditorSareeHome::system/layout.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/header.xml"/>
+            <include path="Swissup_ThemeEditor::system/header_config.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/footer.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/buttons.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/fonts.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/category.xml"/>
+            <include path="Swissup_ThemeEditorSareeHome::system/product.xml"/>
+            <include path="Swissup_ThemeEditor::system/head.xml"/>
+            <include path="Swissup_ThemeEditor::system/themes.xml"/>
+        </section>
+    </system>
+</config>

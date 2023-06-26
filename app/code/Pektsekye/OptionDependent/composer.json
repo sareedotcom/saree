@@ -1,0 +1,17 @@
+{
+    "name": "pektsekye/module-option-dependent",
+    "description": "Makes product custom options dependent on each-other",
+    "type": "magento2-module",
+    "version": "1.24.1",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Pektsekye\\OptionDependent\\": ""
+        }
+    }
+}

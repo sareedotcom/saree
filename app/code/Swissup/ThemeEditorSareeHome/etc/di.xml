@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Swissup\ThemeEditorSareeHome\Block\Adminhtml\System\Config\Form\Field\CategoryPagePreview" type="Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\PagePreview">
+        <arguments>
+            <argument name="previewData" xsi:type="array">
+                <item name="template" xsi:type="string">Swissup_ThemeEditor::config/category-page-preview.phtml</item>
+                <item name="content_width" xsi:type="number">1280</item>
+                <item name="description_position" xsi:type="string">content.before</item>
+                <item name="layered_navigation_position" xsi:type="string">content.before</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\CategoryPageLayout" type="Swissup\ThemeEditor\Model\Config\Backend\PageLayout">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_category_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\CategoryContentWidth" type="Swissup\ThemeEditor\Model\Config\Backend\ContentWidth">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_category_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\CategoryColumnsCount" type="Swissup\ThemeEditor\Model\Config\Backend\ColumnsCount">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_category_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Category\MoveDescription" type="Swissup\ThemeEditor\Model\Config\Backend\Category\MoveDescription">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_category_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Category\MoveLayeredNavigation" type="Swissup\ThemeEditor\Model\Config\Backend\Category\MoveLayeredNavigation">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_category_view_type_layered</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Swissup\ThemeEditorSareeHome\Block\Adminhtml\System\Config\Form\Field\ProductPagePreview" type="Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\PagePreview">
+        <arguments>
+            <argument name="previewData" xsi:type="array">
+                <item name="template" xsi:type="string">Swissup_ThemeEditor::config/product-page-preview.phtml</item>
+                <item name="page_layout" xsi:type="string">_one_column</item>
+                <item name="tabs_position" xsi:type="string">content</item>
+                <item name="tabs_layout" xsi:type="string">collapsed</item>
+                <item name="image_position" xsi:type="string">vertical</item>
+                <item name="tocart_position" xsi:type="string">product.info.main</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\ProductContentWidth" type="Swissup\ThemeEditor\Model\Config\Backend\ContentWidth">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+                <item name="selector" xsi:type="string">.page-main, .is_stuck .box-tocart-inner</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\MediaBlock" type="Swissup\ThemeEditor\Model\Config\Backend\Product\BlocksWidth">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+                <item name="blockName" xsi:type="string">argento.product.media.width</item>
+                <item name="selector" xsi:type="string">.catalog-product-view .product.media</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\InfomainBlock" type="Swissup\ThemeEditor\Model\Config\Backend\Product\BlocksWidth">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+                <item name="blockName" xsi:type="string">argento.product.infomain.width</item>
+                <item name="selector" xsi:type="string">.catalog-product-view .product-info-main</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\MoveTocart" type="Swissup\ThemeEditor\Model\Config\Backend\Product\MoveTocart">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\MoveTabs" type="Swissup\ThemeEditor\Model\Config\Backend\Product\MoveTabs">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\PhotoInDescription" type="Swissup\ThemeEditor\Model\Config\Backend\Product\PhotoInDescription">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Product\StickyAddToCart" type="Swissup\ThemeEditor\Model\Config\Backend\Product\StickyAddToCart">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">catalog_product_view</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Footer\Copyright" type="Swissup\ThemeEditor\Model\Config\Backend\Footer\Copyright">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">default</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Footer\Links" type="Swissup\ThemeEditor\Model\Config\Backend\Footer\Links">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">default</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Swissup\ThemeEditorSareeHome\Model\Config\Backend\Footer\StaticBlock" type="Swissup\ThemeEditor\Model\Config\Backend\Footer\StaticBlock">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="themeCode" xsi:type="string">Swissup/saree-home</item>
+                <item name="handle" xsi:type="string">default</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

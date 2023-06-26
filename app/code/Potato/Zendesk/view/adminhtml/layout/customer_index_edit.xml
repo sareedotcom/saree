@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src='Potato_Zendesk::css/ticket.css' rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Potato\Zendesk\Block\Adminhtml\View\CreateTicket" name="sales_order_edit_create_ticket">
+                <block class="Potato\Zendesk\Block\Ticket\Create" name="po_zendesk.ticket.create" as="create_ticket" after="-">
+                    <arguments>
+                        <argument name="is_admin" xsi:type="boolean">true</argument>
+                        <argument name="need_subject" xsi:type="boolean">true</argument>
+                        <argument name="need_order" xsi:type="boolean">true</argument>
+                        <argument name="submit_route" xsi:type="string">po_zendesk/ticket/save</argument>
+                        <argument name="need_hide" xsi:type="boolean">true</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="customer_form">
+            <block class="Potato\Zendesk\Block\Adminhtml\View\Customer\Tab\Ticket" name="zendesk_ticket" />
+        </referenceBlock>
+    </body>
+</page>

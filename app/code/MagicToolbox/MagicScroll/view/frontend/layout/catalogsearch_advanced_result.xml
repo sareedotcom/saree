@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="head.additional.magicscroll">
+            <block class="MagicToolbox\MagicScroll\Block\Html\Head" name="magicscroll-header" template="MagicToolbox_MagicScroll::html/head.phtml">
+                <arguments>
+                    <argument name="page" xsi:type="string">category</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="category.product.type.details.renderers">
+            <block class="MagicToolbox\MagicScroll\Block\Product\Renderer\Listing\Configurable" name="configurable.magicscroll" template="Magento_Swatches::product/listing/renderer.phtml" before="-" />
+        </referenceBlock>
+    </body>
+</page>

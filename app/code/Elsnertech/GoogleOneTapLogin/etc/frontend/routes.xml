@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+* @author Elsner Team
+* @copyright Copyright (c) Elsner Technologies Pvt. Ltd (https://www.elsner.com/)
+* @package Elsnertech_GoogleOneTapLogin
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route frontName="googleonetaplogin" id="googleonetaplogin">
+            <module name="Elsnertech_GoogleOneTapLogin"/>
+        </route>
+    </router>
+</config>

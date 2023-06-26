@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author Elsner Team
+* @copyright Copyright (c) 2021 Elsner Technologies Pvt. Ltd (https://www.elsner.com/)
+* @package Elsnertech_GoogleOneTapLogin
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    
+    <head>
+        <script src="https://accounts.google.com/gsi/client" src_type="url"></script>
+    </head>
+    <body>
+         <referenceContainer name="content">
+            <block class="Elsnertech\GoogleOneTapLogin\Block\System\RedirectUrl" ifconfig="googleonetaplogin/general/enable" name="onetap" template="Elsnertech_GoogleOneTapLogin::onetap.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

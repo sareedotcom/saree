@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+	<preference for="Magento\Paypal\Model\Api\Nvp" type="Elsner\Multicurrency\Model\Api\Nvp"/>
+	<preference for="Magento\Paypal\Model\Config" type="Elsner\Multicurrency\Model\Paypal\Config" />
+	<preference for="Magento\Paypal\Model\Cart" type="Elsner\Multicurrency\Model\Cart" />
+	<type name="Magento\Sales\Model\Order\Payment\State\RegisterCaptureNotificationCommand">
+        <plugin name="multicurrency-complete-registerCaptureNotificationCommand" type="Elsner\Multicurrency\Model\Order\Payment\State\RegisterCaptureNotificationCommand" />
+    </type>
+</config>

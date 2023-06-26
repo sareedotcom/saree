@@ -1,0 +1,276 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+// ini_set('memory_limit', '2G');
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+//echo $_productCollection->getSelect();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+
+
+$helper = $this->helper('Elsnertech\CatalogList\Helper\Data');
+$sizes = $helper->getConfigValue('design/breeze/sizes');
+    
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <?php echo $block->getToolbarHtml() ?>
+    <?php echo $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $image = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+
+    $actionsBlockPosition = $block->getVar("argento/listing/{$viewMode}/actions/position", 'Magento_Catalog');
+    $actionsBlock = $block->getLayout()
+        ->createBlock('Magento\Framework\View\Element\Template')
+        ->setTemplate('Magento_Catalog::product/list/actions.phtml');
+    $block->setChild('actions', $actionsBlock);
+    ?>
+
+    <div class="products wrapper <?php /* @escapeNotVerified */ echo $viewMode; ?> products-<?php /* @escapeNotVerified */ echo $viewMode; ?>">
+        <?php $iterator = 1; ?>
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+                
+                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <div class="product-item-info" data-container="product-grid">
+                    <?php $this->helper('\Swissup\ProLabels\Helper\Catalog')->getLabels($_product); ?>
+                    <?php echo $this->helper('\Swissup\ProLabels\Helper\Catalog')->toHtmlProductLabels($_product->getId()); ?>
+                    <?php
+                    $productImage = $block->getImage($_product, $image);
+                   
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <div class="prolabels-wrapper">
+                        <?php
+                            $prolabelsCatalogHelper = $this->helper('Swissup\ProLabels\Helper\Catalog');
+                            echo $prolabelsCatalogHelper->getProductLabels($_product);
+                        ?>
+
+                        <?php // Product Image In Desktop ?>
+                        <div class="mobile-hide">
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1"> 
+                            <img  data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $_product['url']; ?>" src="<?php echo $helper->getMediaUrl('catalog/product') . $_product->getData('small_image'); ?>" alt="<?= $_product->getData('name'); ?>" width="500" height="750"/>
+
+                                <?php
+                                
+                                ?>
+                                <?php if ($_product->getData('saree_edition_attribute') != null)
+                                {
+                                    echo "<p>".$_product->getSareeEditionAttribute()."</p>"; 
+                                }?>
+                                
+                            <?php 
+                            $productMedia = $helper->getProductId($_product->getId());
+                            
+                            $productimages = $productMedia->getMediaGalleryImages();
+                            
+                                foreach($productimages as $productimage)
+                                {
+                                    if (strpos($productimage['video_url'], 'youtube.com') !== false) {
+                                        
+                                        if (isset($productimage['media_type']) && $productimage['media_type'] == 'external-video'){ 
+                                            $explodProductImageArray = explode("/",$productimage['video_url']);
+                                            $lastVideoWord= end($explodProductImageArray);
+                                        }?>
+                                        
+                                    <div class='prodct-video'>
+                                        <iframe class="ytvideos" width="500" height="750" src="<?= $productimage['video_url']; ?>?autoplay=1&mute=1&playlist=<?= $lastVideoWord; ?>&loop=1&controls=0" frameborder='0' allowfullscreen allow="autoplay"></iframe>
+                                    </div>
+                                    
+                                    <?php 
+                                    }elseif(strpos($productimage['video_url'], 'vimeo.com') !== false){
+                                        
+                                        if (isset($productimage['media_type']) && $productimage['media_type'] == 'external-video'){ 
+                                            $explodProductImageArray = explode("/",$productimage['video_url']);
+                                            $lastVideoWord= end($explodProductImageArray);
+                                            ?>
+                                            
+                                        <div class='prodct-video'>
+                                            <iframe id="vmvideo_product_<?= $_product->getId() ?>" class="vmvideos" width="500" height="750" src="https://player.vimeo.com/video/<?= $lastVideoWord; ?>?autoplay=0&muted=1&loop=1&controls=0" frameborder="0"  webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay"></iframe>
+                                        </div>
+                                    <?php }
+                                    } 
+                                }
+                            ?>  
+                            </a>
+                        </div>
+                        
+                        
+                        <?php // Product Image In Mobile with Carousel ?>
+                        <div class="desktop-hide">
+                            <a href="<?php echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?php   $images = $productMedia->getMediaGalleryImages();
+                                        if($images->count()>0){
+                                ?>
+                                        <div class="productListingSlider carousel carousel-<?php $_product->getId()?>">
+                                <?php
+                                    foreach($images as $child){
+                                    
+                                    if ($child->getMediaType() == 'image') {
+                                        $productImage = $_imagehelper->init($_product, 'category_page_grid')
+                                            ->setImageFile($child->getFile())
+                                            ->getUrl();
+                                       $pImage = $block->getImage($_product, $image)
+                                ?>
+                                            <div class="slide">
+                                                <img data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $child['url']; ?>" src="<?php echo $child['url']; ?>"/>
+                                            </div>
+
+                                <?php } } ?>
+                                        </div>
+
+                                   <?php } ?>
+                            </a>
+                        </div>
+                        <?php if ($actionsBlockPosition === 'prolabels-wrapper') {
+                            if ($pos != null) {
+                                $actionsBlock->setPosition($position);
+                            }
+                            echo $actionsBlock->setProduct($_product)->toHtml();
+                        }?>
+                    </div>
+                    <div class="product details product-item-details">
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link"
+                               href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </strong>
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+
+                        <?php
+                            if ($_helper->isModuleOutputEnabled('Swissup_Fblike')) {
+                                echo $this->helper('Swissup\Fblike\Helper\Like')->getProductLike($_product);
+                            }
+                        ?>
+                        <?php echo $block->getProductDetailsHtml($_product); ?>
+                        <div class="product name product-item-tag">
+                        <?php if($_product->getResource()->getAttribute('tag')->getFrontend()->getValue($_product))
+                        {
+                            echo '<span class="itemtag">'.$_product->getResource()->getAttribute('tag')->getFrontend()->getValue($_product).'</span>';
+                        }?>
+                        </div> 
+                        
+
+                        <div class="product-item-inner">
+                            <?php if ($actionsBlockPosition === 'default') {
+                                if ($pos != null) {
+                                    $actionsBlock->setPosition($position);
+                                }
+                                echo $actionsBlock->setProduct($_product)->toHtml();
+                            }?>
+                            <?php if ($showDescription):?>
+                                <div class="product description product-item-description">
+                                    <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php /* @escapeNotVerified */ echo $_productNameStripped ?>"
+                                       class="action more"><?php /* @escapeNotVerified */ echo __('Learn More') ?></a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($_helper->isModuleOutputEnabled('Swissup_FeaturedAttributes')) {
+                            echo $block->getLayout()
+                                ->createBlock('Swissup\FeaturedAttributes\Block\Attributes')
+                                ->setProduct($_product)
+                                ->toHtml();
+                        }?>
+
+                        <?php if($_product->getData('size') != null){ ?>
+                            <button class="btn1" onclick="productSizeToggle(<?php echo($_product->getId()); ?>);" >Size Info</button>
+        
+                            <div class="product-custom-size" id ="div<?php echo($_product->getId()); ?>">
+                                 <span class="product-custom-title">Size In: <?php echo $_product->getResource()->getAttribute('size')->getFrontend()->getValue($_product); ?></span>
+                            </div>
+                            
+                        <?php } ?>
+
+                    </div>
+                </div>
+                <?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php echo $block->getToolbarHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init" data-init-lazy="submit">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+
+<script>
+    require(['jquery', 'custom'], function($, slider) {
+        slider();
+    });
+    function productSizeToggle($id){
+        // jQuery(".product-custom-size").hide();
+        jQuery('#div'+$id).toggle();
+        
+    }
+</script>
+
+<script>
+    require(['jquery', 'Elsnertech_Customization/js/player'], function($, Player) {
+        $(document).ready(function(){
+            
+            $('.prolabels-wrapper').on('mouseenter',function(){
+                if ($(this).find('.vmvideos').length != 0) {
+                    var iframe = document.getElementById($(this).find('.vmvideos').attr('id'));
+                    console.log($(this).find('.vmvideos').attr('id'));
+                    // $f == Froogaloop
+                    var playplayer = new Player(iframe);
+                    playplayer.play();                  
+                }
+            });
+            $('.prolabels-wrapper').on('mouseleave',function(){
+                if ($(this).find('.vmvideos').length != 0) {
+                    var iframe = document.getElementById($(this).find('.vmvideos').attr('id'));
+                    console.log($(this).find('.vmvideos').attr('id'));
+                    // $f == Froogaloop
+                     var pauseplayer = new Player(iframe);
+                    pauseplayer.pause();
+                }
+            });            
+
+        })
+    });
+</script>

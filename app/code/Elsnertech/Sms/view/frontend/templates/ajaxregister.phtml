@@ -1,0 +1,196 @@
+<div id="myModal" class="modal ajax-register-form">
+  <!-- Modal content -->
+  <div class="mobile-modal-content">
+    <div class="closediv"><span class="close">&times;</span></div>
+    <div class="ajax-login-conten">
+    	<div id="ajaxlogin-login-window" class="login-window account-login">
+        
+        	<div class="mobileget">
+            	<div class="mobileotpsenderror error">
+                	<span><?php echo __("Please Enter Valid Mobile.");?></span>
+                </div>
+                <div class="mobileExist error">
+                	<span><?php echo __("Mobile Number Already Exist. <a href='javascript:void(0);' class='gotologin'>Click here to Login</a>");?></span>
+                </div>
+                 <div class="blankerror error" style="display:none">
+                     	<span><?php echo __("Required fields cannot be empty");?></span>
+                     </div>
+                   <div class="mobileNotValid error" style="display:none">
+                     	<span><?php echo __("Please Enter Valid Mobile Number");?></span>
+                     </div>   
+                 <div class="page-title">
+                    <span><?php echo __('Register') ?></span>
+                </div>
+                
+                
+				<div class="otp-content">
+                	 <label for="mobileget" class="required"><em>*</em><?php echo __('Mobile Number') ?></label>
+                     <div class="form-gorup">
+                     <select name="countryCodeRegister" id="country-code-register">
+                        <option value="+61"><?php echo __('+61') ?></option>
+                        <option value="+43"><?php echo __('+43') ?></option>
+                        <option value="+973"><?php echo __('+973') ?></option>
+                        <option value="+880"><?php echo __('+880') ?></option>
+                        <option value="+32"><?php echo __('+32') ?></option>
+                        <option value="+1"><?php echo __('+1') ?></option>
+                        <option value="+357"><?php echo __('+357') ?></option>
+                        <option value="+420"><?php echo __('+420') ?></option>
+                        <option value="+45"><?php echo __('+45') ?></option>
+                        <option value="+372"><?php echo __('+372') ?></option>
+                        <option value="+358"><?php echo __('+358') ?></option>
+                        <option value="+33"><?php echo __('+33') ?></option>
+                        <option value="+49"><?php echo __('+49') ?></option>
+                        <option value="+30"><?php echo __('+30') ?></option>
+                        <option value="+852"><?php echo __('+852') ?></option>
+                        <option value="+36"><?php echo __('+36') ?></option>
+                        <option value="+91"><?php echo __('+91') ?></option>
+                        <option value="+62"><?php echo __('+62') ?></option>
+                        <option value="+353"><?php echo __('+353') ?></option>
+                        <option value="+39"><?php echo __('+39') ?></option>
+                        <option value="+962"><?php echo __('+962') ?></option>
+                        <option value="+965"><?php echo __('+965') ?></option>
+                        <option value="+371"><?php echo __('+371') ?></option>
+                        <option value="+370"><?php echo __('+370') ?></option>
+                        <option value="+352"><?php echo __('+352') ?></option>
+                        <option value="+853"><?php echo __('+853') ?></option>
+                        <option value="+60"><?php echo __('+60') ?></option>
+                        <option value="+960"><?php echo __('+960') ?></option>
+                        <option value="+356"><?php echo __('+356') ?></option>
+                        <option value="+230"><?php echo __('+230') ?></option>
+                        <option value="+377"><?php echo __('+377') ?></option>
+                        <option value="+977"><?php echo __('+977') ?></option>
+                        <option value="+31"><?php echo __('+31') ?></option>
+                        <option value="+64"><?php echo __('+64') ?></option>
+                        <option value="+47"><?php echo __('+47') ?></option>
+                        <option value="+968"><?php echo __('+968') ?></option>
+                        <option value="+48"><?php echo __('+48') ?></option>
+                        <option value="+351"><?php echo __('+351') ?></option>
+                        <option value="+974"><?php echo __('+974') ?></option>
+                        <option value="+40"><?php echo __('+40') ?></option>
+                        <option value="+966"><?php echo __('+966') ?></option>
+                        <option value="+65"><?php echo __('+65') ?></option>
+                        <option value="+421"><?php echo __('+421') ?></option>
+                        <option value="+386"><?php echo __('+386') ?></option>
+                        <option value="+34"><?php echo __('+34') ?></option>
+                        <option value="+46"><?php echo __('+46') ?></option>
+                        <option value="+41"><?php echo __('+41') ?></option>
+                        <option value="+66"><?php echo __('+66') ?></option>
+                        <option value="+971"><?php echo __('+971') ?></option>
+                        <option value="+44"><?php echo __('+44') ?></option>
+                        <option value="+379"><?php echo __('+379') ?></option>
+                     </select>
+                	<input type="text" value="" id="mobileget" class="mobnumber"/>
+                    <input type="hidden" value="<?php echo $block->getUrl("sms/index/sentotpbyreg"); ?>" class="setdotpurl" />
+                    </div>
+                 </div>
+                 <div class="model-bottom"> 
+                    <div class="submitbtnajax">
+                        <input type="button" data-action="register-sendotp" class="sendotp button primary action" value="<?php echo __('Send Otp') ?>" />
+                    </div>
+                     <div class="progress-indicator">
+                             <span class="please-wait" id="reg-sms-please-wait" style="display:none;">
+                                <img src="<?php echo 
+							$block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                </div>
+                
+            </div>
+            <div class="otpverify">
+            	<div class="checkotperror error">
+                	<span><?php echo __("Incorrect OTP, Please Verify Again.");?></span>
+                </div>
+                <div class="blankerror error">
+                	<span><?php echo __("Required fields cannot be empty.");?></span>
+                </div>
+                 <div class="page-title">
+                    <span><?php echo __('OTP Verification') ?></span>
+                </div>
+				<div class="otp-content">
+                	<label for="mobileget" class="required"><em>*</em><?php echo __('One Time Secure Password') ?></label>
+                	<input type="text" value="" class="border-input" id="otp"/>
+                    <input type="hidden" value="<?php echo $block->getUrl("sms/index/ajaxcheckregotp"); ?>" class="checkotpurl" />
+                </div>
+                 <div class="model-bottom"> 
+                    <div class="submitbtnajax">
+                        <input type="button" class="verifyotp button primary action" value="<?php echo __('Verify OTP') ?>" />
+                    </div>
+                     <div class="progress-indicator">
+                             <span class="please-wait" id="reg-otp-verify-please-wait" style="display:none;">
+                               <img src="<?php echo 
+							$block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                </div>
+                
+            </div>
+			<div class="registraionform">    
+            	 <form action="<?php echo $block->getUrl('sms/index/ajaxcreatepost', array('_secure'=>true)) ?>" method="post" id="ajaxlogin-create-form">
+<div class="fieldset">
+    <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+    <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+	<input type="hidden" name="mobilenumber" id="createmobile" />
+	<input type="hidden" name="createotp" id="createotp" />    
+   
+     			 <div class="regcontollererror error">
+                	<span></span>
+                </div>
+                <div class="page-title">
+                    <span><?php echo __('Register') ?></span>
+                </div>
+                <div class="content">
+                    <div class="reg-form">
+                        <div class="firstname reginput odd">
+                            <label for="firstname" class="required"><em>*</em><?php echo __('First Name') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="firstname" value="" id="firstname" class="input-text required-entry" title="<?php echo __('First Name') ?>" />
+                            </div>
+                        </div>
+                         <div class="lastname reginput even">
+                            <label for="lastname" class="required"><em>*</em><?php echo __('Last Name') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="lastname" class="input-text required-entry " id="lastname" title="<?php echo __('Last Name') ?>" />
+                            </div>
+                        </div>
+                          <div class="email reginput odd ">
+                            <label for="email" class="required"><em>*</em><?php echo __('Email Address') ?></label>
+                            <div class="input-box">
+                                <input type="text" name="email" value="" id="mobile-reg-email" class="input-text required-entry " title="<?php echo __('Email Address') ?>" />
+                            </div>
+                        </div>
+                        <div class="password reginput odd">
+                            <label for="password" class="required"><em>*</em><?php echo __('Password') ?></label>
+                            <div class="input-box">
+                                <input type="password" name="password" value="" id="mobile-reg-password" class="input-text required-entry " title="<?php echo __('Password') ?>" />
+                            </div>
+                        </div>
+                        <div class="confirmpassword reginput even">
+                            <label for="confirmation" class="required"><em>*</em><?php echo __('Confrm Password') ?></label>
+                            <div class="input-box">
+                                <input type="password" name="password_confirmation" value="" id="confirmpassword" class="input-text required-entry " title="<?php echo __('Password') ?>" />
+                            </div>
+                        </div>
+    
+                    
+                    </div>
+                    <div class="model-bottom"> 
+                    
+                        <div class="reg-submit submitbtnajax">
+                            <input type="submit" class="button Registerformsubmit primary action" value="Register" />
+                         </div>
+                          <div class="progress-indicator">
+                             <span class="please-wait" id="reg-submit-please-wait" style="display:none;">
+                               <img src="<?php echo 
+							$block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+			</div>
+            </form>
+		</div>
+    </div>
+  </div>
+ 
+</div>
+</div>

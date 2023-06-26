@@ -1,0 +1,9 @@
+<?php
+$blockProduct= $block->getLayout()->createBlock('Elsnertech\CustomRelatedproduct\Block\Product');
+$bookAppoinment = $blockProduct->getCurrentProductBookAppoinment();
+
+if ($bookAppoinment == '1'){
+
+    echo $this->helper("Amasty\Customform\Helper\Data")->renderForm("14"); 
+}
+?>

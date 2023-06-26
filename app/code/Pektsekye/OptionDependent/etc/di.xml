@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">      
+    <type name="Magento\Catalog\Model\Product\Option\Type\Select">
+        <plugin name="optiondependent_option_type_select" type="Pektsekye\OptionDependent\Model\Catalog\Product\Option\Type\SelectPlugin" sortOrder="50" />
+    </type> 
+    <type name="Magento\Catalog\Model\Product\Option\Type\Text">
+        <plugin name="optiondependent_option_type_text" type="Pektsekye\OptionDependent\Model\Catalog\Product\Option\Type\TextPlugin" sortOrder="50" />
+    </type>  
+    <type name="Magento\Catalog\Model\Product\Option\Type\Date">
+        <plugin name="optiondependent_option_type_date" type="Pektsekye\OptionDependent\Model\Catalog\Product\Option\Type\DatePlugin" sortOrder="50" />
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option\Type\File">
+        <plugin name="optiondependent_option_type_file" type="Pektsekye\OptionDependent\Model\Catalog\Product\Option\Type\FilePlugin" sortOrder="50" />
+    </type>           
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="optiondependent_option_validation" type="Pektsekye\OptionDependent\Model\Catalog\Product\Type\Plugin" sortOrder="50" />
+    </type> 
+</config>

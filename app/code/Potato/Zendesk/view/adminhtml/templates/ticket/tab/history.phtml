@@ -1,0 +1,64 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+<?php $tickets = $block->getTicketList(); ?>
+<?php if ($tickets && count($tickets)): ?>
+<div class="admin__data-grid-wrap">
+    <table class="data-grid" id="my-ticket-table">
+            <thead>
+                <tr>
+                    <th class="data-grid-th">
+                        <span class="data-grid-cell-content"><?php echo __('ID') ?></span>
+                    </th>
+                    <?php if ($block->getOrderNumberField()): ?>
+                    <th class="data-grid-th">
+                        <span class="data-grid-cell-content"><?php echo __('Order #') ?></span>
+                    </th>
+                    <?php endif; ?>
+                    <th class="data-grid-th">
+                        <span class="data-grid-cell-content"><?php echo __('Subject') ?></span>
+                    </th>
+                    <th class="data-grid-th">
+                        <span class="data-grid-cell-content"><?php echo __('Status') ?></span>
+                    </th>
+                    <th class="data-grid-th">
+                        <span class="data-grid-cell-content"><?php echo __('Updated') ?></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($tickets as $ticket): ?>
+                    <tr class="data-row">
+                        <td data-th="<?php echo $block->escapeHtml(__('ID')) ?>" class="col id">
+                            <div class="data-grid-cell-content"><?php echo $ticket->getId() ?></div>
+                        </td>
+                        <?php if ($block->getOrderNumberField()): ?>
+                        <td data-th="<?php echo $block->escapeHtml(__('Order #')) ?>" class="col order">
+                            <div class="data-grid-cell-content">
+                                <?php if ($ticket->getOrder()): ?>
+                                <a href="<?php echo $block->getOrderUrl($ticket->getOrder()) ?>" target="_blank">
+                                    <?php echo $ticket->getOrder() ?>
+                                </a>
+                                <?php else: ?>
+                                    N/A
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                        <?php endif; ?>
+                        <td data-th="<?php echo $block->escapeHtml(__('Subject')) ?>" class="col subject">
+                            <div class="data-grid-cell-content"><a href="<?php echo $ticket->getUrl() ?>" target="_blank"><?php echo $ticket->getSubject() ?></a></div>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col status">
+                            <div class="data-grid-cell-content"><?php echo $block->getTicketStatus($ticket->getStatus()) ?></div>
+                        </td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Updated')) ?>" class="col updated">
+                            <div class="data-grid-cell-content"><?php echo $block->getFormattedDate($ticket->getUpdatedAt()) ?></div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('This customer has created no tickets.'); ?></span></div>
+<?php endif ?>

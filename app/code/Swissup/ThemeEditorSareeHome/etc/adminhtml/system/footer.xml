@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="footer" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+        <label>Footer</label>
+
+        <field id="footer_heading" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Footer container</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="footer_background" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background</label>
+        </field>
+        <field id="footer_backgroundColor" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footer_backgroundImage" translate="label" type="image" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background Image</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Image</frontend_model>
+            <backend_model>Swissup\ThemeEditor\Model\Config\Backend\Image</backend_model>
+        </field>
+        <field id="footer_backgroundRepeat" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background Repeat</label>
+            <source_model>Swissup\ThemeEditor\Model\Config\Source\BackgroundRepeat</source_model>
+        </field>
+        <field id="footer_backgroundPosition" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background Position</label>
+            <comment>Values should include dimension units: 50% or -20px or 5em, etc</comment>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\BackgroundPosition</frontend_model>
+        </field>
+        <field id="footer_color" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Text Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerLink_color" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Link Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerLinkHover_color" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Link Hover Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+
+        <field id="footerTitle_heading" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Footer Title</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="footerTitle_color" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerTitle_fontSize" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Font Size</label>
+        </field>
+
+        <field id="footerNewsletterButton_heading" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Newsletter Button</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="footerNewsletterButton_backgroundColor" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Button Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerNewsletterButtonHover_backgroundColor" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Button Hover Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerNewsletterButtonImage_backgroundImage" translate="label" type="image" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Button Image</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Image</frontend_model>
+            <backend_model>Swissup\ThemeEditor\Model\Config\Backend\Image</backend_model>
+        </field>
+
+        <field id="footerSocial_heading" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Social Icons</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="footerSocialBg_color" translate="label" type="text" sortOrder="410" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Background Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="footerSocial_color" translate="label" type="text" sortOrder="420" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+
+        <field id="footerBottomToolbarLayout_heading" translate="label" type="text" sortOrder="430" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Bottom Toolbar Layout</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="footerBottomToolbar_copyright" translate="label" type="select" sortOrder="440" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Remove Copyright</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Footer\Copyright</backend_model>
+        </field>
+        <field id="footerBottomToolbar_links" translate="label" type="select" sortOrder="450" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Remove Footer Links</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Footer\Links</backend_model>
+        </field>
+        <field id="footerBottomToolbar_cms" translate="label" type="select" sortOrder="560" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Display Static Block</label>
+            <source_model>Swissup\Core\Model\Config\Source\CmsBlock</source_model>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Footer\StaticBlock</backend_model>
+        </field>
+    </group>
+</include>

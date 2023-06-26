@@ -1,0 +1,108 @@
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ShippingCost
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+ -->
+
+<!-- ko if: description -->
+<div class="step-description" data-bind="html: description"></div>
+<!-- /ko -->
+
+<!-- ko if: popup -->
+<div class="mpshippingcost-address">
+    <!-- ko i18n: 'Deliver to' --><!-- /ko -->
+
+    <span class="step-title" data-bind="text: address()"></span>
+
+    <a href="javascript:void(0)" data-bind="click: showModal, html: addressLabel()"></a>
+</div>
+<!-- /ko -->
+
+<form class="mpshippingcost-form" data-bind="afterRender: setModalElement">
+    <div class="messages" data-bind="if: countries.length === 1">
+        <div class="message-info message info">
+            <span data-bind="i18n: 'This product is only shipped to '"></span> <b
+                data-bind="text: countries[0].label"></b>
+        </div>
+    </div>
+    <fieldset class="fieldset" data-bind="afterRender: initDefaultAddress">
+        <!-- ko if: (countries.length >= 1 && fields.includes('country')) -->
+        <div class="field">
+            <div class="control">
+                <select class="select" name="mpshippingcost-country" data-bind="
+                        value: country,
+                        options: countries,
+                        optionsText: 'label',
+                        optionsValue: 'value',
+                        optionsCaption: $t('Please select a country.')">
+                </select>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: fields.includes('region') -->
+        <div class="field">
+            <label class="label">
+                <!-- ko i18n: 'State/Province' --><!-- /ko -->
+            </label>
+            <div class="control">
+                <select class="select" name="mpshippingcost-region-select"
+                        data-bind="value: regionId, visible: regions()">
+                    <option data-bind="value: '', text: $t('Please select a region, state or province.')"></option>
+                    <!-- ko foreach: regions -->
+                    <optgroup data-bind="attr: {label: label}" label="">
+                        <!-- ko foreach: value -->
+                        <option data-bind="text: label, value: value, afterRender: function () { $parents[1].setRegion($parents[1]) }"></option>
+                        <!-- /ko -->
+                    </optgroup>
+                    <!-- /ko -->
+                </select>
+                <input type="text" name="mpshippingcost-region" class="input-text"
+                       data-bind="value: region, visible: !regions()">
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: fields.includes('postcode') -->
+        <div class="field">
+            <label class="label">
+                <!-- ko i18n: 'Zip/Postcode' --><!-- /ko -->
+            </label>
+            <div class="control">
+                <input type="text" name="mpshippingcost-postcode" class="input-text" data-bind="value: postcode">
+            </div>
+        </div>
+        <!-- /ko -->
+    </fieldset>
+</form>
+
+<fieldset class="fieldset mpshippingcost-fieldset">
+    <div class="field">
+        <input type="checkbox" class="checkbox" data-bind="attr: {disabled: isLoading()}, checked: includeCart">
+        <label class="label" data-bind="click: selectIncludeCart">
+            <!-- ko i18n: 'Include items already in your current cart' --><!-- /ko -->
+        </label>
+    </div>
+    <div class="actions-toolbar">
+        <div class="primary actions-primary">
+            <button type="button" class="action primary"
+                    data-bind="attr: {disabled: isLoading()}, html: calcLabel(), click: calculate"></button>
+        </div>
+    </div>
+</fieldset>
+
+<!-- ko template: rateListTmpl --><!-- /ko -->

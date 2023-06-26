@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="potato" translate="label" sortOrder="340">
+            <label>Potatocommerce</label>
+        </tab>
+        <section id="potato_zendesk" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Zendesk</label>
+            <tab>potato</tab>
+            <resource>Potato_Zendesk::potato_zendesk</resource>
+            <group id="general" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Application settings</label>
+                <field id="token" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>API Token</label>
+                </field>
+                <field id="generate_token" type="button" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <frontend_model>Potato\Zendesk\Block\Adminhtml\System\Config\Field\GenerateButton</frontend_model>
+                </field>
+                <field id="separate_website" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Separate information by websites</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="separate_store" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <depends>
+                        <field id="separate_website">1</field>
+                    </depends>
+                    <label>Separate information by stores</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="account" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>API Details</label>
+                <field id="domain" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Zendesk Domain</label>
+                    <comment><![CDATA[<i>yourdomain</i>.zendesk.com (without "http/https" and ".zendesk.com")]]></comment>
+                </field>
+                <field id="agent_email" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Agent Email Address</label>
+                    <validate>validate-email</validate>
+                </field>
+                <field id="zendesk_token" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Agent Token</label>
+                    <comment><![CDATA[To generate a token, log in to Zendesk then select Manage > Channels > API > Token]]></comment>
+                </field>
+            </group>
+            <group id="features" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Features</label>
+                <field id="order_number_field" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Zendesk order number field ID</label>
+                    <comment><![CDATA[Used to get order number from ticket in Zendesk. Admin > Manage > Ticket Fields > Field ID. Disabled if empty]]></comment>
+                </field>
+                <field id="order_section" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display tickets on Order View page in admin panel</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="customer_section" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Display tickets on Customer information page in admin panel</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frontend_customer_section" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display tickets in My account section on frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="advanced" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>New Ticket Options</label>
+                <field id="is_dropdown_subject" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display subject field as dropdown</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[No - You can specify a custom ticket subject<br>Yes - You can only select a subject from the list]]></comment>
+                </field>
+                <field id="dropdown_subject_fields" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Dropdown subject values</label>
+                    <depends>
+                        <field id="is_dropdown_subject">1</field>
+                    </depends>
+                    <frontend_model>Potato\Zendesk\Block\Adminhtml\System\Config\Subject</frontend_model>
+                    <backend_model>Potato\Zendesk\Model\Config\Backend\ArraySerialized</backend_model>
+                </field>
+                <field id="is_dropdown_order" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display order field as dropdown</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[No - You can specify any order number<br>Yes - You can only select one of the customer orders]]></comment>
+                </field>
+            </group>
+            <group id="sso" translate="label,comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>SSO (single sign-on) options</label>
+                <field id="is_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable SSO</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="is_return_enabled" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable SSO Return Back</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="is_enabled">1</field>
+                    </depends>
+                    <comment><![CDATA[When Zendesk redirects a user to your remote login page, it also passes a <b>return_to</b> URL parameter. The parameter contains a page that Zendesk will return the user after your system has authenticated the user. When this option is enabled and customer has authenticated, it will be returned to <b>return_to</b> after some time]]></comment>
+                </field>
+                <field id="domain" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Zendesk Domain</label>
+                    <depends>
+                        <field id="is_enabled">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[<i>yourdomain</i>.zendesk.com (without "http/https" and ".zendesk.com")]]></comment>
+                </field>
+                <field id="secret" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>JSON Web Token Shared Secret</label>
+                    <depends>
+                        <field id="is_enabled">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[To generate a shared secret, log in to Zendesk then select Admin > Settings > Security > End-users > Single sign-on (SSO) > Shared secret]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

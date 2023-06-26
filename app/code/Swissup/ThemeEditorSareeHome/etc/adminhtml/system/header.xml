@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="header" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+        <label>Header Styles</label>
+
+        <field id="pageHeader_backgroundHeading" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Header background</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="pageHeader_backgroundColor" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="pageHeader_backgroundImage" translate="label" type="image" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Image</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Image</frontend_model>
+            <backend_model>Swissup\ThemeEditor\Model\Config\Backend\Image</backend_model>
+        </field>
+        <field id="pageHeader_backgroundRepeat" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Repeat</label>
+            <source_model>Swissup\ThemeEditor\Model\Config\Source\BackgroundRepeat</source_model>
+        </field>
+        <field id="pageHeader_backgroundPosition" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Position</label>
+            <comment>Values should include dimension units: 50% or -20px or 5em, etc</comment>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\BackgroundPosition</frontend_model>
+        </field>
+
+        <field id="pageHeader_borderHeading" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Header border</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="pageHeader_borderColor" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+
+        <field id="pageHeaderPanel_backgroundHeading" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Header Top Panel background</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="pageHeaderPanel_backgroundColor" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+        <field id="pageHeaderPanel_backgroundImage" translate="label" type="image" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Image</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Image</frontend_model>
+            <backend_model>Swissup\ThemeEditor\Model\Config\Backend\Image</backend_model>
+        </field>
+        <field id="pageHeaderPanel_backgroundRepeat" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Repeat</label>
+            <source_model>Swissup\ThemeEditor\Model\Config\Source\BackgroundRepeat</source_model>
+        </field>
+        <field id="pageHeaderPanel_backgroundPosition" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Position</label>
+            <comment>Values should include dimension units: 50% or -20px or 5em, etc</comment>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\BackgroundPosition</frontend_model>
+        </field>
+
+        <field id="pageHeaderPanel_borderHeading" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Header Top Panel border</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+        </field>
+        <field id="pageHeaderPanel_borderColor" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Border color</label>
+            <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+        </field>
+
+        <group id="search" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Header Search</label>
+            <field id="headerSearch_fieldHeading" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Search Field</label>
+                <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\CssSelectorHeading</frontend_model>
+            </field>
+            <field id="headerSearch_borderColor" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Border Color</label>
+                <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+            </field>
+            <field id="headerSearch_background" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Background</label>
+                <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+            </field>
+            <field id="headerSearchFolder_boxShadow" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Box Shadow (folded search only)</label>
+            </field>
+            <field id="headerSearchClose_color" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Icon "Close" Color</label>
+                <frontend_model>Swissup\ThemeEditor\Block\Adminhtml\System\Config\Form\Field\Color</frontend_model>
+            </field>
+        </group>
+
+    </group>
+</include>

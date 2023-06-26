@@ -1,0 +1,20 @@
+{
+    "elsnertech_google_customer": {
+        "column": {
+            "google_customer_id": true,
+            "google_id": true,
+            "customer_id": true,
+            "is_send_password_email": true,
+            "type": true,
+            "google_created_at": true,
+            "user_id": true,
+            "status": true,
+            "email_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "GOOGLE_CUSTOMER_TABLE": true,
+            "GOOGLE_TAP_CUSTOMER_ID_UNIQUIE":true
+        }
+    }
+}

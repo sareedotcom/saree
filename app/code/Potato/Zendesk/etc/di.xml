@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Potato\Zendesk\Api\OrderManagementInterface" type="Potato\Zendesk\Model\Management\Order" />
+    <preference for="Potato\Zendesk\Api\OrderRecentManagementInterface" type="Potato\Zendesk\Model\Management\OrderRecent" />
+    <preference for="Potato\Zendesk\Api\CustomerManagementInterface" type="Potato\Zendesk\Model\Management\Customer" />
+    <preference for="Potato\Zendesk\Api\TicketManagementInterface" type="Potato\Zendesk\Model\Management\Ticket" />
+    <preference for="Potato\Zendesk\Api\SsoManagementInterface" type="Potato\Zendesk\Model\Management\Sso" />
+
+
+    <preference for="Potato\Zendesk\Api\Data\TicketInterface" type="Potato\Zendesk\Model\Data\Ticket" />
+    <preference for="Potato\Zendesk\Api\Data\MessageInterface" type="Potato\Zendesk\Model\Data\Message" />
+    <preference for="Potato\Zendesk\Api\Data\AttachmentInterface" type="Potato\Zendesk\Model\Data\Attachment" />
+    <preference for="Potato\Zendesk\Api\Data\UserInterface" type="Potato\Zendesk\Model\Data\User" />
+
+    <type name="Potato\Zendesk\Api\Data\TicketInterface">
+        <arguments>
+            <argument name="data" xsi:type="array"/>
+        </arguments>
+    </type>
+
+    <!-- add create ticket button to order view -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="addOrderCreateButton" type="Potato\Zendesk\Plugin\AddOrderCreateButton"/>
+    </type>
+
+    <type name="Magento\Customer\Controller\Account\Login">
+        <plugin name="PotatoZendeskSSOLogin" type="Potato\Zendesk\Plugin\Sso\LoginBefore" sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="PotatoZendeskSSOLogin" type="Potato\Zendesk\Plugin\Sso\LoginAfter" sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Controller\Account\Logout">
+        <plugin name="PotatoZendeskSSOLogout" type="Potato\Zendesk\Plugin\Sso\Logout" sortOrder="10"/>
+    </type>
+</config>

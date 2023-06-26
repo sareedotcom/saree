@@ -1,0 +1,26 @@
+<?php
+
+$helper = $this->helper('Elsnertech\Sms\Helper\Data');
+
+?>
+
+<?php 
+if($this->helper('Elsnertech\Sms\Helper\Data')->isEnable() == 1){ ?>
+<?php if($helper->getLoginType() == 0){ ?>
+ <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Elsnertech_Sms::ajaxlogin.phtml")->toHtml(); ?>
+ <?php } else { ?>
+ <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Elsnertech_Sms::ajaxotplogin.phtml")->toHtml(); ?>
+ <?php } ?>
+  <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Elsnertech_Sms::ajaxforgot.phtml")->toHtml(); ?>
+    <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Elsnertech_Sms::ajaxregister.phtml")->toHtml(); ?>
+  
+<?php } ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Elsnertech_Sms/js/script": {}
+        }
+    }
+
+</script>

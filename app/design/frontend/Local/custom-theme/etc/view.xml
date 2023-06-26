@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/view.xsd">
+    <vars module="Swissup_ThemeEditor">
+        <var name="code">swissup_argento_home</var>
+    </vars>
+
+    <media>
+        <images module="Magento_Catalog">
+            <image id="related_products_list" type="small_image">
+                <width>500</width>
+                <height>750</height>
+                <frame>false</frame>
+            </image>
+			<image id="category_page_grid" type="small_image">
+				<width>500</width>
+                <height>750</height>
+                <frame>false</frame>
+			</image>
+			<image id="recently_viewed_products_list_content_widget" type="small_image">
+				<width>500</width>
+                <height>750</height>
+                <frame>false</frame>
+			</image>
+			<image id="recently_viewed_products_grid_content_widget" type="small_image">
+				<width>500</width>
+                <height>750</height>
+                <frame>false</frame>
+            </image>
+            <image id="upsell_products_list" type="small_image">
+                    <width>500</width>
+                    <height>750</height>
+                    <frame>false</frame>
+                </image>
+            <image id="product_swatch_image_medium" type="small_image">
+                <width>500</width>
+                <height>750</height>
+                <frame>false</frame>
+            </image>
+            
+            
+            <image id="product_base_image" type="image">
+                <width>800</width>
+                <height>1000</height>
+            </image>
+            <image id="product_page_image_large" type="image">
+                 <width>800</width>
+                <height>1000</height>
+            </image>
+            <image id="product_page_image_medium" type="image">
+                <width>800</width>
+                <height>1000</height>
+            </image>
+            <image id="product_page_main_image" type="image">
+                <width>800</width>
+                <height>1000</height>
+            </image>
+            <image id="product_page_main_image_default" type="image">
+                <width>800</width>
+                <height>1000</height>
+            </image>
+
+        </images>
+        
+    </media>
+
+    <vars module="Magento_Catalog">
+        <var name="argento">
+            <var name="listing">
+                <var name="grid">
+                    <var name="actions">
+                        <var name="position">prolabels-wrapper</var>
+                    </var>
+                </var>
+            </var>
+        </var>
+        <var name="product_image_white_borders">0</var>
+    </vars>
+    <vars module="Magento_ConfigurableProduct">
+        <var name="gallery_switch_strategy">replace</var>
+    </vars>
+    <vars module="Argento_Theme">
+        <var name="photo_in_description">
+            <var name="add_classes">hidden-xs hidden-sm</var>
+            <var name="target">#product\\.info\\.description[data-role=content]</var>
+        </var>
+    </vars>
+</view>

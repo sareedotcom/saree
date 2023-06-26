@@ -1,0 +1,33 @@
+<?php
+
+echo $attid = $block->getAttributeId();
+$collection = $block->getCollection();
+echo $collection->getSize()."<br>";
+//echo "string";die;
+echo $collection->getSelect();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+$connection = $resource->getConnection();
+$tableName = $resource->getTableName('catalog_product_entity_decimal');
+ if(!empty($collection) && $collection!=false){
+ 	foreach($collection as $product){
+ 		 $_product = $block->getProduct($product['entity_id']);
+ 		 $pro_price = $_product->getPrice();
+ 	  	 $pro_sprcialprice = $_product->getSpecialPrice();
+ 	  	 if(!empty($pro_sprcialprice)){
+ 	  	 	$newprice = (($pro_price - $pro_sprcialprice) * 100) / $pro_price;
+			 $sql = "Select * FROM " . $tableName ." where 	entity_id='".$product['entity_id']."' AND attribute_id='".$attid."'";
+					 $result = $connection->fetchAll($sql);
+					 if(!empty($result)){
+					 	
+					  	$sql = "Update " . $tableName . " Set value = '".$newprice."' where attribute_id = '".$attid."' AND entity_id='".$product['entity_id']."'";
+						 $connection->query($sql);
+					 }else{
+					 
+					  	$sql = "Insert Into " . $tableName . " (attribute_id, store_id, entity_id, 	value) Values ('".$attid."','0','".$product['entity_id']."','".$newprice."')";
+						  $connection->query($sql);
+					 }
+ 	  	 }
+ 	}
+ }
+?>

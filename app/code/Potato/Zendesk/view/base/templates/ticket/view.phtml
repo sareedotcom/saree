@@ -1,0 +1,61 @@
+<?php
+/* @var $block \Potato\Zendesk\Block\Ticket\View */
+?>
+<?php if ($block->isCanAnswer()): ?>
+    <?php echo $block->getChildHtml('create_ticket');?>
+<?php endif; ?>
+<div class="event-container">
+    <div class="ember-view audits">
+        <?php foreach ($block->getMessageList() as $message): ?>
+        <div class="ember-view event is-public web regular">
+            <div class="content">
+                <?php $user = $block->getUserByAuthorId($message->getAuthorId()); ?>
+                <div class="user_photo  agent">
+                    <div class="ember-view round-avatar">
+                        <figure class="thumbnail-container thumbnail-container--md ">
+                            <img alt="" src="<?php echo $user->getPhoto() ? $user->getPhoto() : $block->getDefaultUserPhoto()  ?>">
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="header clearfix">
+                    <div class="actor">
+                        <span class="name"><?php echo $user->getName() ?></span>
+                        <time class="live full" datetime="<?php echo $message->getCreatedAt() ?>" title="<?php echo $block->getFormattedDate($message->getCreatedAt()) ?>"><?php echo $block->getFormattedDate($message->getCreatedAt()) ?></time>
+                    </div>
+                    <div class="meta">
+                        <div class="channel"></div>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="ember-view">
+                        <div class="comment">
+                            <div class="zd-comment">
+                                <?php echo $message->getHtmlBody() ?>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="attachments">
+                        <?php foreach ($message->getAttachments() as $attachment): ?>
+                            <?php if ($block->isImageAttachment($attachment->getType())): ?>
+                                <li class="image">
+                                    <a rel="gallery" tabindex="-1" class="attachment" href="<?php echo $attachment->getContentUrl()?>" title="<?php echo $attachment->getFilename()?>">
+                                        <img width="80" height="80" src="<?php echo $attachment->getContentUrl()?>">
+                                        <div class="file_name"><?php echo $attachment->getFilename()?></div>
+                                    </a>
+                                </li>
+                            <?php else: ?>
+                                <li>
+                                    <a target="_blank" class="attachment" tabindex="-1" href="<?php echo $attachment->getContentUrl()?>" type="application/x-zip-compressed">
+                                        <i class="icon-file"></i><?php echo $attachment->getFilename()?>
+                                    </a>
+                                </li>
+                            <?php endif;?>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>

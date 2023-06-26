@@ -1,0 +1,61 @@
+<?php 
+    $desktop_enable = "lofgallery/view_settings/desktop_enable";
+    $mobile_enable = "lofgallery/view_settings/mobile_enable";
+    $stories_new = $block->getStory();
+    $enable_in_desktop =  $block->getSystemvalue($desktop_enable);
+    $enable_in_mobile =  $block->getSystemvalue($mobile_enable);
+?>
+
+<div id="stories" class="storiesWrapper 
+<?php if($enable_in_mobile && !($enable_in_desktop)) { echo "mobile_story"; } 
+    elseif($enable_in_desktop && !($enable_in_mobile) ) {echo "desktop_story";
+    } 
+    elseif($enable_in_mobile && $enable_in_desktop){ 
+        echo "commom_story";
+    } ?>">
+</div>
+<script src="https://saree.elsnermage.com/static/version1661842359/frontend/Local/custom-theme/en_US/Lof_Gallery/js/demo/script.js"></script>
+<script src="https://saree.elsnermage.com/static/version1661495565/frontend/Local/custom-theme/en_US/Lof_Gallery/js/demo/zuck.js"></script>
+
+<script>
+    var currentSkin = getCurrentSkin();
+    var newdaataname = "newdata";
+    var stories = new Zuck('stories', {
+        backNative: true,
+        previousTap: true,
+        skin: currentSkin['name'],
+        autoFullScreen: currentSkin['params']['autoFullScreen'],
+        avatars: currentSkin['params']['avatars'],
+        paginationArrows: currentSkin['params']['paginationArrows'],
+        list: currentSkin['params']['list'],
+        cubeEffect: currentSkin['params']['cubeEffect'],
+        localStorage: true,
+        stories: [
+            <?php foreach ($stories_new as $data): ?>
+                <?php $catagory_id = $data->getCategoryId(); ?>
+                <?php $total_image_id = $block->getStoryImages($data->getCategoryId()); ?>
+                Zuck.buildTimelineItem(
+                    "<?= $data->getName() ?>", 
+                    "<?= $block->getMediaUrl($data->getThumbnailImage()) ?>",
+                    "<?= $data->getName() ?>",
+                    "<?= $data->getIdentifier() ?>",
+                    timestamp(),
+                    [
+                        <?php foreach ($total_image_id as $result): ?>
+                            <?php $main_story = $block->getBannerImage($result['banner_id']) ?>
+                            <?php if ($main_story->getphotoType()==1): ?>
+                                ["ramon-2", "photo", 3, "<?= $block->getMediaUrl($main_story->getFile()) ?>", '', '<?= $main_story->getUrlLink() ?>', false, "03_07_2022"],
+                            <?php elseif ($main_story->getphotoType()==2): ?>
+                                <?php if ($main_story->getVideoType()==1): ?>
+                                    ["ramon-2", "video", 0,"<?= $block->getVideoUsingId($main_story->getVideoId(),$main_story->getVideoType()) ?>", "https://raw.githubusercontent.com/ramon82/assets/master/zuck.js/stories/2.jpg", '', false, false, timestamp()],
+                                <?php elseif ($main_story->getVideoType()==2): ?>
+                                    ["ramon-2", "video", 0,"<?= $block->getVideoUsingId($main_story->getVideoId(),$main_story->getVideoType()) ?>", "https://raw.githubusercontent.com/ramon82/assets/master/zuck.js/stories/2.jpg", '', false, false, timestamp()],
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?> 
+                    ]
+                ),
+            <?php endforeach; ?> 
+        ]
+   });
+</script>

@@ -1,0 +1,45 @@
+
+<div class="import-export-tax-rates">
+    <div class="import-tax-rates">
+        <form class="import-form" action="<?php echo $this->getUrl('optiondependent/od_export/import') ?>" method="post" enctype="multipart/form-data">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <fieldset class="fieldset">
+                <legend class="legend"><span><?php echo __('Import Product Custom Options'); ?></span></legend>
+                <input type="file" name="import_file" class="input-file required-entry"/>
+                <button title="<?php echo __('Import Product Custom Options') ?>" type="submit" class="action-default scalable import-submit">
+                  <span><?php echo __('Import Product Custom Options') ?></span>
+                </button>                
+            </fieldset>
+        </form>       
+        <script type="text/javascript">
+
+            require([
+                "jquery",
+                "mage/mage",
+                "loadingPopup"
+            ], function ($){
+                $('.import-form').mage('form').mage('validation');            
+                $('.import-submit').click(function(){
+                    if ($(this).closest('fieldset').find(':input[name="import_file"]').val()) {
+                        $('body').loadingPopup({
+                            timeout: false
+                        });
+
+                        $(this.form).submit();
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="export-tax-rates box-right">
+        <form id="export_form" action="<?php echo $this->getUrl('optiondependent/od_export/export') ?>" method="post" enctype="multipart/form-data">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <fieldset class="fieldset">
+                <legend class="legend"><span><?php echo __('Export Product Custom Options') ?></span></legend>
+                <button title="<?php echo __('Export Product Custom Options') ?>" type="submit" class="action-default scalable">
+                  <span><?php echo __('Export Product Custom Options') ?></span>
+                </button>                
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Tatvic Software.
+*
+* @category  Tatvic
+* @package   Tatvic_ActionableGoogleAnalytics
+* @author    Tatvic
+* @copyright Copyright (c) 2010-2021 Tatvic Software Private Limited (https://tatvic.com)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Tatvic_ActionableGoogleAnalytics" setup_version="2.0.1">
+        <sequence>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Theme"/>
+            <module name="Magento_Catalog"/>
+        </sequence>
+    </module>
+</config>

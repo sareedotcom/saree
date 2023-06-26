@@ -1,0 +1,16 @@
+{
+    "name": "swissup/module-theme-editor-argento-home",
+    "description": "Theme styles for Argento Home theme",
+    "type": "magento2-module",
+    "version": "1.2.2",
+    "license": "OSL-3.0",
+    "require": {
+        "swissup/module-theme-editor": "^1.9.7"
+    },
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "Swissup\\ThemeEditorArgentoHome\\": ""
+        }
+    }
+}

@@ -1,0 +1,40 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ShippingCost
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var $block \Mageplaza\ShippingCost\Block\Product\AbstractForm */
+if ($block->isDisabled()) {
+    return;
+}
+?>
+
+<div class="mpshippingcost-block" data-bind="scope:'mpshippingcost-form'">
+    <?php if (!$block->canShowTitle()) : ?>
+        <div class="step-title" data-bind="html: title"></div>
+    <?php endif; ?>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+    {
+        ".mpshippingcost-block": {
+            "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+        }
+    }
+    </script>
+</div>

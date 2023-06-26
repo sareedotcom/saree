@@ -1,0 +1,36 @@
+<?php 
+
+
+$CurrentRelatedProducts = $block->getCurrentProduct();
+
+if(isset($CurrentRelatedProducts) && !empty($CurrentRelatedProducts)) {
+    $exploadProductSkus=  explode (",", $CurrentRelatedProducts);
+    // shuffle($exploadProductSkus);
+    // $limitArraySkus = array_slice($exploadProductSkus, 0, 3);
+
+?>
+<div class="custom-related-block">
+    <div class="custom-related-text-block">
+        <h5>You may also like</h5>
+    </div>
+    <div class="custom-related-images-common-block slider-custom-related-images">
+<?php
+    foreach($exploadProductSkus as $product){
+        $productbyskus = $block->getProductBySku($product);
+        ?>
+            <div class="custom-related-image-block">
+                <a href="<?= $productbyskus->getProductUrl(); ?>" target="_blank">
+                    <img src="<?= $block->getMediaUrl().'catalog/product'.$productbyskus->getImage(); ?>" alt="related-image-<?= $productbyskus->getId() ?>">
+                </a>
+            </div>
+        
+        <?php
+
+    }
+    ?>
+    </div>
+</div>
+    
+<?php
+}
+?>

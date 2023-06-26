@@ -1,0 +1,26 @@
+<?php
+   $viewModel = $block->getViewModel();
+   ?>
+<?php $customerSession = $viewModel->getSessionData() ?>
+<?php 
+   if($customerSession->isLoggedIn()) : ?>
+<li>
+   <a href="<?= $this->getUrl("customer/account");?>"><?= __('My Account')?></a>
+</li>
+<li>
+   <a href="<?= $this->getUrl("wishlist");?>"><?= __('My Wish List') ?></a>
+</li>
+<li>
+   <a href="<?= $this->getUrl("customer/account/logout");?>"><?= __('Sign Out')?></a>
+</li>
+<?php else: ?>
+<li>
+   <a href="<?= $this->getUrl("customer/account");?>"><?= __('My Account')?></a>
+</li>
+<li>
+   <a href="<?= $this->getUrl("wishlist");?>"><?= __('My Wish List') ?></a>
+</li>
+<li>
+   <a href="JavaScript:Void(0);" class="ajaxlogin-login" ><?= __('Sign in')?></a>
+</li>
+<?php endif;?>

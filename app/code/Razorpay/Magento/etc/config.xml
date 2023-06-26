@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <razorpay>
+                <model>Razorpay\Magento\Model\PaymentMethod</model>
+                <title>Razorpay</title>
+                <merchant_name_override>Magento</merchant_name_override>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <order_status>pending</order_status>
+                <key_id>Key ID</key_id>
+                <key_secret>Key Secret</key_secret>
+                <enable_webhook>0</enable_webhook>
+                <enable_pending_orders_cron>1</enable_pending_orders_cron>
+                <pending_orders_timeout>30</pending_orders_timeout>
+            </razorpay>
+        </payment>
+    </default>
+</config>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>   
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+   <menu>
+       <add id="Elsnertech_Core::core" title="Elsnertech Extensions" module="Elsnertech_GoogleOneTapLogin" sortOrder="80" resource="Elsnertech_GoogleOneTapLogin::googleonetaplogin"/>
+
+        <add id="Elsnertech_GoogleOneTapLogin::googleonetaplogin" title="Google One Tap Login" module="Elsnertech_GoogleOneTapLogin" sortOrder="10" parent="Elsnertech_Core::core" dependsOnModule="Elsnertech_GoogleOneTapLogin" resource="Elsnertech_GoogleOneTapLogin::googleonetaplogin"/> 
+        
+        <add id="Elsnertech_GoogleOneTapLogin::settings" title="Configuration" module="Elsnertech_GoogleOneTapLogin" sortOrder="50" resource="Elsnertech_GoogleOneTapLogin::config_importexport" action="adminhtml/system_config/edit/section/googleonetaplogin" parent="Elsnertech_GoogleOneTapLogin::googleonetaplogin"/>
+   </menu>
+</config>

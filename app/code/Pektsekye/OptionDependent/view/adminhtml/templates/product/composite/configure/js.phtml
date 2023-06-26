@@ -1,0 +1,25 @@
+<script>
+require(["jquery",
+         "jquery/ui",
+         "optionDependent"
+], function($){
+  var productId = <?php echo (int) $this->getProduct()->getId() ?>;
+  var instance = $("#optiondependent_instance_"+productId);
+  if (instance.length){
+    instance.data("pektsekyeOptionDependent").reloadElements();
+  } else {
+ 
+    $("body").append('<div id="optiondependent_instance_'+productId+'" style="display:none;"></div>');
+
+    $("#optiondependent_instance_"+productId).optionDependent({
+         inPreconfigured   : <?php echo $this->getInPreconfigured() ?>,      
+         isEditOrderPage   : true,
+              
+         config  : <?php echo $this->getConfig() ?>     
+
+    });
+
+    $("#product_composite_configure_form").data("mageValidation").validate.settings.ignore += ',:hidden';//don't validate hidden options
+  }
+});
+</script>

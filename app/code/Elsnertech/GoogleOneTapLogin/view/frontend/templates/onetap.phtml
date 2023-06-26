@@ -1,0 +1,44 @@
+<?php
+/**
+ * @author Elsner Team
+ * @copyright Copyright (c) Elsner Technologies Pvt. Ltd(https://www.elsner.com/)
+ * @package Elsnertech_GoogleOneTapLogin
+ */
+/**
+ * @var Elsnertech\GoogleOneTapLogin\Block\System\RedirectUrl $block
+ */
+
+
+$helper = $block->dataHelper();
+$helpersocial = $block->socialHelper();
+$appId = $helpersocial->getAppId();
+$appSecrate = $helpersocial->getAppSecret();
+$redirecturi = $helpersocial->getAuthUrl(null);
+$closePrompt = $helpersocial->getPromptCancle()? 'true' : 'false';
+
+if (!$helper->isLoggedIn()):?>
+<div id="g_id_onload"
+      data-client_id="<?= /* @noEscape */ $appId?>"
+      data-client_secrate ="<?= /* @noEscape */ $appSecrate?>"
+      data-login_uri="<?= /* @noEscape */ $redirecturi ?>"
+      data-cancel_on_tap_outside="<?= /* @noEscape */ $closePrompt ?>"
+      data-callback="handleCredentialResponse">
+</div>
+
+<?php endif?>
+<?php 
+  $baseUrl = $this->getBaseUrl();
+  $responseUrl = 'googleonetaplogin/result/index';
+  $finalUrl = $baseUrl.$responseUrl;
+?>
+<script>
+     function handleCredentialResponse(credentialResponse) {
+         
+      var url = "<?= $finalUrl?>";
+          require(['jquery','Elsnertech_GoogleOneTapLogin/js/login'],function ($, script){
+          script.getAttribute(url, credentialResponse)
+            });
+
+          }
+  </script>
+

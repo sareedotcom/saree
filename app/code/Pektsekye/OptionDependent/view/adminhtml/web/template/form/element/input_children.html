@@ -1,0 +1,29 @@
+<input data-form-part="product_form" class="admin__control-text od-children-input" type="text"
+    data-bind="
+        event: {change: userChanges},
+        value: rowId,
+        hasFocus: focused,
+        valueUpdate: valueUpdate,
+        attr: {
+            name: inputName.replace('children', 'row_id'),
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid+'_row_id',
+            disabled: disabled
+    }" style="display:none;"/>
+<input class="admin__control-text od-children-input" type="text"
+    data-bind="
+        event: {change: userChanges},
+        value: value,
+        hasFocus: focused,
+        valueUpdate: valueUpdate,
+        attr: {
+            name: inputName,
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid+'_children',
+            disabled: disabled
+    }"/>
+<select data-bind="afterRender: function(el){odFieldSet.optionDependent('initRowId', el, rowId)}, attr: {name:uid+'_children_select', id:uid+'_children_select'}" style="display:none;"></select>    
+<span data-bind="attr:{id: uid+'_show_link', title:$t('Click to select')}" class="link-type-children od-show-link">s</span>  
+<span data-bind="attr:{id: uid+'_hide_link', title:$t('Click to hide')}" class="link-type-children od-hide-link" style="display:none;">h</span>

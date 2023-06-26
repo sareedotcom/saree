@@ -1,0 +1,24 @@
+<?php echo $block->getChildHtml('create_ticket');?>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "zendesk_tinymce",
+        "Magento_Ui/js/modal/modal"
+    ], function($){
+        var createTicketSlide = $('#zendesk-ticket-form').modal({
+            type: 'slide',
+            title: $.mage.__('Create New Ticket'),
+            buttons: [
+                {
+                    text: 'Cancel',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }
+            ]
+        });
+        $('.zendesk-create-ticket').on('click', function() {
+            createTicketSlide.modal('openModal');
+        });
+    });
+</script>

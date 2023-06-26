@@ -1,0 +1,232 @@
+& when (@media-common = true) {
+    .account {
+        .main {
+            &:extend(.abs-page-title-with-line all);
+
+            .block {
+                .block-title {
+                    strong {
+                        font-weight: 600;
+                        font-size: 28px;
+                        .lib-css(color, @home-color__gray);
+                    }
+                }
+            }
+
+            .toolbar {
+                .toolbar-amount {
+                    &::after {
+                        content: unset;
+                    }
+                }
+            }
+        }
+    }
+
+    .login-container {
+        &:extend(.abs-argento-boxed-page-block all);
+    }
+
+    /**
+     * Hide asterisk note "required fields"
+     */
+     .actions-toolbar > .secondary:last-child{
+         float: none !important;
+     }
+    .form.password.forget,
+    .login-container {
+        .fieldset {
+            &::after {
+                content: unset;
+            }
+        }
+    }
+
+    .login-container {
+        .actions-toolbar {
+            > .primary {
+                margin: 0;
+            }
+
+            > .secondary {
+                display: block;
+                position: relative;
+
+                .remind {
+                    position: absolute;
+                    .right(0);
+                    margin-top: @indent__base;
+                    max-width: 49%;
+                    font-weight: 500;
+                    .text-align(right);
+                }
+            }
+        }
+
+        .block {
+            margin: 0 auto;
+
+            &-customer-login {
+
+                .block-title {
+                    &:extend(.abs-no-display);
+                }
+
+                .field.note {
+                    &:extend(.abs-no-display);
+                }
+            }
+
+            &-new-customer {
+                .block-title {
+                    &:extend(.abs-no-display);
+                }
+
+                .block-content > p {
+                    &:extend(.abs-no-display);
+                }
+
+                .actions-toolbar {
+                    margin-top: 0;
+
+                    > .primary {
+                        .text-align(left);
+
+                        .create {
+                            .lib-button-as-link();
+                            max-width: 49%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .g-recaptcha {
+            // Fix margin reduced by MSP_ReCaptcha.
+            .lib-css(margin, @form-field-type-inline__margin) !important;
+        }
+    }
+
+    .form.password.forget {
+        .fieldset {
+            margin-bottom: @indent__base;
+        }
+
+        .actions-toolbar {
+            > .secondary {
+                .action.back {
+                    display: inline-block;
+                    font-weight: 500;
+                    margin-top: @indent__base;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    body.account {
+        .table-wrapper {
+            border: 0;
+
+            .table:not(.totals):not(.cart):not(.table-comparison) {
+                tbody > tr > td:last-child {
+                    border: 0;
+                }
+            }
+        }
+
+        .table {
+            tbody {
+                tr {
+                    border: 3px solid @home-color__lightgray;
+                    border-radius: 4px;
+                    padding: 0 @indent__s;
+                    margin: @indent__s 0 @indent__m;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    body.account {
+        .page-main {
+            .page-title-wrapper {
+                margin-bottom: @indent__m;
+
+                .page-title {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    //  My account
+    .account {
+        .main {
+            .page-title {
+                .lib-css(margin-bottom, @h1__margin-bottom__desktop);
+            }
+
+            .block {
+                .block-title {
+                    border-bottom: 2px solid @home-border-color__gray;
+                    padding-bottom: @indent__s;
+                    margin-bottom: @indent__m;
+                }
+            }
+        }
+
+        &.page-layout-2columns-left {
+            .sidebar-main,
+            .sidebar-additional {
+                .lib-layout-column(2, 1, @layout-column__left-width);
+            }
+
+            .column.main {
+                .lib-layout-column(2, 2, @layout-column-main__width-2-left);
+            }
+        }
+    }
+
+    .login-container {
+        .block.block {
+            float: none;
+            margin-bottom: 0;
+            width: auto;
+        }
+
+        .fieldset {
+            > .field {
+                > .control {
+                    width: auto;
+                }
+            }
+        }
+
+        .actions-toolbar {
+            > .primary {
+                float: none;
+                margin: 0;
+                width: 100%;
+
+                .login {
+                    margin: 0;
+                    width: 100%;
+                }
+            }
+        }
+
+        .g-recaptcha {
+            // Fix margin reduced by MSP_ReCaptcha.
+            .lib-css(margin, @form-field-type-inline__margin) !important;
+        }
+    }
+}

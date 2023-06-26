@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Product\Option\Repository">
+        <plugin name="optiondependent_option_repository" type="Pektsekye\OptionDependent\Plugin\Catalog\Model\Product\Option\Repository" sortOrder="60" />
+    </type>  
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions">
+        <plugin name="optiondependentCustomOptions" type="Pektsekye\OptionDependent\Plugin\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions"/>
+    </type>                     
+</config>

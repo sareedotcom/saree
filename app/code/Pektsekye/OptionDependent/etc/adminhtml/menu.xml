@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <add id="Pektsekye_OptionDependent::od_export" title="Dependent Product Options" module="Pektsekye_OptionDependent" sortOrder="40" parent="Magento_Backend::system_convert" action="optiondependent/od_export/" resource="Pektsekye_OptionDependent::export"/>   
+    </menu>
+</config>

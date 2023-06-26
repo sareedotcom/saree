@@ -1,0 +1,47 @@
+<?php
+/* @var $block \Magento\Catalog\Block\Product\View\Gallery */
+$helper = $this->helper('Swissup\Lightboxpro\Helper\Config')->init($block);
+$images = $block->getGalleryImagesJson();
+$mainImage = $helper->getMainImage($images);
+$mainImageLabel = $helper->getMainImageLabel($images);
+$thumbnailWidth = $helper->getThumbnailWidth();
+$thumbnailMargin = $helper->getThumbnailMargin();
+$left = $helper->getNavDir() === 'vertical' ? $thumbnailWidth + $thumbnailMargin : 0;
+$top = $left / 2;
+?>
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+    
+</div>
+<script type="text/x-magento-init">
+    {
+        "[data-gallery-role=gallery-placeholder]": {
+            "mage/gallery/gallery": {
+                "mixins":["magnifier/magnify"],
+                "magnifierOpts": <?= $helper->getMagnifierJson() ?>,
+                "data": <?= $images ?>,
+                "options": <?= $helper->getOptions() ?>,
+                "fullscreen": <?= $helper->getFullscreenOptions() ?>,
+                "breakpoints": <?= $helper->getBreakpoints() ?>
+            }
+        }
+    }
+</script>
+
+<!--Fix for broken fullscreen on mobile with "navdir": "vertical"-->
+<?php if ($helper->isAdvancedPopup()): ?>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+        var element = $('[data-gallery-role=gallery-placeholder]');
+
+        element.on('gallery:loaded', function () {
+            element.find('[data-gallery-role="gallery"]')
+                .on('fotorama:fullscreenenter', function() {
+                    setTimeout($(this).data('fotorama').resize, 0);
+            });
+        });
+    });
+</script>
+<?php endif; ?>

@@ -1,0 +1,61 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+<div class="actions-toolbar" style="margin-bottom: 10px">
+    <div class="primary submit">
+        <a href="<?php echo $block->getCreateUrl() ?>" title="<?php echo __('Create new ticket') ?>" class="action primary">
+            <span><?php /* @escapeNotVerified */ echo __('Create new ticket') ?></span>
+        </a>
+    </div>
+</div>
+<?php $tickets = $block->getTicketList(); ?>
+<?php echo $block->getChildHtml('info');?>
+<?php if ($tickets && count($tickets)): ?>
+    <div class="table-wrapper tickets-history">
+        <table class="data table table-tickets-items history" id="my-ticket-table">
+            <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Tickets') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"><?php /* @escapeNotVerified */ echo __('ID') ?></th>
+                    <?php if ($block->getOrderNumberField()): ?>
+                        <th class="col order">
+                            <?php /* @escapeNotVerified */ echo __('Order #') ?>
+                        </th>
+                    <?php endif; ?>
+                    <th scope="col" class="col date"><?php /* @escapeNotVerified */ echo __('Subject') ?></th>
+                    <th scope="col" class="col shipping"><?php /* @escapeNotVerified */ echo __('Status') ?></th>
+                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Updated') ?></th>
+                    <th scope="col" class="col actions">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($tickets as $ticket): ?>
+                    <tr>
+                        <td data-th="<?php echo $block->escapeHtml(__('ID')) ?>" class="col id"><?php /* @escapeNotVerified */ echo $ticket->getId() ?></td>
+                        <?php if ($block->getOrderNumberField()): ?>
+                        <td data-th="<?php echo $block->escapeHtml(__('Order #')) ?>" class="col order">
+                            <?php if ($ticket->getOrder()): ?>
+                                <a href="<?php echo $block->getOrderUrl($ticket->getOrder()) ?>" target="_blank">
+                                    <?php echo $ticket->getOrder() ?>
+                                </a>
+                            <?php else: ?>
+                                N/A
+                            <?php endif; ?>
+                        </td>
+                        <?php endif; ?>
+                        <td data-th="<?php echo $block->escapeHtml(__('Subject')) ?>" class="col subject"><?php /* @escapeNotVerified */ echo $ticket->getSubject() ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col status"><?php echo $block->getTicketStatus($ticket->getStatus()) ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Updated')) ?>" class="col date"><?php /* @escapeNotVerified */ echo $block->getFormattedDate($ticket->getUpdatedAt()) ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?php /* @escapeNotVerified */ echo $block->getViewUrl($ticket->getId()) ?>" class="action view">
+                                <span><?php /* @escapeNotVerified */ echo __('View Ticket') ?></span>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have created no tickets.'); ?></span></div>
+<?php endif ?>

@@ -1,0 +1,57 @@
+html,
+body {
+    background-color: #fafafa;
+}
+
+a {
+    color: #222;
+    text-decoration: none;
+}
+
+.email-non-inline() {
+    a:visited {
+        color: #222;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #222;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #222;
+        text-decoration: none;
+    }
+
+    //  Remove link color on iOS
+    .no-link a {
+        color: #222;
+        cursor: default;
+        text-decoration: none;
+    }
+}
+
+.email-non-inline() {
+    .button {
+        .inner-wrapper {
+            td:hover {
+                background-color: #000;
+            }
+
+            a:active,
+            td:active {
+                background-color: #000;
+            }
+        }
+
+        a:active,
+        a:hover,
+        a:visited {
+            //  Undo general link hover state
+            border: 1px solid #222;
+            color: #222;
+            text-decoration: none;
+        }
+    }
+}    

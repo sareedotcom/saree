@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="category.description" destination="columns.top" after="category.view.container"/>
+
+        <referenceContainer name="content">
+            <block class="Elsnertech\CatalogList\Block\CategoryTitle" name="category.title.mobile"
+                   template="Magento_Theme::custom-category-title.phtml"/>
+        </referenceContainer>
+        <move element="category.title.mobile" destination="columns.top" after="category.description"/>
+        
+        <referenceBlock name="sidebar.additional" remove="true" />
+    </body>
+</page>

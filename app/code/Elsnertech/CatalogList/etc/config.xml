@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <design>
+            <breeze>
+                <sizes>
+                    <category_page_grid>(min-width: 1440px) 500px, (min-width: 1280px) 400px, (min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 190px, 50vw</category_page_grid>
+                    <category_page_grid-1column>(min-width: 1440px) 500px, (min-width: 1280px) 240px, (min-width: 1024px) 185px, (min-width: 768px) 175px, (min-width: 640px) 190px, 50vw</category_page_grid-1column>
+                    <category_page_grid-3columns>(min-width: 1440px) 500px, (min-width: 1280px) 225px, (min-width: 1024px) 175px, (min-width: 768px) 210px, (min-width: 640px) 190px, 50vw</category_page_grid-3columns>
+                </sizes>
+            </breeze>
+        </design>
+    </default>
+</config>

@@ -1,0 +1,29 @@
+{
+  "name": "elsner/module-multicurrency",
+  "description": "Paypal Multicurrency.",
+  "type": "magento2-module",
+  "version": "1.0.8",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "require": {
+    "magento/framework": "~100.0"
+  },
+  "authors": [
+    {
+      "name": "Brijbhushan",
+      "email": "brijbhushan@elsner.com",
+      "homepage": "-",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Elsner\\Multicurrency\\": ""
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">              
+                <resource id="Magento_Adminhtml::system">
+                    <resource id="Magento_Adminhtml::convert">
+                        <resource id="Pektsekye_OptionDependent::export" title="Dependent Product Options" sortOrder="40" />
+                    </resource>
+                </resource>
+            </resource>            
+        </resources>
+    </acl>
+</config>

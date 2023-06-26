@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+		<referenceContainer name='root'>
+			<block
+				class='Elsnertech\Sms\Block\Init'
+				name='Elsnertech_Sms_Block_Init'
+				ifconfig='sms/moduleoption/enable'
+			/>
+		</referenceContainer>
+	  <referenceBlock name="authorization-link-login" remove="true"/>
+	  <referenceBlock name="register-link" remove="true"/>
+	  <referenceBlock name="header.links">
+		<block class="Magento\Customer\Block\Account\AuthorizationLink" name="login-ajax"  template="Elsnertech_Sms::authorization.phtml" cacheable="false">
+		</block>
+		<block class="Magento\Customer\Block\Account\RegisterLink" name="register-link-ajax"  after="-">
+				<arguments>
+					<argument name="label" xsi:type="string" translate="true">Register</argument>
+					<argument name="class" xsi:type="string">registerlink</argument>	
+				</arguments>
+		</block>
+        </referenceBlock>
+	    <referenceContainer name="before.body.end">
+				<block class="Elsnertech\Sms\Block\Sms" name="sms" template="Elsnertech_Sms::sms.phtml" />
+		</referenceContainer>
+    </body>
+</page>

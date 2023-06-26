@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Lof_Gallery::css/dist/skins/snapgram.css"/>
+        <css src="Lof_Gallery::css/dist/skins/vemdezap.css"/>
+        <css src="Lof_Gallery::css/dist/skins/facesnap.css"/>
+        <css src="Lof_Gallery::css/dist/skins/snapssenger.css"/>
+        <css src="Lof_Gallery::css/demo/style.css"/>
+        <css src="Lof_Gallery::css/dist/zuck.min.css"/>
+        <!-- <link src="Lof_Gallery::js/demo/zuck.min.js"/> -->
+        <link src="Lof_Gallery::js/demo/script.js"/>
+        <link src="Lof_Gallery::js/demo/zuck.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Lof\Gallery\Block\StoryView" name="story" before="-" template="Lof_Gallery::slider.phtml"></block>
+        </referenceContainer>
+    </body>
+</page>

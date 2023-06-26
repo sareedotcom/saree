@@ -1,0 +1,156 @@
+& when (@media-common = true) {
+    .checkout-cart-index {
+        .cart-summary {
+            input, select {
+                background: #fff;
+            }
+
+            .block {
+                > .title {
+                    &::after {
+                        font-size: 14px;
+                        //font-weight: bold;
+                        color: @home-color__gray;
+                    }
+                }
+
+                .item-options {
+                    .field {
+                        .radio {
+                            margin-top: -2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .cart.table-wrapper {
+        .cart.item .price,
+        .actions-toolbar > .action-edit::before,
+        .actions-toolbar > .action-delete::before {
+            color: @home-color__black;
+        }
+    }
+
+    .block.crosssell {
+        .product-item-actions .actions-secondary > .action {
+            color: @home-color__black;
+        }
+    }
+    table#shopping-cart-table .product-item-name {
+        white-space: inherit;
+        margin: 0 !important;
+    }   
+}
+
+
+.checkout-cart-index{
+    .page-main {
+        padding: 40px 15px;
+        max-width: 90%;
+        @media (max-width: @screen__md) {
+            max-width: 100%;
+        }
+    }
+}
+
+.checkout-index-index.firecheckout{
+    .checkout-container{
+        .opc-wrapper{
+            .step-title{
+                &::before{
+                    color: #000 !important;
+                    border: 2px solid #000 !important;
+                }
+            }
+        }
+    }
+    #checkout .opc-block-summary > .title:before{
+        color: #000 !important;
+        border: 2px solid #000 !important;
+    }
+    .place-order {
+        .actions-toolbar{
+            .primary{
+                .action{
+                    border-color: #000;
+                    background: #000;
+                    font-size: 16px;
+                    padding: 12px 15px !important;
+                    color: #fff;
+                    &:hover, &:focus{
+                        border-color: #000;
+                        color: #000;
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+    .authentication-wrapper a.action {
+        background: #000 !important;
+    }
+}
+.firecheckout.checkout-index-index{
+    .actions-toolbar, .checkout-billing-address{
+        button.action, button.action {
+            background-color: #000 !important;
+            border: 1px solid #000 !important;
+            color: #fff !important;
+            padding: 12px 25px !important;
+            display: inline-block;
+            line-height: 1;
+            font-weight: 500 !important;
+            &:hover, &:focus{
+                background: transparent !important;
+                color: #000 !important;
+            }
+        }
+    }
+    button.mfp-close {
+        background: transparent !important;
+    }
+    .checkout-shipping-address, .checkout-billing-address, .modal-footer, 
+    .actions-toolbar, .checkout-billing-address, .modal-footer{
+        button.action{
+            background: #000;
+            border-color: #000;
+            color: #fff;
+            &:hover, &:focus{
+                border-color: #000;
+                background: transparent;
+                color: #000;
+            }
+        }
+    }
+
+    #checkout {
+        .opc-wrapper {
+            .shipping-address-item{
+                &.selected-item {
+                    border-color: #000;
+                    &::after{
+                        background: #000;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.checkout-onepage-success {
+    main.page-main {
+        max-width: 90%;
+        margin: 0 auto;
+        padding-top: 40px;
+        @media (max-width: @screen__md){
+            padding: 20px 0;
+        }
+    }
+}
+
+.cart.table-wrapper .product-item-photo img.product-image-photo {
+    // width: 85%;
+}

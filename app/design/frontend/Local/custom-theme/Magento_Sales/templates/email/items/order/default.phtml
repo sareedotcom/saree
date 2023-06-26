@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Sales\Block\Order\Email\Items\DefaultItems */
+
+/** @var $_item \Magento\Sales\Model\Order\Item */
+$_item = $block->getItem();
+$_order = $_item->getOrder();
+ $_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+?>
+<tr>
+    <td class="item-image">
+        <?php if($childProd = current($_item->getChildrenItems())){
+    $productImage = $_imagehelper->init($childProd->getProduct(), 'category_page_list', array('height' => 100 , 'width'=> 100))->getUrl();
+}
+else{
+   $productImage = $_imagehelper->init($_item->getProduct(), 'category_page_list', array('height' => 106 , 'width'=> 100))->getUrl();
+}
+?>
+<img src="<?=$productImage?>" title="<?= $block->escapeHtml($_item->getName()) ?>" alt="<?= $block->escapeHtml($_item->getName()) ?>" />
+    </td>
+    <td class="item-info<?php if ($block->getItemOptions()): ?> has-extra<?php endif; ?>" style="text-align: center;">
+       <!--<p class="product-name"><?= substr($block->escapeHtml($_item->getName(),'name'),0,20)."..."?></p>-->
+        <p class="sku"><?= /* @escapeNotVerified */  __('SKU') ?>: <?= $block->escapeHtml($block->getSku($_item)) ?></p>
+        <?php if ($block->getItemOptions()): ?>
+            <dl class="item-options">
+            <?php foreach ($block->getItemOptions() as $option): ?>
+                <dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?></em></strong></dt>
+                <dd>
+                    <?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+                </dd>
+            <?php endforeach; ?>
+            </dl>
+        <?php endif; ?>
+        <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addInfoBlock) :?>
+            <?= $addInfoBlock->setItem($_item)->toHtml() ?>
+        <?php endif; ?>
+        <?= $block->escapeHtml($_item->getDescription()) ?>
+    </td>
+    <td class="item-qty" style="text-align: center;"><?= /* @escapeNotVerified */  $_item->getQtyOrdered() * 1 ?></td>
+    <td class="item-price" style="text-align: center;">
+        <?= /* @escapeNotVerified */  $block->getItemPrice($_item) ?>
+    </td>
+</tr>
+<?php if ($_item->getGiftMessageId() && $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_item->getGiftMessageId())): ?>
+<tr>
+    <td colspan="3" class="item-extra">
+        <table class="message-gift">
+            <tr>
+                <td>
+                    <h3><?= /* @escapeNotVerified */  __('Gift Message') ?></h3>
+                    <strong><?= /* @escapeNotVerified */  __('From:') ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                    <br /><strong><?= /* @escapeNotVerified */  __('To:') ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                    <br /><strong><?= /* @escapeNotVerified */  __('Message:') ?></strong>
+                    <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<?php endif; ?>

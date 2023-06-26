@@ -1,0 +1,32 @@
+.custom-options  .option-box {border:1px solid #cddddd; padding:1em;  background:#e7efef; margin:1.5em 0; overflow:auto;}
+
+
+#product_options_container table.data-table .col-draggable {width:22px; padding:0 0 0 7px;}
+#product_options_container table.data-table .type-id {width:20px; padding:0;}
+#product_options_container table.data-table td.col-price {width:auto;}
+#product_options_container table.data-table td.col-price-type {width:auto;}
+#product_options_container table.data-table .col-sku {width:auto;}
+#product_options_container table.data-table td.type-children {width:165px;}
+#product_options_container table.data-table input.select-type-children { width:136px !important;}
+
+
+fieldset.admin__field div.admin__field.od-id-column {width:20px;}
+table.admin__control-table td.od-id-column {width:30px;}
+
+div.admin__field.od-id-column div.admin__field-control {padding-top: 6px;}
+
+
+table.admin__control-table td.od-children-column {width:225px;}
+table.admin__control-table input.od-children-input { width:190px}
+
+table.admin__control-table select.od-children-select { width:190px;}
+
+table.admin__control-table span.link-type-children {display:inline-block; width:20px; height:28px; padding-left:5px; padding-top:5px; vertical-align: top; color: red; cursor: pointer;}
+
+#product_options_container_top .col-sku {
+width: 60px;
+}
+
+#product_options_container .data-table td, #attribute-tier_price-container .data-table td, #product_options_container .data-table td.opt-price-type, #product_options_container .data-table td.select-opt-price-type, #product_options_container .data-table td.select-opt-price {
+width: auto;
+}

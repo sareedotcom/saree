@@ -1,0 +1,21 @@
+& when (@media-common = true) {
+    select {
+        background-size: 13px 7px;
+    }
+    & when (@argento-dir = rtl) {
+        select {
+            background-position: 10px center;
+        }
+    }
+
+    .fieldset {
+        > .field,
+        > .fields > .field {
+            &.choice {
+                .label {
+                    .lib-css(font-weight, @form-field-label__font-weight);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<defaults>
+    <param platform="0" profile="default" name="include-headers-on-all-pages" value="No" status="2" />
+    <param platform="0" profile="default" name="thumb-max-width" value="550" status="2" />
+    <param platform="0" profile="default" name="thumb-max-height" value="550" status="2" />
+    <param platform="0" profile="default" name="square-images" value="No" status="2" />
+    <param platform="0" profile="default" name="width" value="auto" status="2" />
+    <param platform="0" profile="default" name="height" value="auto" status="2" />
+    <param platform="0" profile="default" name="orientation" value="horizontal" status="2" />
+    <param platform="0" profile="default" name="mode" value="scroll" status="2" />
+    <param platform="0" profile="default" name="items" value="3" status="2" />
+    <param platform="0" profile="default" name="speed" value="600" status="2" />
+    <param platform="0" profile="default" name="autoplay" value="0" status="2" />
+    <param platform="0" profile="default" name="loop" value="infinite" status="2" />
+    <param platform="0" profile="default" name="step" value="auto" status="2" />
+    <param platform="0" profile="default" name="arrows" value="inside" status="2" />
+    <param platform="0" profile="default" name="pagination" value="No" status="2" />
+    <param platform="0" profile="default" name="easing" value="cubic-bezier(.8, 0, .5, 1)" status="2" />
+    <param platform="0" profile="default" name="scrollOnWheel" value="auto" status="2" />
+    <param platform="0" profile="default" name="lazy-load" value="No" status="2" />
+    <param platform="0" profile="default" name="scroll-extra-styles" value="" status="2" />
+    <param platform="0" profile="default" name="show-image-title" value="No" status="2" />
+    <param platform="0" profile="default" name="link-to-product-page" value="Yes" status="2" />
+    <param platform="0" profile="product" name="enable-effect" value="Yes" status="2" />
+    <param platform="0" profile="product" name="thumb-max-width" value="700" status="1" />
+    <param platform="0" profile="product" name="thumb-max-height" value="560" status="1" />
+    <param platform="0" profile="product" name="square-images" value="No" status="0" />
+    <param platform="0" profile="product" name="width" value="auto" status="0" />
+    <param platform="0" profile="product" name="height" value="auto" status="0" />
+    <param platform="0" profile="product" name="orientation" value="horizontal" status="0" />
+    <param platform="0" profile="product" name="mode" value="scroll" status="0" />
+    <param platform="0" profile="product" name="items" value="3" status="0" />
+    <param platform="0" profile="product" name="speed" value="600" status="0" />
+    <param platform="0" profile="product" name="autoplay" value="0" status="0" />
+    <param platform="0" profile="product" name="loop" value="infinite" status="0" />
+    <param platform="0" profile="product" name="step" value="auto" status="0" />
+    <param platform="0" profile="product" name="arrows" value="inside" status="0" />
+    <param platform="0" profile="product" name="pagination" value="No" status="0" />
+    <param platform="0" profile="product" name="easing" value="cubic-bezier(.8, 0, .5, 1)" status="0" />
+    <param platform="0" profile="product" name="scrollOnWheel" value="auto" status="0" />
+    <param platform="0" profile="product" name="lazy-load" value="No" status="0" />
+    <param platform="0" profile="product" name="scroll-extra-styles" value="" status="0" />
+    <param platform="0" profile="product" name="show-image-title" value="No" status="0" />
+    <param platform="0" profile="category" name="enable-effect" value="No" status="2" />
+    <param platform="0" profile="category" name="thumb-max-width" value="240" status="1" />
+    <param platform="0" profile="category" name="thumb-max-height" value="300" status="1" />
+    <param platform="0" profile="category" name="square-images" value="No" status="0" />
+    <param platform="0" profile="category" name="width" value="auto" status="0" />
+    <param platform="0" profile="category" name="height" value="auto" status="0" />
+    <param platform="0" profile="category" name="orientation" value="horizontal" status="0" />
+    <param platform="0" profile="category" name="mode" value="scroll" status="0" />
+    <param platform="0" profile="category" name="items" value="2" status="1" />
+    <param platform="0" profile="category" name="speed" value="600" status="0" />
+    <param platform="0" profile="category" name="autoplay" value="0" status="0" />
+    <param platform="0" profile="category" name="loop" value="infinite" status="0" />
+    <param platform="0" profile="category" name="step" value="2" status="1" />
+    <param platform="0" profile="category" name="arrows" value="inside" status="0" />
+    <param platform="0" profile="category" name="pagination" value="No" status="0" />
+    <param platform="0" profile="category" name="easing" value="cubic-bezier(.8, 0, .5, 1)" status="0" />
+    <param platform="0" profile="category" name="scrollOnWheel" value="auto" status="0" />
+    <param platform="0" profile="category" name="lazy-load" value="No" status="0" />
+    <param platform="0" profile="category" name="scroll-extra-styles" value="" status="0" />
+    <param platform="0" profile="category" name="show-image-title" value="No" status="0" />
+    <param platform="0" profile="category" name="link-to-product-page" value="Yes" status="0" />
+</defaults>

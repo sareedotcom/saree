@@ -1,0 +1,38 @@
+"Shipping Calculator","Shipping Calculator"
+"-- Please Select --","-- Please Select --"
+All,All
+Country,Country
+State/Province,State/Province
+Zip/Postcode,Zip/Postcode
+"Below Product Description","Below Product Description"
+"In Additional Tab","In Additional Tab"
+"Deliver to","Deliver to"
+"This product is only shipped to ","This product is only shipped to "
+"Include items already in your current cart","Include items already in your current cart"
+"The best rate is","The best rate is"
+for,for
+delivery,delivery
+"Choose your location","Choose your location"
+Done,Done
+"Change Address","Change Address"
+"Choose Address","Choose Address"
+"Calculating ...","Calculating ..."
+Calculate,Calculate
+Hide,Hide
+"Show More","Show More"
+"Shipping Cost","Shipping Cost"
+General,General
+Enable,Enable
+"Select <b>Yes</b> to enable this module.","Select <b>Yes</b> to enable this module."
+"Shipping Calculator Title","Shipping Calculator Title"
+"Shipping Calculator Description","Shipping Calculator Description"
+"""Not Found"" Message","""Not Found"" Message"
+"The notice when there is not any available shipping method","The notice when there is not any available shipping method"
+"Apply For Country","Apply For Country"
+"Show Shipping Calculator","Show Shipping Calculator"
+"Display Address Fields","Display Address Fields"
+"Use Popup","Use Popup"
+"If Yes, the address form will be shown as a popup","If Yes, the address form will be shown as a popup"
+"Apply to Product Pages","Apply to Product Pages"
+"Show the shipping calculator on the product pages if they meet the selected conditions","Show the shipping calculator on the product pages if they meet the selected conditions"
+"Default Address","Default Address"

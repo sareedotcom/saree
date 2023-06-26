@@ -1,0 +1,104 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: ksiamro
+ * Date: 13.12.2016
+ * Time: 09:10
+ */
+?>
+<div class="block checkorder-form" data-mage-init='{
+    "Elsner_CheckOrder/js/checkorder": {
+            "translations": [
+                { "key": "checkorder_show", "value": "<?php /* @escapeNotVerified */ echo __('Show') ?>" },
+                { "key": "checkorder_error", "value": "<?php /* @escapeNotVerified */ echo __('An error occurred') ?>" },
+                { "key": "checkorder_error_not_found", "value": "<?php /* @escapeNotVerified */ echo __('Order not found') ?>" }
+            ]
+        }
+    }'>
+    <div class="block-content1">
+        <form class="form form-checkorder"
+              action="<?php /* @escapeNotVerified */ echo $block->getPostActionUrl() ?>"
+              method="post"
+              id="checkorder-form"
+              data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset checkorder" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+                <div class="field order_id required">
+                    <label class="label" for="order_id"><span><?php /* @escapeNotVerified */ echo __('Order Id') ?></span></label>
+                    <div class="control">
+                        <input name="order_id" value="" id="order_id" type="text" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Order Id') ?>" data-validate="{required:true}">
+                    </div>
+                </div>
+                <div class="field email required">
+                    <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                    <div class="control">
+                        <input name="email" value="" id="email" type="email" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" data-validate="{required:true, 'validate-email':true}">
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary"><button type="submit" class="action checkorder primary" name="send" id="send2"><span><?php /* @escapeNotVerified */ echo __('Check Your Order Status') ?></span></button></div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="track-image">
+        <img src="<?php echo $this->getViewFileUrl('Elsner_CheckOrder::images/track.gif'); ?>">
+    </div>
+    <div class="progress-track-error" style="display: none;"></div>
+    <div class="progress-track" data-id=0 style="display: none;">
+        <ul class="opc-progress-bar">
+            <li class="opc-progress-bar-item1 _active pending">
+                <span></span>
+                <div class="title">Ordered</div>
+            </li>
+            <li class="opc-progress-bar-item2 processing">
+                <span ></span>
+                <div class="title">Processed</div>
+            </li>
+            <li class="opc-progress-bar-item3 procurement">
+                <span ></span>
+                <div class="title">Procurement</div>
+            </li>
+            <li class="opc-progress-bar-item4 smoothning">
+                <span ></span>
+                <div class="title">Smoothning</div>
+            </li>
+            <li class="opc-progress-bar-item5 readytoship">
+                <span ></span>
+                <div class="title">Shipped</div>
+            </li>
+            <li class="opc-progress-bar-item6 complete">
+                <span ></span>
+                <div class="title">Completed</div>
+            </li>
+        </ul>
+    </div>
+    <div class="checkorder-results">
+        <div class="row checkorder-view-model" data-bind="scope: 'checkorder-view-model'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <script type="text/x-magento-init">
+            {
+                ".checkorder-view-model": {
+                    "Magento_Ui/js/core/app": {
+                       "components": {
+                            "checkorder-view-model": {
+                                "component": "Elsner_CheckOrder/js/viewmodels/checkorder-view-model",
+                                "template" : "Elsner_CheckOrder/results"
+                            }
+                        }
+                    }
+                }
+            }
+            </script>            
+        </div>
+        <div class="row">
+            <button class="action back primary"><span><?php /* @escapeNotVerified */ echo __('Back') ?></span></button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(["jquery"],function($) {
+        $('button.checkorder').click(function() {
+            $('.progress-track').attr('data-id',0);
+        });
+    })
+</script>

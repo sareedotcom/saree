@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="product" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Product Page</label>
+        <comment>On a left side you can see simple page layout. Change config option and you'll see its effect there.</comment>
+        <fieldset_css>swissup-theme-page-preview</fieldset_css>
+        <field id="productPagePreview" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Preview page layout</label>
+            <frontend_model>Swissup\ThemeEditorArgentoHome\Block\Adminhtml\System\Config\Form\Field\ProductPagePreview</frontend_model>
+        </field>
+        <!-- <field id="page_layout" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Layout</label>
+            <source_model>Swissup\ThemeEditor\Model\Config\Source\Layout</source_model>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\ProductPageLayout</backend_model>
+        </field> -->
+        <field id="content_width" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Content width</label>
+            <source_model>Swissup\ThemeEditor\Model\Config\Source\ContentWidth</source_model>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\ProductContentWidth</backend_model>
+        </field>
+        <field id="max_width" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Max width</label>
+            <comment>Max allowed width for page content in px. Page content doesn't include header, footer and breadcrumbs.</comment>
+            <depends>
+                <field id="content_width">limited_width</field>
+            </depends>
+        </field>
+        <field id="media_width" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Media block width, %</label>
+            <comment>Width in percents for product media block.</comment>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\MediaBlock</backend_model>
+        </field>
+        <field id="infomain_width" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Info Main block width, %</label>
+            <comment>Width in percents for product info main block.</comment>
+            <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\InfomainBlock</backend_model>
+        </field>
+        <group id="product_image" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Image</label>
+            <field id="thumbnails" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Thumbnails Type</label>
+                <comment><![CDATA[It duplicates <a href="section/lightboxpro/#lightboxpro_general">Lightbox Pro config</a>.]]></comment>
+                <source_model>Swissup\Lightboxpro\Model\Config\Source\ThumbnailsTypes</source_model>
+                <config_path>lightboxpro/general/thumbnails</config_path>
+            </field>
+        </group>
+        <group id="product_tocart" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>To Cart Form</label>
+            <field id="position" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Position</label>
+                <source_model>Swissup\ThemeEditor\Model\Config\Source\Product\TocartDestination</source_model>
+                <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\MoveTocart</backend_model>
+            </field>
+        </group>
+        <group id="product_tabs" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Tabs</label>
+            <field id="position" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Position</label>
+                <source_model>Swissup\ThemeEditor\Model\Config\Source\Product\TabsDestination</source_model>
+                <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\MoveTabs</backend_model>
+            </field>
+            <field id="layout" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Layout</label>
+                    <comment><![CDATA[It duplicates <a href="section/swissup_easytabs/">Easytabs config</a>.]]></comment>
+                    <source_model>Swissup\Easytabs\Model\Config\Source\Layout</source_model>
+                    <config_path>swissup_easytabs/product_tabs/layout</config_path>
+            </field>
+        </group>
+        <group id="additional" translate="label" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Additional</label>
+            <field id="photo_in_description" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Photo in description tab</label>
+                <source_model>Swissup\ThemeEditor\Model\Config\Source\YesNo</source_model>
+                <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\PhotoInDescription</backend_model>
+            </field>
+            <field id="sticky_add_to_cart" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Sticky add to cart</label>
+                <source_model>Swissup\ThemeEditor\Model\Config\Source\YesNo</source_model>
+                <backend_model>Swissup\ThemeEditorArgentoHome\Model\Config\Backend\Product\StickyAddToCart</backend_model>
+            </field>
+        </group>
+    </group>
+</include>

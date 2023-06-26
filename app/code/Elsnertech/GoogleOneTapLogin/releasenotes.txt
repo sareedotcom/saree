@@ -1,0 +1,6 @@
+Version 1.0.1 Initial Release 04 Aug 2022
+
+-----------------------------------------------------------
+	Elsnertech_GoogleOneTapLogin 1.0.1 , 04 Aug 2022
+-----------------------------------------------------------
+- Solve cookie issue

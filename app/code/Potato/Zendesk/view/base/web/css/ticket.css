@@ -1,0 +1,369 @@
+.round-avatar {
+    display: inline-block;
+}
+
+.round-avatar .thumbnail-container--md {
+    border-width: 2px;
+    width: 40px;
+    height: 40px;
+}
+
+.round-avatar .thumbnail-container {
+    display: inline-block;
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    border-radius: 50%;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+}
+
+.round-avatar .thumbnail-container > img, .round-avatar .thumbnail-container__img {
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    border-radius: 50%;
+    background-clip: content-box;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    box-sizing: inherit;
+    vertical-align: bottom;
+}
+
+.event {
+    border-left: 2px solid transparent;
+    border-top: 1px solid #ebebeb;
+    padding: 24px 0 12px 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.event .content {
+    margin: 0 16px 0 75px;
+}
+
+.event .user_photo, .event .user_assume_photo {
+    position: absolute;
+    left: 16px;
+}
+
+.user_photo, .user_assume_photo {
+    position: relative;
+    float: left;
+}
+
+.event .header {
+    padding: 0 0 2px 0;
+    font-size: 12px;
+}
+
+.clearfix {
+    margin-bottom: 0;
+}
+
+.clearfix {
+    display: block;
+    zoom: 1;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+.event .header .actor {
+    display: flex;
+}
+
+.event .header .actor .name {
+    font-weight: 600;
+    font-size: 14px;
+    max-width: 400px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.event .header .actor .name a {
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+}
+
+.event .header .actor a {
+    display: inline-block;
+}
+
+.event .header .actor time {
+    color: #bbb;
+    margin: 1px 0 0 5px;
+}
+
+.event .header .meta {
+    display: inline-block;
+    position: absolute;
+    right: 16px;
+    top: 18px;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.event .body {
+    line-height: 18px;
+}
+
+.event .comment {
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.event .comment {
+    position: relative;
+}
+
+ul.attachments {
+    margin: 0 0 10px 0;
+    list-style: none;
+}
+
+.audits .attachments li {
+    width: 96px;
+    line-height: 16px;
+    overflow: hidden;
+}
+
+ul.attachments li {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0 8px 8px 0;
+    border-radius: 4px;
+    background-color: #F4F4F4;
+    vertical-align: top;
+}
+
+ul.attachments li a.attachment {
+    background-color: transparent;
+}
+
+.audits .attachments li a {
+    word-wrap: break-word;
+    width: 83px;
+}
+
+ul.attachments li .attachment {
+    position: relative;
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+ul.attachments li .attachment img {
+    padding-top: 5px;
+    max-height: 65px;
+}
+
+.form.zendesk-ticket {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    color: #333;
+    cursor: text;
+    transition: min-height linear 0.1s;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.form.zendesk-ticket fieldset {
+    margin: 0 0 5px;
+}
+
+#comment_tbl {
+    border: 0;
+}
+
+#comment_tbl .mceToolbar.mceFirst {
+    border: 0;
+}
+
+.actions-toolbar {
+    margin: 10px 0;
+}
+
+.comment_ifr {
+    height: 100%;
+}
+
+.actions-toolbar .submit {
+    float: right;
+    margin-right: 15px;
+}
+
+.zendesk-editor--attachment-uploads {
+    position: absolute;
+    height: 100%;
+    width: auto;
+    top: 0;
+    right: 0;
+    outline: 0;
+    opacity: 0;
+    cursor: pointer;
+    padding: initial;
+    line-height: 28px;
+}
+
+.zendesk-editor--attachment {
+    display: inline-block;
+    position: relative;
+}
+
+.zendesk-editor--attachment .zendesk-editor--item {
+    margin-left: 10px;
+    padding: 7px;
+    line-height: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    background-size: 14px;
+    color: #999999;
+    outline: none;
+    display: inline-block;
+    width: auto;
+    overflow: visible;
+}
+
+#attachment {
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}
+
+.zendesk-editor--attachments {
+    overflow: auto;
+    bottom: 38px;
+    left: 0;
+    right: 0;
+    margin-left: 5px;
+    margin-top: 5px;
+    transition: bottom linear 0.025s;
+    padding-top: 0;
+}
+
+.zendesk-editor--attachments .zendesk-editor--attachment {
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: white;
+    width: 130px;
+    height: 70px;
+    float: left;
+    margin: 0 5px 5px 0;
+    position: relative;
+    color: #333;
+    cursor: default;
+}
+
+.zendesk-editor--remove-attachment {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 3px;
+    text-align: center;
+    line-height: 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.zendesk-editor--remove-attachment:before {
+    content: '×';
+    color: #999;
+}
+
+.zendesk-editor--attachment.zendesk-editor--uploaded:hover   .zendesk-editor--remove-attachment{
+    display: block;
+}
+
+.zendesk-editor--text-wrapper {
+    width: 105px;
+    height: 60px;
+    padding: 10px 0 0 20px;
+    text-align: left;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+    display: none;
+}
+
+.zendesk-editor--corner {
+    background-color: #ffffff;
+}
+
+.zendesk-editor--corner:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 14px solid #ddd;
+    position: absolute;
+    right: 1px;
+    bottom: 8px;
+    transform: rotate(-45deg);
+}
+
+.zendesk-editor--corner:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #fff;
+    position: absolute;
+    right: 3px;
+    bottom: 9px;
+    transform: rotate(-45deg);
+}
+
+.zendesk-editor--filetype,
+.zendesk-editor--filesize {
+    margin: 0;
+    color: #ddd;
+}
+
+.zendesk-editor--attachment-image {
+    height: 100%;
+    display: inline-block;
+}
+
+.subject-field,
+.order-field {
+    padding: 10px;
+}
+
+.subject-field label,
+.order-field label {
+    width: 60px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+#ticket_subject,
+#ticket_order {
+    width: 90%;
+    display: inline-block;
+}

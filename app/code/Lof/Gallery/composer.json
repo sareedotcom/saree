@@ -1,0 +1,31 @@
+{
+    "name": "landofcoder/module-gallery-normal",
+    "description": "Gallery Normal Magento 2 Extension",
+    "type": "magento2-module",
+    "version": "1.0.6",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "keywords": [
+        "landofcoder",
+        "landofcoder gallery",
+        "gallery normal magento 2",
+        "magento 2 gallery normal",
+        "gallery normal magento 2",
+        "gallery normal for magento 2"
+      ],
+    "authors": [
+        {
+            "name": "Landofcoder",
+            "email": "landofcoder@gmail.com",
+            "role": "Magento 2 Lof Gallery normal"
+        }
+    ],
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "Lof\\Gallery\\": ""
+        }
+    }
+}

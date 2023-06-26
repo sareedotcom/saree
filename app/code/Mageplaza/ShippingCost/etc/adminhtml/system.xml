@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ShippingCost
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="mpshippingcost" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Shipping Cost</label>
+            <tab>mageplaza</tab>
+            <resource>Mageplaza_ShippingCost::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to enable this module.]]></comment>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Shipping Calculator Title</label>
+                </field>
+                <field id="description" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Shipping Calculator Description</label>
+                </field>
+                <field id="not_found_message" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>"Not Found" Message</label>
+                    <comment>The notice when there is not any available shipping method</comment>
+                </field>
+                <field id="country" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Apply For Country</label>
+                    <source_model>Mageplaza\ShippingCost\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="position" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Shipping Calculator</label>
+                    <source_model>Mageplaza\ShippingCost\Model\Config\Source\Position</source_model>
+                </field>
+                <field id="fields" translate="label" type="multiselect" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Display Address Fields</label>
+                    <source_model>Mageplaza\ShippingCost\Model\Config\Source\Fields</source_model>
+                </field>
+                <field id="popup" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Use Popup</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If Yes, the address form will be shown as a popup</comment>
+                </field>
+                <field id="condition" translate="label comment" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apply to Product Pages</label>
+                    <frontend_model>Mageplaza\ShippingCost\Block\Adminhtml\System\Config\Condition</frontend_model>
+                    <backend_model>Mageplaza\ShippingCost\Model\Config\Backend\Condition</backend_model>
+                    <comment>Show the shipping calculator on the product pages if they meet the selected conditions</comment>
+                </field>
+            </group>
+            <group id="default_values" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Default Address</label>
+                <comment><![CDATA[The default address is displayed at the storefront based on customer's default shipping address, or the auto-detected IP address, or the settings below.<br/>To display customer's address based on IP address, you need to install <a target="_blank" href="https://www.mageplaza.com/magento-2-geoip">Mageplaza GeoIP</a>.]]></comment>
+                <field id="country" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Country</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="region_select" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>State/Province</label>
+                    <source_model>Mageplaza\ShippingCost\Model\Config\Source\AllRegion</source_model>
+                </field>
+                <field id="region_text" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>State/Province</label>
+                </field>
+                <field id="postcode" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Zip/Postcode</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,13 @@
+& when (@media-common = true) {
+    .catalogsearch-result-index {
+        .main {
+            > :first-child {
+                .page-title {
+                    &::after {
+                        content: none;
+                    }
+                }
+            }
+        }
+    }
+}

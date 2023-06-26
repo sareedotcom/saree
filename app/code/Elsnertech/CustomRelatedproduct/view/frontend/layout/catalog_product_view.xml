@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<head>
+        <script src="Elsnertech_CustomRelatedproduct::js/custom-related-images.js" />
+    </head>
+<body>
+   <referenceContainer name="product.info.main">
+    <container name="product.info.custom.related.contact" htmlTag="div" htmlClass="related_contact_div" after="mpshippingcost.product.view">
+        <block class="Elsnertech\CustomRelatedproduct\Block\Product" name="custom.related.product" template="Elsnertech_CustomRelatedproduct::customRelatedproduct.phtml" after="mpshippingcost.product.view">
+        </block>
+    </container>
+    </referenceContainer>
+</body>
+</page>

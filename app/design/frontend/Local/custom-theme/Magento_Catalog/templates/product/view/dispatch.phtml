@@ -1,0 +1,81 @@
+<?php $_product = $block->getProduct();
+$helper = $this->helper('Elsnertech\CatalogList\Helper\Data');
+$attributeSetRepository = $helper->getProductAttributeSetId($_product->getAttributeSetId());
+?>
+
+<?php if($attributeSetRepository == "Migration_Gown"): ?>
+    <div id="size-chart-text" class="sizechart">Size Chart</div>
+<?php elseif ($attributeSetRepository == "Migration_Kids Boy") : ?>
+    <div id="size-chart-text" class="sizechart" >Size Chart</div>
+<?php elseif(($attributeSetRepository == "Migration_Kids Gown") || ($attributeSetRepository == "Migration_Kids Indo Western") || ($attributeSetRepository == "Migration_Kids Lehenga") || ($attributeSetRepository == "Migration_Kids Salwar Kameez") || ($attributeSetRepository == "Migration_Kids Saree")): ?>
+    <div id="size-chart-text" class="sizechart">Size Chart</div>
+<?php elseif ($attributeSetRepository == "Migration_Kurtis & Tunics") : ?>
+    <div id="size-chart-text" class="sizechart" >Size Chart</div>
+<?php elseif ($attributeSetRepository == "Migration_Lehenga") : ?>
+    <div id="size-chart-text" class="sizechart" >Size Chart</div>
+<?php elseif($attributeSetRepository == "Migration_Mens"): ?>
+    <div id="size-chart-text" class="sizechart">Size Chart</div>
+<?php elseif($attributeSetRepository == "Migration_Salwar Kameez"): ?>
+    <div id="size-chart-text" class="sizechart">Size Chart</div>
+<?php elseif($attributeSetRepository == "Migration_Saree"): ?>
+    <div id="size-chart-text" class="sizechart">Size Chart</div>
+
+
+
+<?php endif; ?>
+
+
+<div id="size-chart-modal" class="no-display">
+    <?php if($attributeSetRepository == "Migration_Gown"): ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('gown_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Gown-Measuremnt.jpg'); ?>' alt="gown-measurement"></p>     -->
+    <?php elseif ($attributeSetRepository == "Migration_Kids Boy") : ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('kids_boy_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Blouse-Measurement.jpg'); ?>' alt="lehenga-measurement"></p> -->
+    <?php elseif(($attributeSetRepository == "Migration_Kids Gown") || ($attributeSetRepository == "Migration_Kids Indo Western") || ($attributeSetRepository == "Migration_Kids Lehenga") || ($attributeSetRepository == "Migration_Kids Salwar Kameez") || ($attributeSetRepository == "Migration_Kids Saree")): ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('kids_girl _category_sizechart')->toHtml();?>  
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Kids-Measurement.jpg'); ?>' alt="kids-measurement"></p>     -->
+     <?php elseif ($attributeSetRepository == "Migration_Kurtis & Tunics") : ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('kurti_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Blouse-Measurement.jpg'); ?>' alt="lehenga-measurement"></p> -->
+    <?php elseif ($attributeSetRepository == "Migration_Lehenga") : ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lehenga_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Blouse-Measurement.jpg'); ?>' alt="lehenga-measurement"></p> -->
+    <?php elseif($attributeSetRepository == "Migration_Mens"): ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('mens_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Mens-Measurement.jpg'); ?>' alt="mens-measurement"></p> -->
+    <?php elseif($attributeSetRepository == "Migration_Salwar Kameez"): ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('salwar_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Salwar-Suit-Measurement.jpg'); ?>' alt="salwar-measurement"></p> -->
+    <?php elseif($attributeSetRepository == "Migration_Saree"): ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('saree_category_sizechart')->toHtml();?>
+        <!-- <p><img src='<?php // echo $this->getViewFileUrl('images/Blouse-Measurement.jpg'); ?>' alt="saree-measurement"></p> -->
+  
+  <?php endif; ?>
+</div>
+
+
+
+<script>
+    require(
+        [
+          'jquery',
+          'Magento_Ui/js/modal/modal'
+        ],
+        function($,modal) 
+        {
+          var options = {
+              type: 'popup',
+              responsive: true,
+              innerScroll: true,
+              opened: function($Event) {
+                  $(".modal-footer").hide();
+              }
+          };
+          var popup = modal(options, $('#size-chart-modal'));
+          $("#size-chart-text").on('click',function(){ 
+              $("#size-chart-modal").modal("openModal");
+          });
+        }
+    );
+</script>

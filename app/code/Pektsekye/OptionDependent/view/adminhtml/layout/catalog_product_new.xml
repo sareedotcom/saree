@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../Magento/Core/etc/layout_single.xsd">
+    <head>
+        <css src="Pektsekye_OptionDependent::product/edit/main.css"/> 
+        <link src="Pektsekye_OptionDependent::product/edit/main.js"/>                                         
+    </head>  
+    <body>
+        <referenceContainer name="js">
+            <block class="Pektsekye\OptionDependent\Block\Adminhtml\Product\Edit\Js" template="product/edit/js.phtml"/>
+        </referenceContainer>
+    </body>     
+</page>

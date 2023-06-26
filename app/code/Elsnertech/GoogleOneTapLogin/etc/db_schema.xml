@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author Elsner Team
+* @copyright Copyright (c) Elsner Technologies Pvt. Ltd (https://www.elsner.com/)
+* @package Elsnertech_GoogleOneTapLogin
+*/
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+	<table name="elsnertech_google_customer" resource="default" engine="innodb"
+			comment="Elsnertech Google Customer">
+		<column xsi:type="int" name="google_customer_id" unsigned="true" nullable="false" identity="true"
+			comment="Google Customer Id"/>
+		<column xsi:type="text" name="google_id" nullable="false" comment="Google Id"/>
+		<column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false"
+			comment="Customer Id" identity="false"/>
+		<column xsi:type="int" name="is_send_password_email" unsigned="true" nullable="false"  default="0"
+			comment="Is Send Password Email"/>
+		<column xsi:type="text" name="type"  comment="Type"/>
+		<column xsi:type="timestamp" name="google_created_at" comment="Google Created At"/>
+		<column xsi:type="int" name="user_id" unsigned="true" nullable="true" comment="User Id"/>
+		<column xsi:type="varchar" name="status" length= "255" nullable="true" comment="Status"/>
+		<column xsi:type="varchar" name="email_id" length= "255" nullable="false" comment="Email Id"/>
+		<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="google_customer_id"/>
+		</constraint>
+		<constraint xsi:type="foreign" referenceId="GOOGLE_CUSTOMER_TABLE"
+			table="elsnertech_google_customer" column="customer_id" referenceTable="customer_entity"
+			referenceColumn="entity_id" onDelete="CASCADE"/>
+		<constraint xsi:type="unique" referenceId="GOOGLE_TAP_CUSTOMER_ID_UNIQUIE">
+			<column name="customer_id"/>
+		</constraint>
+	</table>
+</schema>

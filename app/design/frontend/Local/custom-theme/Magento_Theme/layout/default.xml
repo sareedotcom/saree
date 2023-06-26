@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="footer">
+            <!-- <block class="Magento\Cms\Block\Block" name="footer_cms_content">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_cms_content</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="footer_newsletter">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_newsletter</argument>
+                </arguments>
+            </block> -->
+            <block class="Magento\Cms\Block\Block" name="footer_desktop_new">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_desktop_new</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="footer_mobile_new" after="footer_desktop_new">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_mobile_new</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        
+        <referenceBlock name="store.menu">
+            <container name="mob.container" htmlTag="div" htmlClass="mob_tabs_links" after="-">
+                <container name="mob.container.account" htmlTag="div" htmlClass="mob_account_links" after="-">
+                    <container name="mob.container.account.ul" htmlTag="ul" htmlClass="mob_account_links_ul">
+                        <block class="Magento\Framework\View\Element\Template" name="authentication-links-mob" template="Magento_Theme::custom-header-mob.phtml">
+                            <arguments>
+                                <argument name="view_model" xsi:type="object">Elsnertech\CatalogList\ViewModel\CustomerSupport</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                    <block class="Magento\Cms\Block\Block" name="social_header" after="authentication-links-mob">
+                        <arguments>
+                        <argument name="block_id" xsi:type="string">social_icons</argument>
+                        </arguments>
+                    </block>
+                </container>
+
+                <container name="mob.container.other" htmlTag="div" htmlClass="mob_currency_cms" after="mob.container.account">
+                    <block class="Magento\Cms\Block\Block" name="cms_block_in_header" >
+                        <arguments>
+                        <argument name="block_id" xsi:type="string">header_cms_links</argument>
+                        </arguments>
+                    </block>
+
+                    <!--<block class="Magento\Directory\Block\Currency" name="store.settings.currency" template="Magento_Directory::currency.phtml" after="cms_block_in_header">
+                        <arguments>
+                            <argument name="id_modifier" xsi:type="string">nav</argument>
+                        </arguments>
+                    </block>-->
+                    
+                    <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="Magento_Store::switch/languages.phtml" after="store.settings.currency">
+                        <arguments>
+                            <argument name="view_model" xsi:type="object">Magento\Store\ViewModel\SwitcherUrlProvider</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceBlock>
+
+        <!-- remove argento theme login popup -->
+         <referenceBlock name="authentication-popup" remove="true"/>
+    </body>
+</page>

@@ -1,0 +1,132 @@
+/* 
+    Created on : 2016-12-22, 09:53:09
+    Author     : twlodarc
+*/
+.checkorder-form
+{
+    width: 350px;
+    left: -350px;
+    position: fixed;
+    top: 206px;    
+    z-index: 10;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.18);
+    background: #fff;
+    padding: 15px;
+    box-sizing: border-box;    
+    transition-property: left;
+    transition-duration: 0.5s;    
+    
+    &.opened
+    {
+        left: 0px;
+    }
+
+    .block-title 
+    {
+        border-bottom: 1px solid #e8e8e8;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        padding-bottom: 12px;        
+    }
+
+    .checkorder-tab
+    {
+        position: absolute;
+        top: 0px;
+        right: -56px;
+        background: #fff;
+        box-shadow: 3px 1px 8px rgba(0, 0, 0, 0.18);
+        padding: 8px;
+        cursor: pointer;    
+        
+        img
+        {
+            width: 40px;
+        }
+    }
+    
+    .checkorder-results
+    {
+        display: none;
+        
+        .row
+        {
+            width: 100%;
+            padding-bottom: 5px;
+            float: left;
+        }
+        
+        .left,
+        .right
+        {
+            float: left;
+            width: 50%;
+        }
+        
+        .top,
+        .bottom
+        {
+            float: left;
+            width: 100%;
+        }
+        
+        .error
+        {
+            padding-bottom: 20px;            
+        }
+        
+        .bottom
+        {
+            ul
+            {
+                padding-left: 20px;
+            }
+        }
+        
+        button
+        {
+            margin-top: 20px;
+        }
+        
+        ul
+        {
+            padding: 0px;
+            margin: 0px;
+            
+            li
+            {
+                margin: 0px;
+            }
+        }
+    }
+}
+
+@media all and (max-width: 960px) {
+    .checkorder-form
+    {
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        box-shadow: none;
+        height: 52px;
+        overflow: hidden;            
+        border-bottom: 1px solid #cecece;      
+        transition-property: height;
+        transition-duration: 0.5s;         
+        
+        &.opened
+        {
+            height: auto;
+        }
+        
+        .checkorder-tab
+        {
+            right: 15px;
+            box-shadow: none;
+            width: 31px;
+            background: transparent;
+            top: 2px;
+        }
+    }
+}

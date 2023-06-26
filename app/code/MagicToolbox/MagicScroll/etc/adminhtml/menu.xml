@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <update id="MagicToolbox_MagicToolbox::magictoolbox"
+            title="Magic Toolbox"
+            module="MagicToolbox_MagicScroll"
+            sortOrder="75"
+            resource="MagicToolbox_MagicToolbox::magictoolbox"/>
+        <add id="MagicToolbox_MagicScroll::magicscroll_settings_edit"
+            title="Magic Scroll"
+            module="MagicToolbox_MagicScroll"
+            sortOrder="10"
+            parent="MagicToolbox_MagicToolbox::magictoolbox"
+            action="magicscroll/settings/edit"
+            resource="MagicToolbox_MagicScroll::magicscroll_settings_edit"/>
+    </menu>
+</config>

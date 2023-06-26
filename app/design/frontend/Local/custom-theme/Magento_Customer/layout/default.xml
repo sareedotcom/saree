@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    <!--<referenceBlock name="top.links">-->
+    <!--        <block class="Magento\Framework\View\Element\Html\Link" name="register-link-ajax">-->
+    <!--            <arguments>-->
+    <!--                <argument name="label" xsi:type="string" translate="true">Register</argument>-->
+    <!--                <argument name="class" xsi:type="string">registerlink</argument>-->
+    <!--            </arguments>-->
+    <!--        </block>-->
+    <!--</referenceBlock>-->
+
+    
+    <!--<referenceBlock name="top.links">-->
+    <!--    <block class="Magento\Customer\Block\Account\RegisterLink" name="register-ajax"  after="-">-->
+    <!--        <arguments>-->
+    <!--            <argument name="label" xsi:type="string" translate="true">Register</argument>-->
+    <!--            <argument name="class" xsi:type="string">registerlink</argument>	-->
+    <!--        </arguments>-->
+    <!--</block>-->
+    <!--</referenceBlock>-->
+
+    <!--<referenceContainer name="mob.container.account.ul">-->
+    <!--    <block class="Magento\Customer\Block\Account\RegisterLink" name="register-link-ajax"  after="-">-->
+    <!--        <arguments>-->
+    <!--            <argument name="label" xsi:type="string" translate="true">Register</argument>-->
+    <!--            <argument name="class" xsi:type="string">registerlink</argument>	-->
+    <!--        </arguments>-->
+    <!--</block>-->
+    <!--</referenceContainer>-->
+
+    </body>
+</page>

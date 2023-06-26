@@ -1,0 +1,174 @@
+<div id="myModal" class="modal ajax-login-form">
+    <!-- Modal content -->
+    <div class="mobile-modal-content loginwithemail">
+        <div class="closediv"><span class="close">&times;</span></div>
+        <div class="ajax-login-conten">
+            <div id="ajaxlogin-login-window" class="login-window account-login">
+                <div class="loginotpmobileget">
+                    <div class="loginotpmobbtnerror error" style="display:none">
+                        <span class=""><?php echo __("Please Enter Valid Mobile.");?></span>
+                    </div>
+                    <div class="loginsendotperror error" style="display:none">
+                        <span><?php echo __("Mobile Number Doesn't Exist. <a href='javascript:void(0);' class='gotoregister'>Click here to Register</a>");?></span>
+                    </div>
+                    <!-- <div class="updatepasssuccess success" style="display:none">
+                        <span ><?php //echo __("Password has been Updated Successfully.");?></span>
+                    </div> -->
+                    <div class="page-title">
+                        <span><?php
+                        echo __('Login') ?></span>
+                    </div>
+                    <div class="otp-content">
+                        <label for="loginotpmob" class="required"><em>*</em><?php echo __('Mobile Number') ?></label>
+                        <div class="form-gorup">
+                        <select name="countryCode" id="country-code-login">
+                        <option value="+61"><?php echo __('+61') ?></option>
+                        <option value="+43"><?php echo __('+43') ?></option>
+                        <option value="+973"><?php echo __('+973') ?></option>
+                        <option value="+880"><?php echo __('+880') ?></option>
+                        <option value="+32"><?php echo __('+32') ?></option>
+                        <option value="+1"><?php echo __('+1') ?></option>
+                        <option value="+357"><?php echo __('+357') ?></option>
+                        <option value="+420"><?php echo __('+420') ?></option>
+                        <option value="+45"><?php echo __('+45') ?></option>
+                        <option value="+372"><?php echo __('+372') ?></option>
+                        <option value="+358"><?php echo __('+358') ?></option>
+                        <option value="+33"><?php echo __('+33') ?></option>
+                        <option value="+49"><?php echo __('+49') ?></option>
+                        <option value="+30"><?php echo __('+30') ?></option>
+                        <option value="+852"><?php echo __('+852') ?></option>
+                        <option value="+36"><?php echo __('+36') ?></option>
+                        <option value="+91"><?php echo __('+91') ?></option>
+                        <option value="+62"><?php echo __('+62') ?></option>
+                        <option value="+353"><?php echo __('+353') ?></option>
+                        <option value="+39"><?php echo __('+39') ?></option>
+                        <option value="+962"><?php echo __('+962') ?></option>
+                        <option value="+965"><?php echo __('+965') ?></option>
+                        <option value="+371"><?php echo __('+371') ?></option>
+                        <option value="+370"><?php echo __('+370') ?></option>
+                        <option value="+352"><?php echo __('+352') ?></option>
+                        <option value="+853"><?php echo __('+853') ?></option>
+                        <option value="+60"><?php echo __('+60') ?></option>
+                        <option value="+960"><?php echo __('+960') ?></option>
+                        <option value="+356"><?php echo __('+356') ?></option>
+                        <option value="+230"><?php echo __('+230') ?></option>
+                        <option value="+377"><?php echo __('+377') ?></option>
+                        <option value="+977"><?php echo __('+977') ?></option>
+                        <option value="+31"><?php echo __('+31') ?></option>
+                        <option value="+64"><?php echo __('+64') ?></option>
+                        <option value="+47"><?php echo __('+47') ?></option>
+                        <option value="+968"><?php echo __('+968') ?></option>
+                        <option value="+48"><?php echo __('+48') ?></option>
+                        <option value="+351"><?php echo __('+351') ?></option>
+                        <option value="+974"><?php echo __('+974') ?></option>
+                        <option value="+40"><?php echo __('+40') ?></option>
+                        <option value="+966"><?php echo __('+966') ?></option>
+                        <option value="+65"><?php echo __('+65') ?></option>
+                        <option value="+421"><?php echo __('+421') ?></option>
+                        <option value="+386"><?php echo __('+386') ?></option>
+                        <option value="+34"><?php echo __('+34') ?></option>
+                        <option value="+46"><?php echo __('+46') ?></option>
+                        <option value="+41"><?php echo __('+41') ?></option>
+                        <option value="+66"><?php echo __('+66') ?></option>
+                        <option value="+971"><?php echo __('+971') ?></option>
+                        <option value="+44"><?php echo __('+44') ?></option>
+                        <option value="+379"><?php echo __('+379') ?></option>
+                     </select>
+                        <input type="text" value="" id="loginotpmob"/>
+                        <input type="hidden" value="<?php echo $this->getUrl("sms/index/ajaxsentotpforlogin"); ?>" class="loginotp-otp-url" />
+                    </div>
+                    </div>
+                    <div class="model-bottom">
+
+                        <div class="submitbtnajax">
+                            <input type="button" class="loginotpmobbtn button  primary action" value="<?php echo __('Send Otp') ?>" />
+
+                        </div>
+                        <div class="progress-indicator">
+                            <span class="please-wait" id="login-sms-please-wait" style="display:none;">
+                                <img src="<?php echo $block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif'); ?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loginotpverify" style="display:none">
+                    <div class="checkloginotperror error" style="display:none">
+                        <span><?php echo __("OTP Not Verified.");?></span>
+                    </div>
+                    <div class="page-title">
+                        <span><?php echo __('OTP Verification') ?></span>
+                    </div>
+                    <div class="otp-content">
+                        <label for="loginotp" class="required"><em>*</em><?php echo __('OTP') ?></label>
+                        <input type="text" value="" id="logintotp" class="border-input"/>
+                        <input type="hidden" value="<?php echo $this->getUrl("sms/index/ajaxverifyOtpForLogin"); ?>" class="loginotp-verify-url" />
+                        <input type="hidden" value="<?php echo $this->getUrl("customer/account/"); ?>" class="customeraccount" />
+
+                    </div>
+                    <div class="model-bottom">
+                        <div class="submitbtnajax">
+                            <input type="button" class="loginverifyotp button  primary action" value="Login" />
+                        </div>
+                        <div class="progress-indicator">
+                            <span class="please-wait" id="login-verify-please-wait" style="display:none;">
+                                <img src="<?php echo $block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif'); ?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="checkbox" name="loginwithemail"> <?= __("Login with Email/Mobile"); ?>
+            </div>
+            <div id="ajaxlogin-login-window" class="login-window account-login ajaxloginphtml no-display">
+                <form action="<?php echo $block->getUrl('sms/index/ajaxlogin') ?>" method="post" id="mobile-login-form" class="scaffold-form">
+                    <?php echo $block->getBlockHtml('formkey'); ?>
+                    <div class="updatepasssuccess success" style="display:none">
+                        <span ><?php echo __("Password has been Updated Successfully.");?></span>
+                    </div>
+                    <div class="emailpasswrong error" style="display:none">
+                        <span ></span>
+                    </div>
+
+                    <div class="page-title">
+                        <span><?php echo __('Login') ?></span>
+                    </div>
+                    <div class="content">
+                        <ul class="form-list">
+                            <li>
+                                <label for="email" class="required"><em>*</em><?php echo __('Email Address/Mobile Number') ?></label>
+                                <div class="input-box">
+                                    <input type="text" name="login[username]" value="" id="mobile-login-email" class="input-text required-entry border-input" title="<?php echo __('Email Address') ?>" />
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass" class="required"><em>*</em><?php echo __('Password') ?></label>
+                                <div class="input-box">
+                                    <input type="password" name="login[password]" class="input-text required-entry validate-password border-input" id="mobile-login-pass" title="<?php echo __('Password') ?>" />
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="buttons-set">
+                        <div class="forogotlink">
+                            <a class="forgotlinking" href="#"><?php echo __("Forgot Password?");?></a>
+                        </div>
+                        <div class="loginlink">
+                            <button type="submit" class="button primary action" title="<?php echo __('Login') ?>" name="send" id="loginsubmit"><span><span><?php echo __('Login') ?></span></span></button>
+
+                            <div class="progress-indicator">
+                                <span class="please-wait" id="login-please-wait" style="display:none;">
+                                    <img src="<?php echo
+                                    $block->getViewFileUrl('Elsnertech_Sms::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

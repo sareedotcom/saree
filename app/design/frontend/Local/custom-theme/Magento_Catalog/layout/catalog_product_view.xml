@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Size chart Model Block on Product Details Page -->
+        <referenceContainer name="product.info.main">
+    		<block class="Magento\Cms\Block\Block" name="time-to-dispatch" cacheable="true">
+			    <arguments>
+			        <argument name="block_id" xsi:type="string">time-to-dispatch</argument>
+			    </arguments>
+			</block>
+    	</referenceContainer>
+        
+
+        <!-- Video Call button in product detail Page-->
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Catalog\Block\Product\View" name="videocallpopupform" template="Magento_Catalog::form.phtml"/>
+        </referenceContainer>
+        <move element="videocallpopupform" destination="product.info.main" after="product.info"/>
+
+        <!-- Custom Text and add div in product price on product deatil page -->
+        <referenceContainer name="product.info.price">
+            <container name="product.info.customdiv" htmlTag="div" htmlClass="product-info-customdiv">
+                <block class="Magento\Catalog\Pricing\Render" name="product.price.final">
+                    <arguments>
+                        <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                        <argument name="price_type_code" xsi:type="string">final_price</argument>
+                        <argument name="zone" xsi:type="string">item_view</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Template" name="product.custom.text" template="Magento_Catalog::view/customtext.phtml" after="product.price.final"/>
+            </container>
+        </referenceContainer>
+
+        <!-- Move Wishlist button after add to cart button -->
+        <move element="view.addto.wishlist" destination="product.info.addtocart.additional"  after="product.info.addtocart"/>
+        <referenceBlock name="product.info.addtocart">
+            <block class="Magento\Wishlist\Block\Catalog\Product\View\AddTo\Wishlist" name="add-to-wishlist" template="Magento_Wishlist::catalog/product/view/addto/wishlist.phtml"/>
+        </referenceBlock>
+
+        <!-- Call Cms block of Any Question Block on product deatil page -->
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Cms\Block\Block" name="contact.detail.product.page" >
+            <arguments>
+			        <argument name="block_id" xsi:type="string">contact_deatail_product_page</argument>
+			    </arguments>
+			</block>
+        </referenceContainer>
+        <move element="contact.detail.product.page" destination="product.info.custom.related.contact" after="custom.related.product"/>
+
+        <referenceContainer name="product.info.main">
+            <container name="product.info.colorSkuDiv" htmlTag="div" htmlClass="product-info-colorSkuDiv" after="product.info.price">
+                
+            </container>
+        </referenceContainer>
+        <move element="product.info.stock.sku" destination="product.info.colorSkuDiv" after="product.info.options.swatches" />
+        <move element="time-to-dispatch" destination="product.info.colorSkuDiv" after="product.info.stock.sku" />
+
+        <move element="product.info.review" destination="product.info.main" after="product.info.colorSkuDiv" />
+
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceContainer name="product.info.social" remove="true" />
+        
+        <!--Add Upsell Products block-->
+        <referenceBlock name="product.info.upsell" remove="false"/>
+        
+        
+        <!-- <referenceBlock name="tab.product.info.upsell" remove="true"/> -->
+
+    </body>
+</page>

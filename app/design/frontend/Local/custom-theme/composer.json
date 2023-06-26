@@ -1,0 +1,11 @@
+{
+    "name": "local/custom-theme",
+    "type": "magento2-theme",
+    "version": "1.0.0",
+    "require": {
+        "swissup/theme-frontend-argento-home": "*"
+    },
+    "autoload": {
+        "files": [ "registration.php" ]
+    }
+}

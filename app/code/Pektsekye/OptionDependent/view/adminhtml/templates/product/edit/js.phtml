@@ -1,0 +1,28 @@
+<script type="text/javascript">
+//<![CDATA[
+
+var odFieldSet;
+
+var initOptionDependent = function(){
+
+require([
+    "jquery",
+    "jquery/ui"
+],function($) {
+
+  odFieldSet = $('div[data-index="custom_options"]');
+
+  odFieldSet.optionDependent({
+    newOptionText      : "<?php echo __('New Option') ?>",
+    newValueText       : "<?php echo __('New Value') ?>",		
+	  importDependencyUrl: '<?php echo $this->getUrl('optiondependent/product_edit_option/ImportDependency'); ?>',	
+	  
+    config : <?php echo $this->getOptionDependent(); ?>
+  });  
+ 
+
+});
+
+};
+//]]> 
+</script>
