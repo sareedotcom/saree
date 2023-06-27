@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Logicrays\OrderDeliveryEstimation\Block\Catalog\Product\View" name="custom.checkbox" template="Logicrays_OrderDeliveryEstimation::catalog/product/checkbox.phtml" after="product.info.options.wrapper">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Logicrays\OrderDeliveryEstimation\ViewModel\OrderDeliveryEstimation</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <move element="custom.checkbox" destination="product.info.form.options" after="product.info.options.wrapper"/>
+    </body>
+</page>

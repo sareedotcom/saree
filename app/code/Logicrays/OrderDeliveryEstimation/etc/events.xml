@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_product_add_after">
+        <observer name="add_dispatch_date_in_item" instance="Logicrays\OrderDeliveryEstimation\Observer\QuoteAddItemObserver" />
+    </event>
+
+    <event name="sales_order_save_after">
+        <observer name="update_dispatch_date_in_item" instance="Logicrays\OrderDeliveryEstimation\Observer\OrderStatusChangeBefore" />
+    </event>
+</config>

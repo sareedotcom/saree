@@ -1,0 +1,70 @@
+<?php
+$viewModel = $block->getData('view_model');
+$product = $block->getCurrentProduct();
+$helper = $viewModel->getHelperData();
+$moduleEnable = $helper->isEnable();
+?>
+<?php if ($moduleEnable == 1): ?>
+<div id="custom_measurement_message" style="display: none;">Cash on delivery is not available for customized outfits</div>
+<div class="delivery-info">
+    <span>Est Dispatch Date: </span>
+    <strong><label id="delivery-estimation-date"><?= $block->escapeHtml($block->getDeliveryDay()); ?></label></strong>
+</div>
+<div class="shipping-date-info">
+    <label id="shipping-date-msg">*Please note that this is the shipping date and not the delivery date.*</label>
+</div>
+<input type="hidden" id="estd-dispatch-date" name="delivery-estimation-date" value="<?= $block->escapeHtml($block->getDeliveryDay()); ?>">
+<script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+
+            function productDeliveryEstimationDate(){
+                var customurl = "<?= $block->escapeHtml($block->getUrl()).'delivery/estimation/index'?>";
+                var product_id = "<?= /* @noEscape */ $product->getId(); ?>";
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        product_id: product_id,
+                    },
+                success: function (response) {
+                    $('#delivery-estimation-date').text(response.updateEstimationDate);
+                    $('#estd-dispatch-date').val(response.updateEstimationDate);
+                    }
+                });
+                $('#custom_measurement_message').show();
+            }
+
+            $('.checkbox.product-custom-option').on('change', function () {
+                if ($(this).is(':checked')) {
+                    productDeliveryEstimationDate();
+                } else {
+                    if ($('.checkbox.product-custom-option').is(':checked')) {
+                        productDeliveryEstimationDate();
+                    } else {
+                        var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
+                        $('#estd-dispatch-date').val(deliveryEstimationDate);
+                        $('#delivery-estimation-date').text(deliveryEstimationDate);
+                        $('#custom_measurement_message').hide();
+                    }
+                }
+            });
+            $('.product-custom-option.admin__control-select').click(function() {
+                if ($(this).val()) {
+                    productDeliveryEstimationDate();
+                } else {
+                    if ($('.checkbox.product-custom-option').is(':checked')) {
+                        productDeliveryEstimationDate();
+                    } else {
+                        var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
+                        $('#estd-dispatch-date').val(deliveryEstimationDate);
+                        $('#delivery-estimation-date').text(deliveryEstimationDate);
+                        $('#custom_measurement_message').hide();
+                    }
+                }
+            });
+        });
+    });
+</script>
+<?php endif; ?>

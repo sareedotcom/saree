@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="order_items">
+            <arguments>
+                <argument name="columns" xsi:type="array">
+                    <item name="delivery-estimation-date" xsi:type="string" translate="true">Estd. Dispatch Date</item>
+                </argument>
+            </arguments>
+            <referenceBlock name="default_order_items_renderer">
+                <arguments>
+                    <argument name="columns" xsi:type="array">
+                        <item name="delivery-estimation-date" xsi:type="string" translate="true">col-delivery-estimation-date</item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+
+            <block class="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn"
+                   name="column_delivery-estimation-date"
+                   template="Logicrays_OrderDeliveryEstimation::items/column/deliveryEstimationDate.phtml" group="column" />
+        </referenceBlock>
+    </body>
+</page>
