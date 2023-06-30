@@ -52,10 +52,16 @@ class Index extends Action
     public function execute()
     {
         $currentProductId = $this->context->getRequest()->getParam('product_id');
+        $option = $this->context->getRequest()->getParam('option');
         $currentProduct = $this->productRepository->getById($currentProductId);
 
-        $extraWorkingDays = 3;
-        $updCateEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct, $extraWorkingDays);
+        if ($option == 'option') {
+            $extraWorkingDays = 0;
+            $updCateEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct, $extraWorkingDays);
+        } else {
+            $extraWorkingDays = 3;
+            $updCateEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct, $extraWorkingDays);
+        }
 
         $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $resultJson->setData(["updateEstimationDate" => $updCateEstimationDate, "suceess" => true]);

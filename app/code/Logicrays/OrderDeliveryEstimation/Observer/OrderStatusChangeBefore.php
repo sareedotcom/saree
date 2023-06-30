@@ -45,8 +45,22 @@ class OrderStatusChangeBefore implements ObserverInterface
                     $product = $this->productRepository->getById($item->getProductId());
                     $options = $item->getProductOptions();
                     if (isset($options['options'])) {
-                        $extraWorkingDays = 3;
-                        $dispatchDate = $this->helper->getDeliveryEstimationDate($product, $extraWorkingDays);
+                        $optionData = $options['options'];
+                        foreach ($optionData as $value) {
+                            $optionType = $value['option_type'];
+                            if ($optionType == 'drop_down') {
+                                $optionValue = $value['value'];
+                                if (str_contains($optionValue, 'Days')) {
+                                    $extraWorkingDays = 0;
+                                    $dispatchDate = $this->helper->getOptionDeliveryDay($product, $extraWorkingDays);
+                                } else {
+                                    $extraWorkingDays = 3;
+                                    $dispatchDate = $this->helper->getDeliveryEstimationDate($product, $extraWorkingDays);
+                                }
+                            } else {
+                                $dispatchDate = $this->helper->getDeliveryEstimationDate($product);
+                            }
+                        }
                     } else {
                         $dispatchDate = $this->helper->getDeliveryEstimationDate($product);
                     }

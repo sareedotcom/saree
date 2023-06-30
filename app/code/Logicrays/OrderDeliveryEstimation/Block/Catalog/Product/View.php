@@ -47,4 +47,16 @@ class View extends AbstractProduct
         $deliveryEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct);
         return $deliveryEstimationDate;
     }
+
+    /**
+     * Get order option delivery estimation date
+     *
+     * @return string
+     */
+    public function getOptionDeliveryDay()
+    {
+        $currentProduct = $this->registry->registry('current_product');
+        $optionDeliveryEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct);
+        return $optionDeliveryEstimationDate;
+    }
 }

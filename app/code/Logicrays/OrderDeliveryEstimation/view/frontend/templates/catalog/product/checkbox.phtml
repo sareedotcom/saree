@@ -10,6 +10,7 @@ $moduleEnable = $helper->isEnable();
     <span>Est Dispatch Date: </span>
     <strong><label id="delivery-estimation-date"><?= $block->escapeHtml($block->getDeliveryDay()); ?></label></strong>
 </div>
+
 <div class="shipping-date-info">
     <label id="shipping-date-msg">*Please note that this is the shipping date and not the delivery date.*</label>
 </div>
@@ -17,16 +18,25 @@ $moduleEnable = $helper->isEnable();
 <script>
     require(['jquery'], function ($) {
         $(document).ready(function () {
-
-            function productDeliveryEstimationDate(){
+            var option;
+            function productDeliveryEstimationDate() {
                 var customurl = "<?= $block->escapeHtml($block->getUrl()).'delivery/estimation/index'?>";
                 var product_id = "<?= /* @noEscape */ $product->getId(); ?>";
+
+                var selectedOption = $('.product-custom-option.admin__control-select').find(":selected").text();
+                if (selectedOption.indexOf('Days') > -1) {
+                    option = 'option';
+                } else {
+                    option = '';
+                }
+
                 $.ajax({
                     url: customurl,
                     type: 'POST',
                     dataType: 'json',
                     data: {
                         product_id: product_id,
+                        option: option
                     },
                 success: function (response) {
                     $('#delivery-estimation-date').text(response.updateEstimationDate);
@@ -36,26 +46,12 @@ $moduleEnable = $helper->isEnable();
                 $('#custom_measurement_message').show();
             }
 
-            $('.checkbox.product-custom-option').on('change', function () {
-                if ($(this).is(':checked')) {
-                    productDeliveryEstimationDate();
-                } else {
-                    if ($('.checkbox.product-custom-option').is(':checked')) {
-                        productDeliveryEstimationDate();
-                    } else {
-                        var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
-                        $('#estd-dispatch-date').val(deliveryEstimationDate);
-                        $('#delivery-estimation-date').text(deliveryEstimationDate);
-                        $('#custom_measurement_message').hide();
-                    }
-                }
-            });
-            $('.product-custom-option.admin__control-select').click(function() {
+            $('.product-custom-option.admin__control-select').on('change', function() {
                 if ($(this).val()) {
                     productDeliveryEstimationDate();
                 } else {
                     if ($('.checkbox.product-custom-option').is(':checked')) {
-                        productDeliveryEstimationDate();
+                        $('#custom_measurement_message').show();
                     } else {
                         var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
                         $('#estd-dispatch-date').val(deliveryEstimationDate);
