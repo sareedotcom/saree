@@ -59,7 +59,7 @@ class Index extends Action
             $extraWorkingDays = 0;
             $updCateEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct, $extraWorkingDays);
         } else {
-            $extraWorkingDays = 3;
+            $extraWorkingDays = 0;
             $updCateEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct, $extraWorkingDays);
         }
 

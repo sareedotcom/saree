@@ -24,7 +24,7 @@ $moduleEnable = $helper->isEnable();
                 var product_id = "<?= /* @noEscape */ $product->getId(); ?>";
 
                 var selectedOption = $('.product-custom-option.admin__control-select').find(":selected").text();
-                if (selectedOption.indexOf('Days') > -1) {
+                if ((selectedOption.indexOf('Days') > -1) || (selectedOption.indexOf('days') > -1) ) {
                     option = 'option';
                 } else {
                     option = '';
@@ -43,7 +43,7 @@ $moduleEnable = $helper->isEnable();
                     $('#estd-dispatch-date').val(response.updateEstimationDate);
                     }
                 });
-                $('#custom_measurement_message').show();
+                // $('#custom_measurement_message').show();
             }
 
             $('.product-custom-option.admin__control-select').on('change', function() {

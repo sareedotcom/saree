@@ -50,11 +50,11 @@ class OrderStatusChangeBefore implements ObserverInterface
                             $optionType = $value['option_type'];
                             if ($optionType == 'drop_down') {
                                 $optionValue = $value['value'];
-                                if (str_contains($optionValue, 'Days')) {
+                                if (str_contains($optionValue, 'Days') || str_contains($optionValue, 'days')) {
                                     $extraWorkingDays = 0;
                                     $dispatchDate = $this->helper->getOptionDeliveryDay($product, $extraWorkingDays);
                                 } else {
-                                    $extraWorkingDays = 3;
+                                    $extraWorkingDays = 0;
                                     $dispatchDate = $this->helper->getDeliveryEstimationDate($product, $extraWorkingDays);
                                 }
                             } else {

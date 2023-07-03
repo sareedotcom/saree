@@ -164,7 +164,7 @@ class Data extends AbstractHelper
         }
         foreach ($optionData as $value) {
             $optionTitle = $value['title'];
-            if (str_contains($optionTitle, 'Days')) {
+            if (str_contains($optionTitle, 'Days') || str_contains($optionTitle, 'days')) {
                 if (str_contains($optionTitle, 'To')) {
                     $optionDays = explode('To', $optionTitle);
                 } else {
