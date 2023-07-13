@@ -63,10 +63,12 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
         $config = parent::_getAdditionalConfig();
         $data = $this->helper->getRegistry()->registry('magictoolbox');
         $standaloneMode = $data && isset($data['standalone-mode']) && $data['standalone-mode'];
+        $magentoVersion = $this->helper->getMagicToolboxHelper()->getMagentoVersion();
         $config['magictoolbox'] = [
             'useOriginalGallery' => $this->helper->useOriginalGallery(),
             'galleryData' => $this->helper->getGalleryData(),
-            'standaloneMode' => $standaloneMode
+            'standaloneMode' => $standaloneMode,
+            'overrideUseAjaxOption' => version_compare($magentoVersion, '2.4.1', '=')
         ];
 
         return $config;

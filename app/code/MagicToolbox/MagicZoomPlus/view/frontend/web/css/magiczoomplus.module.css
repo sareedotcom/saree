@@ -312,7 +312,7 @@ div.MagicToolboxContainer.placeholder img {
 #mtVideoContainer > div {
     position: relative;
     height: 0px;
-    padding-bottom: 177%; /*56.25%*/
+    padding-bottom: 175%;
 }
 #mtVideoContainer > div iframe {
     position: absolute;

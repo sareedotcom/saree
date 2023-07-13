@@ -59,10 +59,12 @@ class Configurable extends \Magento\Swatches\Block\Product\Renderer\Configurable
         $data = $this->helper->getRegistry()->registry('magictoolbox');
         if ($data && $data['current'] != 'product.info.media.image') {
             $standaloneMode = isset($data['standalone-mode']) && $data['standalone-mode'];
+            $magentoVersion = $this->helper->getMagicToolboxHelper()->getMagentoVersion();
             $config['magictoolbox'] = [
                 'useOriginalGallery' => $this->helper->useOriginalGallery(),
                 'galleryData' => $this->helper->getGalleryData(),
-                'standaloneMode' => $standaloneMode
+                'standaloneMode' => $standaloneMode,
+                'overrideUseAjaxOption' => version_compare($magentoVersion, '2.4.1', '=')
             ];
         }
         return $config;

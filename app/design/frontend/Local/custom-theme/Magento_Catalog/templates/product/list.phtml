@@ -80,8 +80,9 @@ $sizes = $helper->getConfigValue('design/breeze/sizes');
 
                         <?php // Product Image In Desktop ?>
                         <div class="mobile-hide">
-                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1"> 
-                            <img  data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $_product['url']; ?>" src="<?php echo $helper->getMediaUrl('catalog/product') . $_product->getData('small_image'); ?>" alt="<?= $_product->getData('name'); ?>" width="500" height="750"/>
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?= $productImage->toHtml() ?>
+                            <!--<img  data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $_product['url']; ?>" src="<?php echo $helper->getMediaUrl('catalog/product') . $_product->getData('small_image'); ?>" alt="<?= $_product->getData('name'); ?>" width="500" height="750"/>-->
 
                                 <?php
                                 
@@ -139,13 +140,15 @@ $sizes = $helper->getConfigValue('design/breeze/sizes');
                                     foreach($images as $child){
                                     
                                     if ($child->getMediaType() == 'image') {
-                                        $productImage = $_imagehelper->init($_product, 'category_page_grid')
+                                        $productImage = $_imagehelper->init($_product, 'product_page_image_medium')
+                                            ->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false)
                                             ->setImageFile($child->getFile())
                                             ->getUrl();
+                                       
                                        $pImage = $block->getImage($_product, $image)
                                 ?>
                                             <div class="slide">
-                                                <img data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $child['url']; ?>" src="<?php echo $child['url']; ?>"/>
+                                                <img data-id="smallthumbs-<?php echo $_product->getId();?>" data-img="<?php echo $child['url']; ?>" src="<?php echo $productImage; ?>"/>
                                             </div>
 
                                 <?php } } ?>

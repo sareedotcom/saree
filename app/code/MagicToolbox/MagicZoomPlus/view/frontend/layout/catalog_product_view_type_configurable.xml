@@ -5,6 +5,5 @@
             <block class="MagicToolbox\MagicZoomPlus\Block\Product\View\Type\Configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="Magento_ConfigurableProduct::product/view/type/options/configurable.phtml"/>
             <block class="MagicToolbox\MagicZoomPlus\Block\Product\Renderer\Configurable" name="product.info.options.swatches" as="swatch_options" before="-" />
         </referenceBlock>
-        <!-- <move element="product.info.options.swatches" destination="product.info.main" before ="product.info.stock.sku"/> -->
     </body>
 </page>

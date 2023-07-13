@@ -396,8 +396,10 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
 
             //NOTE: cooperative mode
             if (isset($data['magic360-html'])) {
-                $defaultContainerId = 'mt360Container';
-                $containersData['mtVideoContainer'] = '';
+                if ($data['magic360-position'] == 0 || empty($selectorsArray)) {
+                    $defaultContainerId = 'mt360Container';
+                    $containersData['mtVideoContainer'] = '';
+                }
                 $containersData['mt360Container'] = $data['magic360-html'];
                 if (isset($data['magic360-icon'])) {
                     $data['magic360-icon'] =
@@ -409,8 +411,11 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
                         [$data['magic360-icon']],
                         array_slice($selectorsArray, $data['magic360-position'])
                     );
-
-                    $baseIndex = $data['magic360-position'];
+                    if ($defaultContainerId == 'mt360Container') {
+                        $baseIndex = 0;
+                    } elseif ($baseIndex >= $data['magic360-position']) {
+                        $baseIndex++;
+                    }
                 }
             }
 

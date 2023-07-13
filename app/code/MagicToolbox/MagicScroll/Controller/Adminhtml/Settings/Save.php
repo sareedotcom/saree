@@ -17,14 +17,16 @@ class Save extends \MagicToolbox\MagicScroll\Controller\Adminhtml\Settings
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \MagicToolbox\MagicScroll\Helper\DataFactory $dataHelperFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \MagicToolbox\MagicScroll\Helper\DataFactory $dataHelperFactory,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
-        parent::__construct($context, $resultPageFactory);
+        parent::__construct($context, $resultPageFactory, $dataHelperFactory);
         $this->cacheTypeList = $cacheTypeList;
     }
 

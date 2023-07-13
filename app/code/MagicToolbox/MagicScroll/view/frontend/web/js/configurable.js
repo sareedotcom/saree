@@ -324,6 +324,14 @@ define([
             widget = $.mage.configurable;
         }
 
+        /* NOTE: some modules use 'wrapper.wrap' when mixing
+                 by returning a wrapper instead of the widget
+                 this is wrong way and can lead to errors
+                 especially when other modules try to mix the widget */
+        if (typeof(widget.prototype.options) == 'undefined') {
+            widget = $.mage.configurable;
+        }
+
         widgetNameSpace = widget.prototype.namespace || 'mage';
         widgetName = widget.prototype.widgetName || 'configurable';
 

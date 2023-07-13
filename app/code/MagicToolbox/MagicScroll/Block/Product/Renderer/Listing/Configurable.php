@@ -69,10 +69,12 @@ class Configurable extends \Magento\Swatches\Block\Product\Renderer\Listing\Conf
         $config = parent::_getAdditionalConfig();
         $data = $this->helper->getRegistry()->registry('magictoolbox_category');
         if ($data && $data['current-renderer'] == 'configurable.magicscroll') {
+            $magentoVersion = $this->helper->getMagicToolboxHelper()->getMagentoVersion();
             $config['magictoolbox'] = [
                 'useOriginalGallery' => $this->helper->useOriginalGallery(),
                 'galleryData' => $this->helper->getGalleryData(),
-                'standaloneMode' => false
+                'standaloneMode' => false,
+                'overrideUseAjaxOption' => version_compare($magentoVersion, '2.4.1', '=')
             ];
         }
         return $config;
