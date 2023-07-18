@@ -1,0 +1,28 @@
+{
+  "name": "logicrays/review-image",
+  "description": "Magento 2 extension by Logicrays that allows user to include images while submitting product reviews.",
+  "require": {
+    "php": "~5.6.5|7.0.2|7.0.4|~7.0.6|~7.1.0",
+    "magento/module-review" : ">100.1.2"
+  },
+  "type":"magento2-module",
+  "version": "1.0.0",
+  "license":[
+    "proprietary"
+  ],
+  "authors":[
+    {
+      "name" : "Naman",
+      "email" : "naman@logicrays.com",
+      "role" : "Developer"
+    }
+  ],
+  "autoload":{
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Logicrays\\ReviewImage\\" : ""
+    }
+  }
+}

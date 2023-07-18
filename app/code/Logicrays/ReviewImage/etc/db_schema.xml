@@ -1,0 +1,13 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table comment="Review Image Table" engine="innodb" name="logicrays_reviewimage" resource="default">
+        <column comment="Primary Id" identity="true" name="primary_id" nullable="false" padding="6" unsigned="false" xsi:type="bigint"/>
+        <column xsi:type="bigint" name="review_id" unsigned="true" nullable="false" identity="false" comment="Review ID"/>
+        <column length="255" comment="Media URL" name="media_url" nullable="true" xsi:type="varchar"/>
+
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="primary_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="LOGICRAYS_REVIEWIMAGE_REVIEW_ID_REVIEW_REVIEW_ID" table="logicrays_reviewimage" column="review_id" referenceTable="review" referenceColumn="review_id" onDelete="CASCADE"/>
+    </table>
+</schema>

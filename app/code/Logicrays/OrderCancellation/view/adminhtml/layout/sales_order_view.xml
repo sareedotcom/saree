@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="order_items">
+            <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty"
+                   name="column_qty"
+                   template="Logicrays_OrderCancellation::qty.phtml" group="column" />
+        </referenceBlock>
+    </body>
+</page>

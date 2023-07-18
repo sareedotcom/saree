@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Logicrays\VendorManagement\Block\Adminhtml\Manage\Edit" name="vendor_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Logicrays\VendorManagement\Block\Adminhtml\Manage\Edit\Tabs" name="vendor_edit_tabs">
+                <block class="Logicrays\VendorManagement\Block\Adminhtml\Manage\Edit\Tab\Vendor" name="vendor_edit_tab_main"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">vendor_edit_tab_main</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">attachment_products</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Vendor Products</item>
+                        <item name="title" xsi:type="string">Vendor Products</item>
+                        <item name="url" xsi:type="helper" helper="Logicrays\VendorManagement\Helper\Products::getProductsGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

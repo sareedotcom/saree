@@ -1,0 +1,175 @@
+<script>
+  require(['jquery', 'ordercancel'], function($, ordercancel) {
+      ordercancel();
+  });
+</script>
+<body>
+<div class="order-cancel-wrapper">
+  <div class="order-container">
+    <div class="order-head">
+    <div class="cancel-order-title">
+      <h3>
+        Order # <?= $block->getOrder(); ?>
+      </h3>
+    </div>
+    <div class="previous">
+      <a href="<?= $block->getUrl('sales/order/view/order_id/'.$block->getOrderNumber()); ?>">Back To Previous Page</a>
+    </div>
+  </div>
+    <div class="order-cancel-table">
+    <div class="table">
+      <form class="tr" method="post" id="myform" action="<?= $block->getUrl('cancelorder/index/cancelorderprocess') ?>">
+        <div class="select_cancellation_option">
+          <label><b>Please Select Cancallation Option :</b></label>
+          <select name="order_cancellation_option" id="order_cancellation_option" required>
+            <option value="">Please Select...</option>
+            <option value="cancel_entire_order">Cancel Entire Order</option>
+            <option value="specific_item">Selected Items Only</option>
+          </select>
+        </div>
+        <div class="items data-order-cancel">
+          <h5><strong>Items Ordered</strong></h5>
+          <div class="order-cancel-data-table">
+            <table class="data table table-order-items">
+              <tr>
+                <th>Product Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th class="select_item">#</th>
+                <th></th>
+                <th class="select_item">Cancellation Reason</th>
+              </tr>
+              <?php
+                $reasons = $block->getReasons();
+              foreach ($block->getOrderItem() as $item) {
+                  if ($item['cancel_request'] == 0.0000) {
+                      $class = 'selectable';
+                  } else {
+                      $class = 'unselectable';
+                  }
+                  $o_date = $block->getOrderCreateDate();
+                  $o_time = substr($o_date, strpos($o_date, " ") + 1);
+                  $order_time_hours = strtok($o_time, ':');
+                  $order_date = strtok($o_date, ' ');
+                    ?>
+              <span class="td"><input type="hidden" name="order_id" value=<?= $block->getOrderNumber(); ?>></span>
+              <span class="td"><input type="hidden" name="item_id" value=<?= $item->getItemId(); ?>></span>
+              <span class="td"><input type="hidden" name="order_date" id= "order_date" value=<?= $order_date; ?>></span>
+              <span class="td"><input type="hidden" name="order_time" id= "order_time" value=<?= $order_time_hours; ?>></span>
+                <tr class='<?= $class; ?>' id='tbl_row'>
+                  <td class="col name">
+                  <?= $item->getName(); ?>
+                  </td>
+                  <td class="col sku">
+                  <?= $item->getSku(); ?>
+                  </td>
+                  <td class="col price">
+                  <?= $block->getPriceFormat($item->getPrice()); ?>
+                  </td>
+                  <td class='select_item'  id="<?= $class; ?>">
+                    <input type="checkbox" id="<?= $item->getItemId(); ?>" name="selected_item[]" value="<?= $item->getItemId(); ?>" >
+                  </td>
+                  <td></td>
+                  <td class='select_item'  id="<?= $class; ?>">
+                    <select name=<?= "item_cancellation_reason_".$item->getItemId()?> id="item_cancellation_reason" class="item_cancellation_reason" disabled>
+                    <?php foreach ($reasons as $option) {?>
+                        <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </td>
+                </tr>
+                  <?php
+              }
+                ?>
+            </table>
+          </div>
+        </div>
+        <div class="order-cancel-input">
+          <div class="select_cancellation_reason" style="display:none;">
+            <label><b>Please Select Reason :</b></label>
+            <select name="order_cancellation_reason" id="order_cancellation_reason">
+              <?php foreach ($reasons as $option) {?>
+                <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="order-cacel-textarea">
+            <div class="cancellation_note">
+              <label><b>Enter Cancellation Note Here :</b></label>
+              <textarea id="order_cancellation_note" name="order_cancellation_note" rows="3" cols="30" placeholder="Enter Cancellation Note Here :"></textarea>
+            </div>
+            <input type="submit" id="submit" name="submit" value="submit" />
+        </div>
+      </form>
+      <?php
+        $shippingAddress = $block->getCustomerShippingAdd();
+        $billingAddress = $block->getCustomerBillingAdd();
+        $orderData = $block->getOrderInfo();
+        $payment = $orderData->getPayment();
+        $method = $payment->getMethodInstance();
+        $methodTitle = $method->getTitle();
+        $shippingMethod = $orderData->getShippingDescription();
+        $countryName = $block->getCountryName($billingAddress->getCountryId());
+        ?>
+  <div class="block block-order-details-view">
+    <div class="block-title">
+        <strong>Order Information</strong>
+    </div>
+    <div class="block-content">
+        <div class="box box-order-shipping-address">
+            <strong class="box-title"><span>Shipping Address</span></strong>
+            <div class="box-content">
+                <address>
+                  <?= $shippingAddress->getFirstname() .' '. $shippingAddress->getLastname();?><br>
+                  <?= $billingAddress['street']; ?><br>
+                  <?= $shippingAddress->getCity().','; ?>
+                  <?= $shippingAddress->getRegion().','; ?><br>
+                  <?= $countryName.','; ?>
+                  <?= $shippingAddress->getPostcode(); ?><br>
+                  <?= 'T: '.$shippingAddress->getTelephone(); ?><br>
+                </address>
+            </div>
+        </div>
+
+        <div class="box box-order-shipping-method">
+            <strong class="box-title">
+                <span>Shipping Method</span>
+            </strong>
+            <div class="box-content">
+              <?= $shippingMethod; ?>
+            </div>
+        </div>
+
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span>Billing Address</span>
+            </strong>
+            <div class="box-content">
+                <address>
+                  <?= $billingAddress->getFirstname() .' '. $billingAddress->getLastname();?><br>
+                  <?= $billingAddress['street']; ?><br>
+                  <?= $billingAddress->getCity().','; ?>
+                  <?= $billingAddress->getRegion().','; ?><br>
+                  <?= $countryName.','; ?>
+                  <?= $billingAddress->getPostcode(); ?><br>
+                  <?= 'T: '.$billingAddress->getTelephone(); ?><br>
+                </address>
+            </div>
+        </div>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span>Payment Method</span>
+            </strong>
+            <div class="box-content">
+                <dl class="payment-method checkmemo">
+                    <dt class="title"><?= $methodTitle; ?></dt>
+                </dl>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</body>

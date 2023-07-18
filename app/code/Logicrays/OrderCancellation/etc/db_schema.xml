@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Order">
+        <column xsi:type="varchar" name="order_cancellation_reason" nullable="true" length="100" comment="Order Cancellation Reason"/>
+        <column xsi:type="varchar" name="order_cancellation_note" nullable="true" length="250" comment="Order Cancellation Note"/>
+    </table>
+    <table name="sales_order_item" resource="sales" engine="innodb" comment="Sales Order Item">
+        <column xsi:type="varchar" name="order_cancellation_reason" nullable="true" length="100" comment="Order Cancellation Reason"/>
+        <column xsi:type="varchar" name="order_cancellation_note" nullable="true" length="250" comment="Order Cancellation Note"/>
+        <column xsi:type="decimal" name="cancel_request" nullable="true" scale="4" precision="12" comment="Cancel Request"/>
+    </table>
+</schema>

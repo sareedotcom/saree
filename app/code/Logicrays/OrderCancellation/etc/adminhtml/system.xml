@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="vendor" translate="label" sortOrder="10">
+            <label>Logicrays</label>
+        </tab>
+        <section id="order" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Order Cancellation</label>
+            <tab>vendor</tab>
+            <resource>Logicrays_OrderCancellation::logicrays_config</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>General Setting</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="25" showInDefault="1"  showInWebsite="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="cancellation" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Order Cancellation Email Setting</label>
+                <field id="email_template" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="sender_name" translate="label" type="text" sortOrder="30" showInDefault="1" showInStore="1">
+                   <label>Sender Name</label>
+                </field>
+                <field id="sender_mail_id" translate="label" type="text" sortOrder="31" showInDefault="1" showInStore="1">
+                   <label>Sender Mail Id</label>
+                </field>
+                <field id="receiver_mail_id" translate="label" type="text" sortOrder="31" showInDefault="1" showInStore="1">
+                   <label>Receiver Mail Id</label>
+                   <comment>Here you have to enter the Admin Email Address</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

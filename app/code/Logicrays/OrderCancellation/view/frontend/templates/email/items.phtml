@@ -1,0 +1,69 @@
+<?php
+/** @var $block \Magento\Sales\Block\Order\Email\Items */
+?>
+<?php
+    $_order = $block->getOrder();
+    $viewModel = $block->getData('view_model');
+?>
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <table class="email-items" border='1'>
+        <thead>
+            <tr>
+                <th class="item-info" style="text-align:center;">
+                    <?= $block->escapeHtml(__('Items')) ?>
+                </th>
+                <th class="item-qty" style="text-align:center;">
+                    <?= $block->escapeHtml(__('Qty')) ?>
+                </th>
+                <th class="item-price" style="text-align:center;">
+                    <?= $block->escapeHtml(__('Price')) ?>
+                </th>
+                <th class="reason" style="text-align:center;">
+                    <?= $block->escapeHtml(__('Reason')) ?>
+                </th>
+            </tr>
+        </thead>
+        <?php foreach ($_items as $_item): ?>
+            <?php if (!$_item->getParentItem() && !empty($_item->getCancelRequest())): ?>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?= $_item->getName(); ?>
+                        </td>
+                        <td>
+                            <?= round($_item->getQtyOrdered(), 0); ?>
+                        </td>
+                        <td>
+                            <?= $viewModel->getPriceFormat($_item->getPrice()); ?>
+                        </td>
+                        <td>
+                            <?= ucwords(str_replace('_', ' ', $_item->getOrderCancellationReason())); ?>
+                        </td>
+                    </tr>
+                </tbody>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+    <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)
+            ->isMessagesAllowed('order', $_order, $_order->getStore())
+        && $_order->getGiftMessageId()
+    ): ?>
+        <?php $_giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)
+            ->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?= $block->escapeHtml(__('Gift Message for this Order')) ?></h3>
+                        <strong><?= $block->escapeHtml(__('From:')) ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?= $block->escapeHtml(__('To:')) ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= $block->escapeHtml(__('Message:')) ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,27 @@
+<?php
+/**
+ * @var Logicrays\OrderCancellation\Block\CancelOrder $block
+ **/
+    $orderId = $block->getOrderNumber();
+    $order_status = $block->getOrderStatus();
+?>
+<?php
+  $day = $block->getDateForComplete();
+  $date_diff = 0;
+  $modEnable = $block->modEnable();
+if (!empty($day) && $order_status == 'complete') {
+    $order_date = strtok($day, ' ');
+    $now = time();
+    $updated_order_date = strtotime($order_date);
+    $datediff = $now - $updated_order_date;
+    $date_diff = $datediff / (60 * 60 * 24);
+}
+if ($order_status != 'canceled' && $order_status != 'request_for_cancellation' && $date_diff < 7 && $modEnable == 1) {
+?>
+    <a href = "<?= $block->getUrl('cancelorder/index/index/order_id/'.$orderId); ?>" class="my-order-cancel-btn">
+    <?=  $block->getLinkText();
+?>
+</a>
+<?php
+}
+?>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="order_cancellation_email_template" label="Logicrays Order Request Cancellation" file="ordercancel.html" type="html" module="Logicrays_OrderCancellation" area="frontend"/>
+    <template id="order_item_cancellation_email_template" label="Logicrays Order Item Request Cancellation" file="orderitemcancel.html" type="html" module="Logicrays_OrderCancellation" area="frontend"/>
+</config>

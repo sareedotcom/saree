@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Logicrays_VendorManagement::grid"
+            title="Logicrays"
+            module="Logicrays_VendorManagement"
+            sortOrder="10"
+            resource="Logicrays_VendorManagement::grid"/>
+
+        <add id="Logicrays_VendorManagement::form"
+            title="Vendor Management"
+            module="Logicrays_VendorManagement"
+            sortOrder="20"
+            parent="Logicrays_VendorManagement::grid"
+            action="vendor/manage/index"
+            resource="Logicrays_VendorManagement::form"/>
+    </menu>
+</config>

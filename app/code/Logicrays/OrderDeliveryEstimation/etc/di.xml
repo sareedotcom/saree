@@ -6,6 +6,6 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xs
     </type>
 
     <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
-        <plugin name="quote_to_order_item_conv" type="Logicrays\OrderDeliveryEstimation\Plugin\Quote\ConvertToOrderItem"/>
+        <plugin name="quote_to_order_item_conv" type="Logicrays\OrderDeliveryEstimation\Plugin\Quote\ConvertDateToOrderItem"/>
     </type>
 </config>

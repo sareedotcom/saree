@@ -52,12 +52,12 @@ class Index extends Action
     public function execute()
     {
         $currentProductId = $this->context->getRequest()->getParam('product_id');
-        $option = $this->context->getRequest()->getParam('option');
+        $days = $this->context->getRequest()->getParam('days');
+
         $currentProduct = $this->productRepository->getById($currentProductId);
 
-        if ($option == 'option') {
-            $extraWorkingDays = 0;
-            $updCateEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct, $extraWorkingDays);
+        if ($days) {
+            $updCateEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct, $days);
         } else {
             $extraWorkingDays = 0;
             $updCateEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct, $extraWorkingDays);
