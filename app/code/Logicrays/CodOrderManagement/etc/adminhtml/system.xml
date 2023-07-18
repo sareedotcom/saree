@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="vendor" translate="label" sortOrder="10">
+            <label>Logicrays COD Order Management</label>
+        </tab>
+        <section id="logicrays" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Logicrays Order Otp Verification</label>
+            <tab>vendor</tab>
+            <resource>Logicrays_CodOrderManagement::logicrays_config</resource>
+            <group id="order_otp_verification" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Order OTP Verification Popup Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="twilio_account_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Twilio Account ID</label>
+                    <validate>required-entry</validate>
+                        <depends>
+                            <field id="logicrays/order_otp_verification/enable">1</field>
+                        </depends>
+                    <comment>can be found on twilio account.</comment>
+                </field>
+                <field id="twilio_auth_token" translate="label" type="obscure" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Twilio Auth Token</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="logicrays/order_otp_verification/enable">1</field>
+                    </depends>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment>can be found on twilio account.</comment>
+                </field>
+                <field id="twilio_service_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Twilio Service ID</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="logicrays/order_otp_verification/enable">1</field>
+                    </depends>
+                    <comment>can be found on twilio account.</comment>
+                </field>
+            </group>
+            <group id="email_payment_link" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Payment Link In COD Order Email</label>
+                <depends>
+                    <field id="logicrays/order_otp_verification/enable">1</field>
+                </depends>
+                <field id="payment_link" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Payment Link</label>
+                    <comment>This link will be displayed in order email</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
