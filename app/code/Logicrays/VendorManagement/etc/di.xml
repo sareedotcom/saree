@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Logicrays\VendorManagement\Api\Data\VendorManagementInterface" type="Logicrays\VendorManagement\Model\VendorManagement" />
+    <virtualType name="Logicrays\VendorManagement\Model\ResourceModel\VendorManagement\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">logicrays_vendor</argument>
+            <argument name="resourceModel" xsi:type="string">Logicrays\VendorManagement\Model\ResourceModel\VendorManagement</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="vendor_list_data_source" xsi:type="string">Logicrays\VendorManagement\Model\ResourceModel\VendorManagement\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="vendor_quote_to_order_item_conv" type="Logicrays\VendorManagement\Plugin\Quote\ConvertToOrderItem"/>
+    </type>
+</config>

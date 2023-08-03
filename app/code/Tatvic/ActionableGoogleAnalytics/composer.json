@@ -1,0 +1,30 @@
+{
+    "name": "tatvic/actionablegoogleanalytics",
+    "type": "magento2-module",
+    "description": "Tatvic Actionable Google Analytics Enhanced-Ecommerce Module for Universal Analytics and Google Analytics 4",
+    "require": {
+        "magento/framework": ">=100.0.0",
+        "php": "~5.5.0|~5.6.0|>=7.0.0"
+    },
+    "version": "2.0.1",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Chetan S. Rode",
+            "email": "chetan@tatvic.com",
+            "homepage": "https://www.tatvic.com",
+            "role": "Magento 2 Developer"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Tatvic\\ActionableGoogleAnalytics\\": ""
+        }
+    }
+}

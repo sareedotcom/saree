@@ -21,7 +21,6 @@ button:hover, .abs-revert-secondary-color:hover, .abs-revert-to-action-secondary
 .rte-topn{text-align: center; padding-bottom: 20px;}.fullwidthdesc{max-width:100%!important;} .fullwidthdesc .rte p { line-height: 26px; margin:20px; font-size: 15px;}.banner-itemn{align-items: center; display: flex; text-align: center;}.flex-row{flex-direction: row;}.flex-reverse-row{flex-direction: row-reverse;}.banner-image{width : 50%;}.banner-image img{width:-webkit-fill-available} .contentdescn{width: 50%; text-align: center;}.h3descn {margin: 15px 0;font-weight: 600; font-size: 20px;}.rte-bottomn{padding-top:20px; text-align:center;}
 .amcform-toolbar{text-align:center; margin-top: 10px;}
 .category-description{display: none;}
-
 @media (max-width: 767px){.flex-row, .flex-reverse-row{flex-direction: column-reverse;} .banner-image, .contentdescn{width : 100%;}}
 
 .products.wrapper~.toolbar .pages {

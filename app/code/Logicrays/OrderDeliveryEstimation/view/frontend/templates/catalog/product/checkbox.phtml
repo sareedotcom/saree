@@ -1,0 +1,73 @@
+<?php
+$viewModel = $block->getData('view_model');
+$product = $block->getCurrentProduct();
+$helper = $viewModel->getHelperData();
+$moduleEnable = $helper->isEnable();
+?>
+<?php if ($moduleEnable == 1): ?>
+<div id="custom_measurement_message" style="display: none;">Cash on delivery is not available for customized outfits</div>
+<div class="delivery-info">
+    <span>Est Dispatch Date: </span>
+    <strong><label id="delivery-estimation-date"><?= $block->escapeHtml($block->getDeliveryDay()); ?></label></strong>
+</div>
+
+<div class="shipping-date-info">
+    <label id="shipping-date-msg">*Please note that this is the shipping date and not the delivery date.*</label>
+</div>
+<input type="hidden" id="estd-dispatch-date" name="delivery-estimation-date" value="<?= $block->escapeHtml($block->getDeliveryDay()); ?>">
+<script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+            var days;
+            function productDeliveryEstimationDate() {
+                var customurl = "<?= $block->escapeHtml($block->getUrl()).'delivery/estimation/index'?>";
+                var product_id = "<?= /* @noEscape */ $product->getId(); ?>";
+
+                var selectedOption = $('.product-custom-option.admin__control-select').find(":selected").text();
+                if ((selectedOption.indexOf('Days') > -1) || (selectedOption.indexOf('days') > -1) ) {
+                    if ((selectedOption.indexOf('To ') > -1)) {
+                        optionValue1 = selectedOption.split('To ')[1];
+                        optionValue2 = optionValue1.substring(0, optionValue1.indexOf(" "));
+                        days = optionValue2;
+                    }
+                    if ((selectedOption.indexOf('to ') > -1)) {
+                        optionValue1 = selectedOption.split('to ')[1];
+                        optionValue2 = optionValue1.substring(0, optionValue1.indexOf(" "));
+                        days = optionValue2;
+                    }
+                } else {
+                    days = '';
+                }
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        product_id: product_id,
+                        days: days,
+                    },
+                success: function (response) {
+                    $('#delivery-estimation-date').text(response.updateEstimationDate);
+                    $('#estd-dispatch-date').val(response.updateEstimationDate);
+                    }
+                });
+            }
+
+            $('.product-custom-option.admin__control-select').on('change', function() {
+                if ($(this).val()) {
+                    productDeliveryEstimationDate();
+                } else {
+                    if ($('.checkbox.product-custom-option').is(':checked')) {
+                        $('#custom_measurement_message').show();
+                    } else {
+                        var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
+                        $('#estd-dispatch-date').val(deliveryEstimationDate);
+                        $('#delivery-estimation-date').text(deliveryEstimationDate);
+                        $('#custom_measurement_message').hide();
+                    }
+                }
+            });
+        });
+    });
+</script>
+<?php endif; ?>

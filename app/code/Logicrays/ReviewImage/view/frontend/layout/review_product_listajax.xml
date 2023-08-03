@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceContainer name="root">
+        <referenceBlock name="product.info.product_additional_data">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Logicrays_ReviewImage::product/view/list.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="viewModel" xsi:type="object">Logicrays\ReviewImage\ViewModel\Review</argument>
+            </arguments>
+        </referenceBlock>
+    </referenceContainer>
+</layout>

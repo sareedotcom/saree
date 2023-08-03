@@ -39,24 +39,24 @@
             
             
             <image id="product_base_image" type="image">
-                <width>800</width>
-                <height>1000</height>
+                <width>300</width>
+                <height>450</height>
             </image>
             <image id="product_page_image_large" type="image">
-                 <width>800</width>
-                <height>1000</height>
+                <width>300</width>
+                <height>450</height>
             </image>
             <image id="product_page_image_medium" type="image">
-                <width>800</width>
-                <height>1000</height>
+                <width>300</width>
+                <height>450</height>
             </image>
             <image id="product_page_main_image" type="image">
-                <width>800</width>
-                <height>1000</height>
+                <width>300</width>
+                <height>450</height>
             </image>
             <image id="product_page_main_image_default" type="image">
-                <width>800</width>
-                <height>1000</height>
+                <width>300</width>
+                <height>450</height>
             </image>
 
         </images>

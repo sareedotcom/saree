@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="logicrays_vendor" resource="default" engine="innodb" comment="Logicrays Vendor">
+        <column xsi:type="int" name="vendor_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Vendor Id"/>
+        <column xsi:type="smallint" name="status" padding="5" nullable="true" default="0" comment="Status"/>
+        <column xsi:type="varchar" name="firstname" nullable="true" length="255" comment="Firstname"/>
+        <column xsi:type="varchar" name="lastname" nullable="true" length="255" comment="Lastname"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" comment="Email"/>
+        <column xsi:type="varchar" name="phone" nullable="true" length="255" comment="Phone"/>
+        <column xsi:type="varchar" name="company" nullable="true" length="255" comment="Company"/>
+        <column xsi:type="varchar" name="street" nullable="true" length="255" comment="Street"/>
+        <column xsi:type="varchar" name="city" nullable="true" length="255" comment="City"/>
+        <column xsi:type="varchar" name="state" nullable="true" length="255" comment="State"/>
+        <column xsi:type="varchar" name="zipcode" nullable="true" length="255" comment="Zipcode"/>
+        <column xsi:type="varchar" name="country" nullable="true" length="255" comment="Country"/>
+        <column xsi:type="varchar" name="bank_name" nullable="true" length="255" comment="Bank Name"/>
+        <column xsi:type="varchar" name="account_no" nullable="true" length="255" comment="Account No"/>
+        <column xsi:type="varchar" name="branch_name" nullable="true" length="255" comment="Branch Name"/>
+        <column xsi:type="varchar" name="ifsc_code" nullable="true" length="255" comment="IFSC Code"/>
+        <column xsi:type="varchar" name="gst_no" nullable="true" length="50" comment="GST No"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="vendor_id"/>
+        </constraint>
+    </table>
+    <table name="logicrays_vendor_products" resource="default" engine="innodb" comment="Logicrays Vendor Products">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false"  identity="true" comment="Id"/>
+        <column xsi:type="int" name="vendor_id" padding="10" unsigned="true" nullable="false" comment="Vendor Id"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" comment="Products Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="logicrays_vendor_products_vendor_id_logicrays_vendor_vendor_id"
+                    table="logicrays_vendor_products" column="vendor_id"
+                    referenceTable="logicrays_vendor" referenceColumn="vendor_id" onDelete="CASCADE"/>
+    </table>
+
+    <table name="quote_item">
+        <column xsi:type="varchar" name="order_item_vendor" nullable="true" length="255" comment="Order Item Vendor"/>
+    </table>
+
+    <table name="sales_order_item">
+        <column xsi:type="varchar" name="order_item_vendor" nullable="true" length="255" comment="Order Item Vendor"/>
+    </table>
+</schema>

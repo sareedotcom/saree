@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Logicrays_VendorManagement::grid" title="Logicrays Menu" sortOrder="10">
+                    <resource id="Logicrays_VendorManagement::form" title="Vendor Management" translate="title" sortOrder="20">
+                        <resource id="Logicrays_VendorManagement::index" title="Vendor List Page" translate="title" sortOrder="30" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

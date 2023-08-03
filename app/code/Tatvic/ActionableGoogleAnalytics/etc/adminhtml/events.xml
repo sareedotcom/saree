@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Tatvic Software.
+*
+* @category  Tatvic
+* @package   Tatvic_ActionableGoogleAnalytics
+* @author    Tatvic
+* @copyright Copyright (c) 2010-2021 Tatvic Software Private Limited (https://tatvic.com)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_tatvic_ee">
+        <observer name="custom_admin_system_config_changed_section_tatvic_ee" instance="Tatvic\ActionableGoogleAnalytics\Observer\SendMail" />
+    </event>
+</config>

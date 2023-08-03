@@ -1,0 +1,37 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+?>
+<?php if (count($block->getMediaCollection())): ?>
+<div class="review-attachments">
+    <div class="review-media-value">
+        <?php
+        foreach ($block->getMediaCollection() as $m) {
+            $path =  $block->getReviewMediaUrl() . $m->getMediaUrl();
+            ?>
+            <div class="image item base-image" data-role="image">
+                <div class="product-image-wrapper">
+                    <img class="product-image" data-role="image-element" src="<?= $path; ?>" alt="Image">
+                    <div class="actions">
+                        <button type="button" class="action-remove" media-id="<?= $m->getPrimaryId(); ?>" data-role="delete-button" title="Delete image">
+                            <span>Delete image</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>
+<?php else: ?>
+    <?= $block->escapeHtml(__("No attachment available.")) ?>
+<?php endif; ?>
+
+<div id="review-image-modal" style="display:none;">
+    <img id="review-image-lg" src=""/>
+</div>
+<script>
+    require(['jquery', 'myscript'], function($, myscript) {
+        myscript();
+    });
+</script>

@@ -1,0 +1,8 @@
+<?php
+$_item = $block->getItem();
+$itemVendor = $_item->getOrderItemVendor();
+$redirectuUrl = "https://www.google.com/";
+?>
+<div class="item-vendor">
+    <a href="<?= /* @noEscape */ $redirectuUrl ?>"><?= /* @noEscape */ $itemVendor;?></a>
+</div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Tatvic Software.
+*
+* @category  Tatvic
+* @package   Tatvic_ActionableGoogleAnalytics
+* @author    Tatvic
+* @copyright Copyright (c) 2010-2021 Tatvic Software Private Limited (https://tatvic.com)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="actionablegoogleanalytics" frontName="actionablegoogleanalytics">
+            <module name="Tatvic_ActionableGoogleAnalytics" before="Magento_Backend" />
+        </route>
+    </router>
+</config>
