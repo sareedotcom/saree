@@ -4,7 +4,7 @@ namespace MagicToolbox\MagicScroll\Block\Adminhtml\Settings\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form\Generic;
 use MagicToolbox\MagicScroll\Helper\Data;
-use MagicToolbox\MagicScroll\Helper\UpgradeData;
+use MagicToolbox\MagicScroll\Helper\UpdateData;
 
 /**
  * Config tab
@@ -20,18 +20,18 @@ class Config extends \Magento\Backend\Block\Widget\Form\Generic
     protected $magicToolboxHelper = null;
 
     /**
-     * Upgrade data helper
+     * Update data helper
      *
-     * @var \MagicToolbox\MagicScroll\Helper\UpgradeData
+     * @var \MagicToolbox\MagicScroll\Helper\UpdateData
      */
-    protected $upgradeDataHelper = null;
+    protected $updateDataHelper = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \MagicToolbox\MagicScroll\Helper\Data $magicToolboxHelper
-     * @param \MagicToolbox\MagicScroll\Helper\UpgradeData $upgradeDataHelper
+     * @param \MagicToolbox\MagicScroll\Helper\UpdateData $updateDataHelper
      * @param array $data
      */
     public function __construct(
@@ -39,11 +39,11 @@ class Config extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \MagicToolbox\MagicScroll\Helper\Data $magicToolboxHelper,
-        \MagicToolbox\MagicScroll\Helper\UpgradeData $upgradeDataHelper,
+        \MagicToolbox\MagicScroll\Helper\UpdateData $updateDataHelper,
         array $data = []
     ) {
         $this->magicToolboxHelper = $magicToolboxHelper;
-        $this->upgradeDataHelper = $upgradeDataHelper;
+        $this->updateDataHelper = $updateDataHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -88,7 +88,7 @@ class Config extends \Magento\Backend\Block\Widget\Form\Generic
 
                 //NOTE: add new options
                 if (!isset($statuses[$profile][$id])) {
-                    $this->upgradeDataHelper->upgrade();
+                    $this->updateDataHelper->upgrade();
                     $statuses = $this->magicToolboxHelper->getStatuses(false, true);
                 }
 

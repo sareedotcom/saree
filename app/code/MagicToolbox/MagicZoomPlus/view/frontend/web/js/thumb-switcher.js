@@ -30,7 +30,7 @@ define([
             showRelated: 0,
             videoAutoRestart: 0,
             prevVideoId: null,
-            froogaloop2Loaded: false
+            vimeoJsLoaded: false
         },
 
         /**
@@ -86,21 +86,26 @@ define([
 
             if (options.needVideoPlayer) {
 
-                //NOTE: load vimeo js framework
+                //NOTE: load Vimeo JS framework
                 if (options.needVimeoJSFramework) {
                     if (typeof(window.$f) == 'undefined') {
+                        /*
                         var firstScriptTag = document.getElementsByTagName('script')[0],
                             newScriptTag = document.createElement('script');
                         newScriptTag.async = true;
                         newScriptTag.src = 'https://f.vimeocdn.com/js/froogaloop2.min.js';
                         newScriptTag.onload = function() {
-                            //NOTE: flag to check if froogaloop2 library is loaded
-                            options.froogaloop2Loaded = true;
+                            //NOTE: flag to check if Vimeo JS is loaded
+                            options.vimeoJsLoaded = true;
                         }
                         firstScriptTag.parentNode.insertBefore(newScriptTag, firstScriptTag);
+                        */
+                        require(['vimeoPlayer'], function (vimeoPlayer) {
+                            options.vimeoJsLoaded = true;
+                        });
                     } else {
-                        //NOTE: froogaloop2 library is already loaded
-                        options.froogaloop2Loaded = true;
+                        //NOTE: Vimeo JS is already loaded
+                        options.vimeoJsLoaded = true;
                     }
                 }
 
@@ -306,9 +311,9 @@ define([
                     'data-width="100%" data-height="100%"></div>'
                 );
                 if (videoType == 'vimeo') {
-                    //NOTE: make sure the froogaloop2 library is loaded
+                    //NOTE: make sure the Vimeo JS is loaded
                     var load = function() {
-                        if (options.froogaloop2Loaded) {
+                        if (options.vimeoJsLoaded) {
                             $(videoContainer).find('.product-video').productVideoLoader();
                         } else {
                             setTimeout(load, 200);

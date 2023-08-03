@@ -11,6 +11,7 @@ define([
                 enabled: false,
                 simpleProductId: null,
                 useOriginalGallery: true,
+                overrideUseAjaxOption: false,
                 standaloneMode: false,
                 currentProductId: null,
                 galleryData: [],
@@ -42,6 +43,9 @@ define([
                 this.options.mtConfig.useOriginalGallery = spConfig.magictoolbox.useOriginalGallery;
                 if (typeof(spConfig.magictoolbox.standaloneMode) != 'undefined') {
                     this.options.mtConfig.standaloneMode = spConfig.magictoolbox.standaloneMode;
+                }
+                if (typeof(spConfig.magictoolbox.overrideUseAjaxOption) != 'undefined') {
+                    this.options.mtConfig.overrideUseAjaxOption = spConfig.magictoolbox.overrideUseAjaxOption;
                 }
                 this.options.mtConfig.galleryData = spConfig.magictoolbox.galleryData;
                 this.options.mtConfig.tools = {
@@ -91,6 +95,28 @@ define([
         /**
          * @private
          */
+        _init: function () {
+            if (this._mtLockedOrLockMethod('_init')) {
+                this._super();
+                return;
+            }
+
+            this._super();
+
+            //NOTE: Magento v2.4.1 has a bug
+            //      it uses a POST request to call the media controller
+            //      but the media controller does not implement HttpPostActionInterface
+            //      this fix to skip AJAX request and 404 (Not Found) error
+            if (this.options.mtConfig && this.options.mtConfig.enabled && this.options.mtConfig.overrideUseAjaxOption) {
+                this.options.useAjax = false;
+            }
+
+            this._mtUnlockMethod('_init');
+        },
+
+        /**
+         * @private
+         */
         _initThumbSwitcherOptions: function () {
             var container = $(this.options.mtConfig.mtContainerSelector);
             if (container.length && container.magicToolboxThumbSwitcher) {
@@ -109,6 +135,11 @@ define([
             if (this._mtLockedOrLockMethod('_loadMedia')) {
                 this._super(eventName);
                 return;
+            }
+
+            //NOTE: init thumb switcher options
+            if (!this.options.mtConfig.useOriginalGallery && !Object.keys(this.options.mtConfig.thumbSwitcherOptions).length) {
+                this._initThumbSwitcherOptions();
             }
 
             var productId = null;
@@ -560,6 +591,14 @@ define([
         var widgetNameSpace, widgetName;
 
         if (typeof(widget) == 'undefined') {
+            widget = $.mage.SwatchRenderer;
+        }
+
+        /* NOTE: some modules use 'wrapper.wrap' when mixing
+                 by returning a wrapper instead of the widget
+                 this is wrong way and can lead to errors
+                 especially when other modules try to mix the widget */
+        if (typeof(widget.prototype.options) == 'undefined') {
             widget = $.mage.SwatchRenderer;
         }
 

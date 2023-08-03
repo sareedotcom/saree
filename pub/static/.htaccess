@@ -105,10 +105,10 @@ AddType application/xml xml
     <FilesMatch \.(css|js|html|json)$>
         ExpiresDefault "access plus 1 year"
     </FilesMatch>
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType text/html "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType application/json "access plus 1 year"
+    ExpiresByType text/css "access plus 1 day"
+    ExpiresByType text/html "access plus 1 day"
+    ExpiresByType application/javascript "access plus 1 day"
+    ExpiresByType application/json "access plus 1 day"
 
     # Favicon, images, flash
     <FilesMatch \.(ico|gif|png|jpg|jpeg|swf|svg)$>

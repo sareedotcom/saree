@@ -2,7 +2,7 @@
     "name": "magictoolbox/magiczoomplus",
     "description": "MagicZoomPlus module for Magento 2",
     "type": "magento2-module",
-    "version": "1.6.11",
+    "version": "1.7.4",
     "license": [
         "OSL-3.0",
         "AFL-3.0"

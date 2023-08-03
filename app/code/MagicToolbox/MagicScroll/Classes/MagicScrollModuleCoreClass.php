@@ -70,7 +70,7 @@ class MagicScrollModuleCoreClass extends \stdClass
         }
         $headers = [];
         // add module version
-        $headers[] = '<!-- Magic Scroll Magento 2 module version v1.6.11 [v1.6.91:v2.0.52] -->';
+        $headers[] = '<!-- Magic Scroll Magento 2 module version v1.7.4 [v1.6.93:v2.0.55] -->';
         $headers[] = '<script type="text/javascript">window["mgctlbx$Pltm"] = "Magento 2";</script>';
         // add tool style link
         $headers[] = '<link type="text/css" href="' . $cssPath . '/magicscroll.css" rel="stylesheet" media="screen" />';
@@ -279,8 +279,8 @@ class MagicScrollModuleCoreClass extends \stdClass
             "thumb-max-width"=>["id"=>"thumb-max-width","group"=>"Positioning and Geometry","order"=>"10","default"=>"550","label"=>"Maximum width of thumbnail (in pixels)","type"=>"num","scope"=>"module"],
             "thumb-max-height"=>["id"=>"thumb-max-height","group"=>"Positioning and Geometry","order"=>"11","default"=>"550","label"=>"Maximum height of thumbnail (in pixels)","type"=>"num","scope"=>"module"],
             "square-images"=>["id"=>"square-images","group"=>"Positioning and Geometry","order"=>"40","default"=>"No","label"=>"Always create square images","description"=>"","type"=>"array","subType"=>"radio","values"=>["Yes","No"],"scope"=>"module"],
-            "width"=>["id"=>"width","group"=>"Scroll","order"=>"10","default"=>"auto","label"=>"Scroll width","description"=>"auto | pixels | percetage","type"=>"text","scope"=>"magicscroll"],
-            "height"=>["id"=>"height","group"=>"Scroll","order"=>"20","default"=>"auto","label"=>"Scroll height","description"=>"auto | pixels | percetage","type"=>"text","scope"=>"magicscroll"],
+            "width"=>["id"=>"width","group"=>"Scroll","order"=>"10","default"=>"auto","label"=>"Scroll width","description"=>"auto | pixels | percentage","type"=>"text","scope"=>"magicscroll"],
+            "height"=>["id"=>"height","group"=>"Scroll","order"=>"20","default"=>"auto","label"=>"Scroll height","description"=>"auto | pixels | percentage","type"=>"text","scope"=>"magicscroll"],
             "orientation"=>["id"=>"orientation","group"=>"Scroll","order"=>"30","default"=>"horizontal","label"=>"Orientation of scroll","type"=>"array","subType"=>"radio","values"=>["horizontal","vertical"],"scope"=>"magicscroll"],
             "mode"=>["id"=>"mode","group"=>"Scroll","order"=>"40","default"=>"scroll","label"=>"Scroll mode","type"=>"array","subType"=>"radio","values"=>["scroll","animation","carousel","cover-flow"],"scope"=>"magicscroll"],
             "items"=>["id"=>"items","group"=>"Scroll","order"=>"50","default"=>"3","label"=>"Items to show","description"=>"auto | fit | integer | array","type"=>"text","scope"=>"magicscroll"],

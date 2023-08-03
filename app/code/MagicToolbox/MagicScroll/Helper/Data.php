@@ -645,7 +645,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $cache = $this->getAppCache();
-        $cacheId = 'magictoolbox_modules_data';
+        $cacheId = 'mt_modules_version_data';
 
         $data = $cache->load($cacheId);
         if (false !== $data) {
@@ -663,6 +663,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             'MagicToolbox_MagicThumb',
             'MagicToolbox_MagicScroll',
             'MagicToolbox_MagicSlideshow',
+            'Sirv_Magento2'
         ];
 
         $enabledModules = $this->objectManager->create(\Magento\Framework\Module\ModuleList::class)->getNames();

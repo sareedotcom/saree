@@ -70,7 +70,7 @@ class MagicScrollModuleCoreClass extends \stdClass
         }
         $headers = [];
         // add module version
-        $headers[] = '<!-- Magic Zoom Plus Magento 2 module version v1.6.11 [v1.6.91:v5.3.7] -->';
+        $headers[] = '<!-- Magic Zoom Plus Magento 2 module version v1.7.4 [v1.6.93:v5.3.7] -->';
         $headers[] = '<script type="text/javascript">window["mgctlbx$Pltm"] = "Magento 2";</script>';
         // add tool style link
         $headers[] = '<link type="text/css" href="' . $cssPath . '/magicscroll.css" rel="stylesheet" media="screen" />';
@@ -317,8 +317,8 @@ class MagicScrollModuleCoreClass extends \stdClass
             "textHoverZoomHintForMobile"=>["id"=>"textHoverZoomHintForMobile","advanced"=>"1","group"=>"Mobile","order"=>"20","default"=>"Touch to zoom","label"=>"Hint to suggest image is zoomable (on hover)","description"=>"Hint that shows when zoom mode is enabled, but inactive, and zoom activates on hover (Zoom on: hover).","type"=>"text","scope"=>"magiczoomplus-mobile"],
             "textClickZoomHintForMobile"=>["id"=>"textClickZoomHintForMobile","advanced"=>"1","group"=>"Mobile","order"=>"21","default"=>"Double tap or pinch to zoom","label"=>"Hint to suggest image is zoomable (on click)","description"=>"Hint that shows when zoom mode is enabled, but inactive, and zoom activates on click (Zoom on: click).","type"=>"text","scope"=>"magiczoomplus-mobile"],
             "textExpandHintForMobile"=>["id"=>"textExpandHintForMobile","advanced"=>"1","group"=>"Mobile","order"=>"30","default"=>"Tap to expand","label"=>"Hint to suggest image is expandable","description"=>"Hint that shows when zoom mode activated, or in inactive state if zoom mode is disabled.","type"=>"text","scope"=>"magiczoomplus-mobile"],
-            "width"=>["id"=>"width","group"=>"Scroll","order"=>"10","default"=>"auto","label"=>"Scroll width","description"=>"auto | pixels | percetage","type"=>"text","scope"=>"magicscroll"],
-            "height"=>["id"=>"height","group"=>"Scroll","order"=>"20","default"=>"auto","label"=>"Scroll height","description"=>"auto | pixels | percetage","type"=>"text","scope"=>"magicscroll"],
+            "width"=>["id"=>"width","group"=>"Scroll","order"=>"10","default"=>"auto","label"=>"Scroll width","description"=>"auto | pixels | percentage","type"=>"text","scope"=>"magicscroll"],
+            "height"=>["id"=>"height","group"=>"Scroll","order"=>"20","default"=>"auto","label"=>"Scroll height","description"=>"auto | pixels | percentage","type"=>"text","scope"=>"magicscroll"],
             "orientation"=>["id"=>"orientation","group"=>"Scroll","order"=>"30","default"=>"horizontal","label"=>"Orientation of scroll","type"=>"array","subType"=>"radio","values"=>["horizontal","vertical"],"scope"=>"magicscroll"],
             "mode"=>["id"=>"mode","group"=>"Scroll","order"=>"40","default"=>"scroll","label"=>"Scroll mode","type"=>"array","subType"=>"radio","values"=>["scroll","animation","carousel","cover-flow"],"scope"=>"magicscroll"],
             "items"=>["id"=>"items","group"=>"Scroll","order"=>"50","default"=>"3","label"=>"Items to show","description"=>"auto | fit | integer | array","type"=>"text","scope"=>"magicscroll"],

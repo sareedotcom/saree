@@ -54,11 +54,13 @@
                         </p>
                     </div>
                     <div class="review-attachments">
-                        <p class="review-attachments-label">Attachments</p>
+                        
                         <div class="review-media-value">
                             <?php
                             $thisReviewMediaCollection = $viewModel->getReviewById($_review->getReviewId());
-                            if (count($thisReviewMediaCollection)) {
+                            if (count($thisReviewMediaCollection)) {?>
+                            <p class="review-attachments-label">Attachments</p>
+                            <?php
                                 foreach ($thisReviewMediaCollection as $m) {
                                     ?>
                                     <div class="image item base-image" data-role="image">
@@ -71,9 +73,10 @@
                                     <?php
                                 }
 
-                            } else {
-                                echo __('No attachment available.');
-                            }
+                            } 
+                            // else {
+                            //     echo __('No attachment available.');
+                            // }
                             ?>
                         </div>
                     </div>

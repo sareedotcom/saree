@@ -20,13 +20,15 @@ button:hover, .abs-revert-secondary-color:hover, .abs-revert-to-action-secondary
 .product-info-main .product-info-price .price-box .price-container [data-price-type=finalPrice] .price, .product-info-main .product-info-price .price-box .price-container [data-price-type=minPrice] .price, .product-info-main .product-info-price .price-box .price-container [data-price-type=maxPrice] .price, .bundle-options-container .block-bundle-summary .price-box [data-price-type=finalPrice] .price{color:#222222;}
 .rte-topn{text-align: center; padding-bottom: 20px;}.fullwidthdesc{max-width:100%!important;} .fullwidthdesc .rte p { line-height: 26px; margin:20px; font-size: 15px;}.banner-itemn{align-items: center; display: flex; text-align: center;}.flex-row{flex-direction: row;}.flex-reverse-row{flex-direction: row-reverse;}.banner-image{width : 50%;}.banner-image img{width:-webkit-fill-available} .contentdescn{width: 50%; text-align: center;}.h3descn {margin: 15px 0;font-weight: 600; font-size: 20px;}.rte-bottomn{padding-top:20px; text-align:center;}
 .amcform-toolbar{text-align:center; margin-top: 10px;}
-
-
+.category-description{display: none;}
 @media (max-width: 767px){.flex-row, .flex-reverse-row{flex-direction: column-reverse;} .banner-image, .contentdescn{width : 100%;}}
 
 .products.wrapper~.toolbar .pages {
     float: none;
     margin-bottom: 20px;
+}
+.block-static-block.widget, .block-cms-link.widget {
+    margin-bottom: 20px!important;
 }
 
 .page-wrapper .page-header .sections.nav-sections .navpro-menu li a{letter-spacing:0.5px}
@@ -34,3 +36,5 @@ button:hover, .abs-revert-secondary-color:hover, .abs-revert-to-action-secondary
 .navpro-menu .tip.top:before{left: 6px;}
 
 @media (min-width: 768px){.opc-wrapper {padding-left: 30px;}.opc-progress-bar {margin: 0 0 20px 30px;}}
+
+.amscroll-backtotop-block{bottom: 100px;}

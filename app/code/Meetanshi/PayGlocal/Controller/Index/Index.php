@@ -97,8 +97,8 @@ class Index extends Action
                     "merchantTxnId" => $quote->getReservedOrderId(),
                     "merchantUniqueId" => $quote->getId() . '_' . $merchantUniqueId,
                     "paymentData" => [
-                        "totalAmount" => round($quote->getBaseGrandTotal(), 2),
-                        "txnCurrency" => $quote->getBaseCurrencyCode(),
+                        "totalAmount" => round($quote->getGrandTotal(), 2),
+                        "txnCurrency" => $quote->getQuoteCurrencyCode(),
                         "billingData" => [
                             "firstName" => $quote->getBillingAddress()->getFirstname(),
                             "lastName" => $quote->getBillingAddress()->getLastname(),

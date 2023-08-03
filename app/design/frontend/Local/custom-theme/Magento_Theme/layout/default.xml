@@ -67,5 +67,12 @@
 
         <!-- remove argento theme login popup -->
          <referenceBlock name="authentication-popup" remove="true"/>
+         <!-- <referenceContainer name="after.body.start">
+            <block class="Magento\Cms\Block\Block" name="header_block" cacheable="false">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">counter</argument>
+                </arguments>
+            </block>
+        </referenceContainer>-->
     </body>
 </page>

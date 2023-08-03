@@ -72,72 +72,74 @@ class Data extends AbstractHelper
         $holidays = explode(',', $holidaysData);
 
         $timetodispatch = $currentProduct->getAttributeText('timetodispatch');
-        $dispatchDate = explode(" ", $timetodispatch);
-        $data = [];
-        foreach ($dispatchDate as $value) {
-            if (is_numeric($value)) {
-                $data[] = $value;
+        if ($timetodispatch) {
+            $dispatchDate = explode(" ", $timetodispatch);
+            $data = [];
+            foreach ($dispatchDate as $value) {
+                if (is_numeric($value)) {
+                    $data[] = $value;
+                }
             }
-        }
-        $currentTime = $this->timezone->date()->format('H:i a');
-        $workingDays = max($data);
-
-        // Get current Date
-        $startDate = "";
-        $currentDate = date("Y-m-d");
-        $startDate = $currentDate;
-
-        /**
-        * If current time hours is greater than or equals to 03:00 PM
-        * It will add 1 day plus
-        */
-        if (date('H') >= 15) {
-            $startDate =  date("Y-m-d", time() + 86400);
-        }
-
-        $startDate =  $this->getStartDate($startDate, $holidays);
-
-        if ($extraWorkingDays) {
-            $workingDays = $workingDays + $extraWorkingDays;
-        }
-        $numberofWorkingDays = $workingDays;
-
-         // Create DateTime object
-         $dateTimeObject = $this->timezone->date(new \DateTime($startDate));
-
-         $startDateTimeStamp = $this->date->gmtTimestamp($dateTimeObject);
-
-        for ($i=1; $i<$numberofWorkingDays; $i++) {
-
+            $currentTime = $this->timezone->date()->format('H:i a');
+            $workingDays = max($data);
+    
+            // Get current Date
+            $startDate = "";
+            $currentDate = date("Y-m-d");
+            $startDate = $currentDate;
+    
             /**
-             * Add 1 day to timestamp
+            * If current time hours is greater than or equals to 03:00 PM
+            * It will add 1 day plus
             */
-            $addDay = 86400;
-
-            /**
-             * Get what day it is next day
-            * w - A numeric representation of the day (0 for Sunday, 6 for Saturday)
-            */
-            $nextDay = date('w', ($startDateTimeStamp+$addDay));
-
-            /**
-             * If it's holidays get $i-1
-            */
-            if (in_array($nextDay, $holidays)) {
-                $i--;
+            if (date('H') >= 15) {
+                $startDate =  date("Y-m-d", time() + 86400);
             }
+    
+            $startDate =  $this->getStartDate($startDate, $holidays);
+    
+            if ($extraWorkingDays) {
+                $workingDays = $workingDays + $extraWorkingDays;
+            }
+            $numberofWorkingDays = $workingDays;
+    
+             // Create DateTime object
+             $dateTimeObject = $this->timezone->date(new \DateTime($startDate));
+    
+             $startDateTimeStamp = $this->date->gmtTimestamp($dateTimeObject);
+    
+            for ($i=1; $i<$numberofWorkingDays; $i++) {
+    
+                /**
+                 * Add 1 day to timestamp
+                */
+                $addDay = 86400;
+    
+                /**
+                 * Get what day it is next day
+                * w - A numeric representation of the day (0 for Sunday, 6 for Saturday)
+                */
+                $nextDay = date('w', ($startDateTimeStamp+$addDay));
+    
+                /**
+                 * If it's holidays get $i-1
+                */
+                if (in_array($nextDay, $holidays)) {
+                    $i--;
+                }
+    
+                // modify timestamp, add 1 day
+                $startDateTimeStamp = $startDateTimeStamp+$addDay;
+            }
+    
+            // Set TimeStamp
+            $setTimeStampToFinalDate = $this->date->timestamp($startDateTimeStamp);
+            // Define final date
+            $finalDeliveryEstimationDate = null;
+            $finalDeliveryEstimationDate = $this->date->date('l, d F Y', $setTimeStampToFinalDate);
 
-            // modify timestamp, add 1 day
-            $startDateTimeStamp = $startDateTimeStamp+$addDay;
+            return $finalDeliveryEstimationDate;
         }
-
-        // Set TimeStamp
-        $setTimeStampToFinalDate = $this->date->timestamp($startDateTimeStamp);
-        // Define final date
-        $finalDeliveryEstimationDate = null;
-        $finalDeliveryEstimationDate = $this->date->date('l, d F Y', $setTimeStampToFinalDate);
-
-        return $finalDeliveryEstimationDate;
     }
 
     /**

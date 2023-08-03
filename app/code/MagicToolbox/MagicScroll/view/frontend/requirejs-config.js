@@ -16,6 +16,8 @@ var config = {
     },
     map: {
         '*': {
+            loadPlayer: 'MagicToolbox_MagicScroll/js/load-player',
+            vimeoPlayer: 'https://player.vimeo.com/api/player.js'
         }
     }
 };

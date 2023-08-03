@@ -16,7 +16,9 @@ var config = {
     },
     map: {
         '*': {
-            magicToolboxThumbSwitcher: 'MagicToolbox_MagicZoomPlus/js/thumb-switcher'
+            magicToolboxThumbSwitcher: 'MagicToolbox_MagicZoomPlus/js/thumb-switcher',
+            loadPlayer: 'MagicToolbox_MagicZoomPlus/js/load-player',
+            vimeoPlayer: 'https://player.vimeo.com/api/player.js'
         }
     }
 };
