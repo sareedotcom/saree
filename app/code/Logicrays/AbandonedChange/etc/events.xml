@@ -3,4 +3,7 @@
     <event name="sales_order_place_after">
         <observer name="set_mobile_number" instance="Logicrays\AbandonedChange\Observer\SetMobilenumber" />
     </event>
+    <event name="customer_address_save_after">
+        <observer name="customer_addres_after_for_set_mobilenumber" instance="Logicrays\AbandonedChange\Observer\AfterAddressSaveObserver" />
+    </event>
 </config>

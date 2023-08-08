@@ -21,12 +21,12 @@ class SetMobilenumber implements \Magento\Framework\Event\ObserverInterface
         if($order->getCustomerId()){
 
             $customerObj = $this->customers->load($order->getCustomerId());
-            // if(!$customerObj->getMobilenumber()){
-            //     $billingAddress = $order->getBillingAddress();
-            //     $customer = $this->customerFactory->create()->load($order->getCustomerId())->getDataModel();
-            //     $customer->setCustomAttribute('mobilenumber', $billingAddress->getTelephone());
-            //     $this->customerRepositoryInterface->save($customer);
-            // }
+            if(!$customerObj->getMobilenumber()){
+                $billingAddress = $order->getBillingAddress();
+                $customer = $this->customerFactory->create()->load($order->getCustomerId())->getDataModel();
+                $customer->setCustomAttribute('mobilenumber', $billingAddress->getTelephone());
+                $this->customerRepositoryInterface->save($customer);
+            }
         }
     }
 }       
