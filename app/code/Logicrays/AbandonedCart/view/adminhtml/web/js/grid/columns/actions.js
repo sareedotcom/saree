@@ -201,7 +201,7 @@
                 return action.target;
             }
 
-            if (jQuery("body").hasClass("sales-order-index")) {
+            if (jQuery("body").hasClass("sales-order-index") || jQuery("body").hasClass('lrdes-order-index')) {
                 return '_blank';
             } else {
                 return '_self';
