@@ -1,0 +1,43 @@
+<?php
+if($block->getPromoMessage()){
+?><div id="modal-content">
+    <div class="discount-section">
+        <div class="discount-popup-inner">
+            <div class="cart-items-count">
+                <span id="items_count"></span>
+            </div>
+            
+            <span>Added to Cart</span><br><br>
+            
+            <span>The Product has been successfully added to cart</span><br><br>
+            
+            <div class="discount-msg"><span class="discount-msg-inner"><?php echo $block->getPromoMessage(); ?></span></div>
+            
+            
+            <a href="" class="continue-shopping">Continue Shopping</span></a>
+            
+            <button class="" type="button" data-role="action"><span>View Bag</span></button>
+        </div>
+    </div>
+</div>
+<?php } ?>
+<button id="promotion-modal-button" data-mage-init='{"promotion-modal": {"target": "#modal-content"}}' style="display:none">
+</button>
+<style type="text/css">
+    .modal-popup .modal-inner-wrap{ width: 30%; }
+</style>
+<script>
+    require([
+        'jquery',
+    ],  
+    function ($) {
+        if(window.checkoutConfig.quoteData.items_count){
+            setTimeout(function(){
+                jQuery('#promotion-modal-button').trigger('click');
+                jQuery('#items_count').text(window.checkoutConfig.quoteData.items_count);
+                jQuery(".continue-shopping").attr("href",window.BASE_URL);
+                jQuery(".modal-footer").empty();
+            }, 2000);
+        }
+    });
+</script>

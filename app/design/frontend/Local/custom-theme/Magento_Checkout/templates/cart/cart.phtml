@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Shopping cart template
+ *
+ * @var $block \Magento\Checkout\Block\Cart
+ */
+
+
+
+if ($block->getItemsCount()) {
+    // phpcs:ignore Magento2.Security.LanguageConstruct.DirectOutput
+
+    $blockObj= $block->getLayout()->createBlock('Logicrays\Customization\Block\Customization'); 
+    $promoMessage = $block->escapeHtml($blockObj->getPromoMessage());
+    if($promoMessage){?>
+        <div class="messages">
+        <div class="message message-error error" style="padding: 16px 12px;margin-top: 12px;font-size: 13px;margin-bottom: 24px;background: #ffe7ef;color:#e83647;text-transform:none;"> <?= $block->escapeHtml($blockObj->getPromoMessage()); ?>
+        </div>
+    </div>
+    <?php }
+    ?>
+    <?php
+    echo $block->getChildHtml('with-items');
+} else {
+    // phpcs:ignore Magento2.Security.LanguageConstruct.DirectOutput
+    echo $block->getChildHtml('no-items');
+}

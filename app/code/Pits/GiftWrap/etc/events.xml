@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_invoice_register">
+        <observer name="pits_giftwrap_sales_order_invoice_register" instance="Pits\GiftWrap\Observer\SalesOrderInvoiceRegister"/>
+    </event>
+    <event name="sales_order_payment_refund">
+        <observer name="pits_giftwrap_sales_order_payment_refund" instance="Pits\GiftWrap\Observer\SalesOrderPaymentRefund"/>
+    </event>
+    <event name="order_cancel_after">
+        <observer name="pits_giftwrap_sales_order_cancel_after" instance="Pits\GiftWrap\Observer\OrderCancelAfter"/>
+    </event>
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="Pits_GiftWrap_sales_model_service_quote_submit_before" instance="Pits\GiftWrap\Observer\SaveOrderBeforeSalesModelQuoteObserver"/>
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="Pits_GiftWrap_checkout_submit_all_after" instance="Pits\GiftWrap\Observer\SaveMultishippingCheckoutAfter"/>
+    </event>
+</config>

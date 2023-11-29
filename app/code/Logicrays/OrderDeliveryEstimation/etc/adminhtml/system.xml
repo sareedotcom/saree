@@ -22,6 +22,13 @@
                     </depends>
                     <source_model>Logicrays\OrderDeliveryEstimation\Model\Config\Source\ConfigOption</source_model>
                 </field>
+                <field id="holidayadate" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <depends>
+                        <field id="orderdelivery/order/enable">1</field>
+                    </depends>
+                    <label>Holiday Date</label>
+                    <comment>Enter multiple date with comma separated, ex(2023/10/31,2023/11/01).</comment>
+                </field>
             </group>
         </section>
     </system>

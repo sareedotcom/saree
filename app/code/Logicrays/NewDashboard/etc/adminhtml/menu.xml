@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+         <add id="Logicrays_NewDashboard::ordergrid"
+            title="Order"
+            module="Logicrays_NewDashboard"
+            sortOrder="20"
+            parent="Magento_Sales::sales"
+            action="lrdes/order/index"
+            resource="Logicrays_NewDashboard::ordergrid"/>
+    </menu>
+</config>

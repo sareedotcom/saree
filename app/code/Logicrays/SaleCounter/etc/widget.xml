@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:helloworld:Magento_Widget:etc/widget.xsd">
+	<widget class="Logicrays\SaleCounter\Block\Widget\SaleCounter" id="sale_counter">
+		<label>Sale Counter</label>
+		<description>Sale Counter</description>
+		<parameters>
+			<parameter name="salecounter" sort_order="10" visible="true" xsi:type="text">
+				<label>Sale Date(Ex. 20-August-2023 15:00:00)</label>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

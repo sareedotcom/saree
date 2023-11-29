@@ -1,0 +1,125 @@
+<div class="block items-in-cart gift-wrap-block" data-bind="visible: (showSummary == 1), mageInit: {'collapsible':{'openedState': '_active'}}">
+    <div class="title" data-role="title">
+        <strong id="block-giftwrap-heading" class="toggle" role="heading" aria-level="2" data-bind="i18n: 'Gift Wrap Available'"></strong>
+    </div>
+    <div data-role="content">
+        <div class="giftwrap-order-block">
+            <!-- ko if: (rendererValueWithIndex(index, 'giftWrapSummary')) -->
+            <div class="giftwrap-applied">
+                <div class="applied-msg-gift">
+                    <label data-bind="i18n: 'Gift Wrapping applied'"></label>
+                </div>
+                <div class="applied-gift-block">
+                    <div><span data-bind="text: giftWrapRendererValueWithIndex(index, 'message')"></span></div>
+                    <div class="giftwrap-remove"
+                         data-bind="event: {click: removeGiftWrap}, attr: {'data-wrap-id': giftWrapRendererValueWithIndex(index, 'id'), 'data-itemid': '', 'data-index': index}, i18n: 'Remove'"></div>
+                    <!-- ko if: (giftWrapRendererValueWithIndex(index, 'message')) -->
+                    <div class="giftwrap-edit" data-bind="event: {click: triggerGiftWrapUpdateWithIndex}, i18n: 'Edit Message'"></div>
+                    <!-- /ko -->
+                    <!-- ko if: (giftWrapRendererValueWithIndex(index, 'message') == '' || !giftWrapRendererValueWithIndex(index, 'message')) -->
+                    <div class="giftwrap-edit" data-bind="event: {click: triggerGiftWrapUpdateWithIndex}, i18n: 'Add Message'"></div>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <!-- /ko -->
+            <div class="gift-wrap" data-bind="visible: rendererValueWithIndex(index, 'displayGiftWrapForm') && canCartWrap">
+                <div class="field-giftwrap">
+                    <input type="checkbox"
+                           class="checkbox"
+                           data-bind="checked: rendererValueWithIndex(index, 'itemGiftWrapSelected'), attr: {id: 'item-', 'data-index': index, 'data-itemid': '' }, event: {change: triggerGiftWrapSelection}">
+                    <label data-bind="attr: {for: 'item-'}">
+                        <span data-bind="text: giftWrapLabelWithPrice"></span>
+                    </label>
+                </div>
+                <div class="gift-message-container" data-bind="visible: rendererValueWithIndex(index, 'showGiftMessageContainer')">
+                    <div class="field-giftmsg">
+                        <input type="checkbox" name="gift-message"
+                               class="checkbox"
+                               data-bind="checked: rendererValueWithIndex(index, 'displayItemGiftMessage'), attr: {id: 'item-message-', 'data-index': index}, event: {change: triggerAddMessageSelection}">
+                        <label data-bind="attr: {for: 'item-message-'}">
+                            <span data-bind="text: addGiftMessageLabel"></span>
+                        </label>
+                    </div>
+                    <div class="field-gifttxt"
+                         data-bind="visible: rendererValueWithIndex(index, 'displayItemGiftMessage') && rendererValueWithIndex(index, 'itemGiftWrapSelected')">
+                    <textarea
+                        data-bind="attr: {placeholder: $t('Your gift message here'), 'data-index': index, 'data-itemid': ''}, value: giftWrapRendererValueWithIndex(index, 'message'), event: {blur: updateItemGiftMessage}"></textarea>
+                    </div>
+                </div>
+                <div class="cart-note" data-bind="text: cartWrapNote"></div>
+            </div>
+        </div>
+        <!-- ko if: (getItemsLength() > 1 && hasTwoMore) -->
+        <div class="content minicart-items" data-role="content">
+            <div class="minicart-items-wrapper overflowed">
+                <ol class="minicart-items" data-bind="foreach: items">
+                    <li class="product-item">
+                        <div class="product">
+                            <span class="product-image-container"
+                                  data-bind="attr: {'style': 'height: ' + $parent.getHeight(item_id)/2 + 'px; width: ' + $parent.getWidth(item_id)/2 + 'px;' }">
+                                <span class="product-image-wrapper">
+                                    <img
+                                        data-bind="attr: {'src': $parent.getSrc(item_id), 'width': $parent.getWidth(item_id), 'height': $parent.getHeight(item_id), 'alt': $parent.getAlt(item_id), 'title': $parent.getAlt(item_id) }"/>
+                                </span>
+                            </span>
+                            <div class="product-item-details">
+                                <div class="product-item-inner">
+                                    <div class="product-item-name-block">
+                                        <strong class="product-item-name" data-bind="html: name"></strong>
+                                    </div>
+                                    <!-- ko if: ($parent.rendererValue(item_id, 'giftWrapSummary')) -->
+                                    <div class="giftwrap-applied">
+                                        <div class="applied-msg-gift">
+                                            <label data-bind="i18n: 'Gift Wrapping applied'"></label>
+                                        </div>
+                                        <div class="applied-gift-block">
+                                            <div><span data-bind="text: $parent.giftWrapRendererValue(item_id, 'message')"></span></div>
+                                            <div class="giftwrap-remove"
+                                                 data-bind="event: {click: $parent.removeGiftWrap}, attr: {'data-wrap-id': $parent.giftWrapRendererValue(item_id, 'id'), 'data-itemid': item_id, 'data-index': $parent.getArrayIndex(item_id)}, i18n: 'Remove'"></div>
+                                            <!-- ko if: ($parent.giftWrapRendererValue(item_id, 'message')) -->
+                                            <div class="giftwrap-edit"
+                                                 data-bind="event: {click: $parent.triggerGiftWrapUpdate }, attr: { 'data-index': $parent.getArrayIndex(item_id)}, i18n: 'Edit Message'"></div>
+                                            <!-- /ko -->
+                                            <!-- ko if: ($parent.giftWrapRendererValue(item_id, 'message') == '' || !$parent.giftWrapRendererValue(item_id, 'message')) -->
+                                            <div class="giftwrap-edit"
+                                                 data-bind="event: {click: $parent.triggerGiftWrapUpdate }, attr: { 'data-index': $parent.getArrayIndex(item_id)}, i18n: 'Add Message'"></div>
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                    <!-- /ko -->
+                                    <div class="gift-wrap" data-bind="visible: $parent.rendererValue(item_id, 'displayGiftWrapForm') && $parent.rendererValue(item_id, 'canWrapItem')">
+                                        <div class="field-giftwrap">
+                                            <input type="checkbox"
+                                                   class="checkbox"
+                                                   data-bind="checked: $parent.rendererValue(item_id, 'itemGiftWrapSelected'), attr: {id: 'item-' + item_id, 'data-index': $parent.getArrayIndex(item_id), 'data-itemid': item_id }, event: {change: $parent.triggerGiftWrapSelection}">
+                                            <label data-bind="attr: {for: 'item-' + item_id}">
+                                                <span data-bind="text: $parent.giftWrapLabelWithPrice"></span>
+                                            </label>
+                                        </div>
+                                        <div class="gift-message-container" data-bind="visible: $parent.rendererValue(item_id, 'showGiftMessageContainer')">
+                                            <div class="field-giftmsg">
+                                                <input type="checkbox" name="gift-message"
+                                                       class="checkbox"
+                                                       data-bind="checked: $parent.rendererValue(item_id, 'displayItemGiftMessage'), attr: {id: 'item-message-' + item_id, 'data-index': $parent.getArrayIndex(item_id)}, event: {change: $parent.triggerAddMessageSelection}">
+                                                <label data-bind="attr: {for: 'item-message-' + item_id}">
+                                                    <span data-bind="text: $parent.addGiftMessageLabel"></span>
+                                                </label>
+                                            </div>
+                                            <div class="field-gifttxt"
+                                                 data-bind="visible: $parent.rendererValue(item_id, 'displayItemGiftMessage') && $parent.rendererValue(item_id, 'itemGiftWrapSelected')">
+                                            <textarea
+                                                data-bind="attr: {placeholder: $t('Your gift message here'), 'data-index': $parent.getArrayIndex(item_id), 'data-itemid': item_id }, value: $parent.giftWrapRendererValue(item_id, 'message'), event: {blur: $parent.updateItemGiftMessage}"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="cart-item-note" data-bind="text: $parent.itemWrapNote"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>

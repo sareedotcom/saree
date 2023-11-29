@@ -1,0 +1,42 @@
+<?php
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+
+use Pits\GiftWrap\Block\Adminhtml\Sales\Order\View\OrderGiftMessage;
+
+/** @var OrderGiftMessage $block */
+
+?>
+<?php if ($block->isGiftWrapOrder()): ?>
+    <section class="admin__page-section order-gift-message">
+        <div class="admin__page-section-title">
+            <strong class="title"><?= __('Gift Wrap Order') ?></strong>
+        </div>
+        <div id="gift-wrap" class="admin__page-section-content giftmessage-whole-order-container">
+            <table>
+                <tr>
+                    <td width="35px"><img src="<?= $block->getGiftWrapImagePath() ?>"></td>
+                    <?php if ($message = $block->getGiftMessageByOrder()): ?>
+                        <td><?= __('Gift Message for the Entire Order: ') ?></td>
+                        <td style="white-space:pre-wrap;"><b><?= $message ?></b></td>
+                    <?php endif; ?>
+                </tr>
+            </table>
+        </div>
+    </section>
+<?php endif; ?>

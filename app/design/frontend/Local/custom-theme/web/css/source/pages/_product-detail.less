@@ -458,7 +458,7 @@
 
             .rating-summary {
                 .rating-result {
-                    filter: brightness(0);
+                    //filter: brightness(0);
                     width: 100px;
 
                     &::before {
@@ -703,6 +703,31 @@
                         top: 12px;
                     }
                 }
+            }
+        }
+    }
+    
+    .product-info-main .product-info-price .product-info-customdiv .price-box {
+        .old-price {
+            display: block;
+            .price {
+                font-size: 20px;
+                font-weight: 300;
+                
+                .symbol {
+                    font-size: 20px;
+                    font-weight: 300;
+                }
+            }
+        }
+        h6 {
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 10px!important;
+            
+            .save-price {
+                display: inline-block;
+                color: #b40506;
             }
         }
     }
@@ -1200,7 +1225,7 @@
     .review-control-vote {
         label {
             &:before {
-                filter: brightness(0);
+                //filter: brightness(0);
             }
         }
     }
@@ -1799,6 +1824,13 @@
         }
     }
 }
+.catalog-product-view {
+    .products-upsell {
+        h6 {
+           display: none !important;
+        }
+    }
+ }  
 // @media (min-width: 768px) {
 // .catalog-product-view .product.media .fotorama__wrap .fotorama__stage.test {
 //     left: 0 !important;

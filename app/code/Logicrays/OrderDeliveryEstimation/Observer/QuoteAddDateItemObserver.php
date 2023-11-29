@@ -66,6 +66,7 @@ class QuoteAddDateItemObserver implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $moduleEnable = $this->helper->isEnable();
+        $optionDay = array();
         if ($moduleEnable == 1) {
             $product = $this->_request->getParam('product');
             if ($product) {
@@ -84,13 +85,16 @@ class QuoteAddDateItemObserver implements ObserverInterface
                                     $optionValue = $value['value'];
                                     if (str_contains($optionValue, 'Days') || str_contains($optionValue, 'days')) {
                                         $optionTitle = $value['value'];
-                                        if (str_contains($optionTitle, 'Days')) {
-                                            if (str_contains($optionTitle, 'To')) {
-                                                $optionDays = explode('To', $optionTitle);
-                                            } else {
-                                                $optionDays = explode('to', $optionTitle);
-                                            }
+                                        if (str_contains($optionTitle, 'To')) {
+                                            $optionDays = explode('To', $optionTitle);
                                             $optionDay = strtok($optionDays[1], " ");
+                                        } elseif (str_contains($optionTitle, 'to')) {
+                                            $optionDays = explode('to', $optionTitle);
+                                            $optionDay = strtok($optionDays[1], " ");
+                                        } else {
+                                            if (preg_match('/\((\d+)\s/', $optionTitle, $matches)) {
+                                                $optionDay = $matches[1];
+                                            }
                                         }
                                         $dispatchDate = $this->helper->getOptionDeliveryDay($product, $optionDay);
                                     } else {
@@ -136,13 +140,16 @@ class QuoteAddDateItemObserver implements ObserverInterface
                                         $optionValue = $value['value'];
                                         if (str_contains($optionValue, 'Days') || str_contains($optionValue, 'days')) {
                                             $optionTitle = $value['value'];
-                                            if (str_contains($optionTitle, 'Days')) {
-                                                if (str_contains($optionTitle, 'To')) {
-                                                    $optionDays = explode('To', $optionTitle);
-                                                } else {
-                                                    $optionDays = explode('to', $optionTitle);
-                                                }
+                                            if (str_contains($optionTitle, 'To')) {
+                                                $optionDays = explode('To', $optionTitle);
                                                 $optionDay = strtok($optionDays[1], " ");
+                                            } elseif (str_contains($optionTitle, 'to')) {
+                                                $optionDays = explode('to', $optionTitle);
+                                                $optionDay = strtok($optionDays[1], " ");
+                                            } else {
+                                                if (preg_match('/\((\d+)\s/', $optionTitle, $matches)) {
+                                                    $optionDay = $matches[1];
+                                                }
                                             }
                                             $dispatchDate = $this->helper->getOptionDeliveryDay($product, $optionDay);
                                         } else {

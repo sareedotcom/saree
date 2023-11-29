@@ -1,0 +1,379 @@
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+
+ .gift-wrap {
+    width: 100%;
+    float: left;
+    margin: 5px 0 0 0;
+}
+
+.field-giftwrap {
+    margin: 0 0 4px 0;
+    width: 100%;
+    display: inline-block;
+}
+
+.field-giftwrap input[type="checkbox"] {
+    margin: 0 3px 0 0;
+    position: relative;
+    top: 1px;
+}
+
+.field-giftwrap label {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    line-height: 17px;
+    font-size: 14px;
+    color: #f93362;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.field-giftmsg {
+    margin: 0 0 4px 0;
+}
+
+.field-giftmsg input[type="checkbox"] {
+    margin: 0 3px 0 0;
+    position: relative;
+    top: 1px;
+}
+
+.field-giftmsg label {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    line-height: 17px;
+    font-size: 14px;
+    color: #f93362;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.field-gifttxt {
+    margin: 5px 0 0 0;
+}
+
+.field-gifttxt textarea {
+    margin: 0;
+    padding: 5px 5px;
+    line-height: 16px;
+    border: 1px solid #e0e0e0;
+    min-height: 53px;
+    font-size: 13px;
+    background: #fff;
+}
+
+.giftwrap-applied {
+    padding: 10px 10px;
+    font-size: 12px;
+    position: relative;
+    border-radius: 4px;
+    line-height: 16px;
+    box-sizing: border-box;
+    background: #eef5f5;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.applied-msg-gift {
+    margin: 0 0 4px 0;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    padding-left: 30px;
+}
+
+.applied-msg-gift:before {
+    content: "";
+    background-image: url(../images/gift-wrap.png);
+    width: 24px;
+    height: 24px;
+    float: left;
+    position: absolute;
+    left: 0;
+}
+
+.applied-msg-gift label {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #f93362;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 27px;
+    float: left;
+}
+
+.applied-gift-block {
+    margin: 0 0 4px 0;
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.applied-gift-block .giftwrap-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.applied-gift-block div {
+    font-size: 12px;
+}
+
+.applied-gift-block .giftwrap-remove {
+    margin-top: 8px;
+    font-weight: 600;
+    color: #f93362;
+    display: inline-block;
+    padding-right: 10px;
+    border-right: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.applied-gift-block .giftwrap-edit {
+    margin-top: 8px;
+    font-weight: 600;
+    color: #f93362;
+    display: inline-block;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.gift-default-wrap {
+    width: 100%;
+    display: inline-block;
+}
+
+.gift-default-wrap.gift-right-block .giftwrap-applied {
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 7px !important;
+}
+
+.gift-default-wrap.gift-right-block .gift-wrap {
+    margin-top: 10px;
+}
+
+.checkout-index-index .gift-wrap {
+    float: none;
+}
+
+.giftwrap-order-block {
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+}
+
+.checkout-index-index .applied-msg-gift {
+    display: block;
+}
+
+.checkout-index-index .giftwrap-applied {
+    background: inherit;
+    padding: 0;
+    margin-top: 0;
+    width: auto;
+}
+.giftwrap-applied-title{
+    font-size: 14px;
+    color: #f93362;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.gift-wrap-block{
+    display: none;
+}
+
+.opc-summary-wrapper .gift-wrap-block{
+    display: block;
+}
+
+@media only screen and (max-width:767px) {
+    .gift-wrap-block{
+        display: block;
+    }
+
+    .gift-wrap-block .title::after {
+        font-size: 12px;
+        line-height: 12px;
+        color: inherit;
+        content: '\e622';
+        font-family: 'luma-icons';
+        margin: 5px 10px 0 0;
+        vertical-align: middle;
+        display: inline-block;
+        font-weight: normal;
+        overflow: hidden;
+        float: right;
+    }
+
+    .block.items-in-cart.gift-wrap-block{
+        border-bottom: 1px solid #ccc;
+    }
+
+    .opc-summary-wrapper .gift-wrap-block{
+        display: none;
+    }
+
+    .gift-wrap-block .minicart-items-wrapper{
+        border: none;
+    }
+
+}
+.account.sales-order-view .table-order-items .giftwrap-applied dt img {
+    position: relative;
+    top: 4px;
+}
+.account.sales-order-view .table-order-items .giftwrap-applied dd {
+    margin-left: 3px;
+}
+.block{
+    word-break: break-all;
+}
+.gift-wrap-msg{
+    white-space: pre-wrap;
+}
+
+/****/
+.checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .giftwrap-applied {
+    box-sizing: border-box;
+}
+.checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-msg-gift {
+    box-sizing: border-box;
+    word-break: break-word;
+}
+.checkout-cart-index .cart.table-wrapper .product-item-details .gift-wrap {
+    box-sizing: border-box;
+}
+.checkout-cart-index .cart.table-wrapper .product-item-details .gift-wrap .field-giftwrap {
+    box-sizing: border-box;
+    word-break: break-word;
+}
+.checkout-cart-index .cart-summary .gift-default-wrap .giftwrap-applied {
+    box-sizing: border-box;
+}
+.checkout-cart-index .cart-summary .gift-default-wrap .applied-msg-gift {
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+/* gift wrap */
+@media only screen and (min-width:769px) {
+    .checkout-cart-index .cart-container .cart.table-wrapper {
+        overflow-x: auto;
+    }
+    .checkout-cart-index .cart-container .cart.table-wrapper tr.item-info .product-item-details {
+        min-width: 310px;
+    }
+}
+@media only screen and (min-width:768px) and (max-width:1024px) {
+    html:lang(de) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(de) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+    html:lang(fr) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(fr) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width:991px) {
+    html:lang(de) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(de) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+}
+
+@media only screen and (min-width:768px) and (max-width:900px) {
+    html:lang(en) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(en) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+    html:lang(fr) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(fr) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+}
+
+@media only screen and (min-width:768px) and (max-width:800px) {
+    html:lang(en) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(en) .checkout-cart-index .cart-summary .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+}
+
+@media only screen and (max-width:420px) {
+    html:lang(de) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(de) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+}
+
+@media only screen and (max-width:320px) {
+    html:lang(en) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(en) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+    html:lang(fr) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-remove {
+        border-right: 0;
+        padding-right: 0;
+    }
+    html:lang(fr) .checkout-cart-index .cart.table-wrapper .product-item-details .gift-default-wrap .applied-gift-block .giftwrap-edit {
+        padding-left: 0;
+        display: block;
+    }
+}

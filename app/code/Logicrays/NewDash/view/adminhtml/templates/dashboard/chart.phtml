@@ -1,0 +1,100 @@
+<script>
+ require([
+     'jquery',
+     'chartJs'
+  ], function($,Chart){
+    $(document).ready(function(){
+        var popCanvas = $("#popChart");
+        var popCanvas = document.getElementById("popChart");
+        var popCanvas = document.getElementById("popChart").getContext("2d");
+        var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/orderstatus/?isAjax=true'); ?>";
+        var filterVal = '30d';
+        $.ajax({
+            url: customurl,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'isAjax': true,
+                'filterVal': filterVal
+            },
+            success: function(response) {      
+                var barChart = new Chart(popCanvas, {
+                type: 'bar',
+                data: {
+                    labels: response[0],
+                    datasets: [{
+                        label: 'Order Status',
+                        data: response[1],
+                        backgroundColor: '#f1d4b3',
+                        borderColor: '#eb5202',
+                        borderWidth: 1
+                    }]
+                }
+            })
+            }
+        });
+        
+        var filterVal = $("#dashboard_chart_period").val();
+        $("#dashboard_chart_period").on('change',function(){
+            var filterVal = $("#dashboard_chart_period").val();
+            var activeTab = $(".ui-state-default.ui-corner-top").attr("aria-controls");
+            if(activeTab == "diagram_tab_orderstatus_content"){
+                var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/orderstatus'); ?>";
+                $("#cvdiv").empty();
+                $("#cvdiv").append('<canvas id="popChart" width="1131" height="565"></canvas>');
+                var popCanvas = document.getElementById("popChart");
+                var popCanvas = document.getElementById("popChart").getContext("2d");
+                var filterVal = $("#dashboard_chart_period").val();
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        filterVal: filterVal
+                    },
+                    success: function(response) {      
+                        var barChart = new Chart(popCanvas, {
+                        type: 'bar',
+                        data: {
+                            labels: response[0],
+                            datasets: [{
+                                label: 'Order Status',
+                                data: response[1],
+                                backgroundColor: '#f1d4b3',
+                                borderColor: '#eb5202',
+                                borderWidth: 1
+                            }]
+                        }
+                    });
+                    $("#export-chart").val(filterVal);
+                    }
+                });
+            }
+        });
+
+        $("#export-chart").on('click',function(){
+            var filterVal = $(this).val();
+            var activeTab = $(".ui-state-default.ui-corner-top.ui-tabs-active.ui-state-active").attr("aria-controls");
+            if(activeTab == "diagram_tab_orderstatus_content"){
+                var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/orderstatus'); ?>";
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        isExport: filterVal
+                    },
+                    success: function(response) {
+                        var exportLink = '<?php echo $this->getBaseUrl() ?>'+response;
+                        window.location.href = exportLink;
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+
+<div id="cvdiv">
+<canvas id="popChart" width="1131" height="565"></canvas>
+</div>

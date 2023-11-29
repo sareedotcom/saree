@@ -1,0 +1,99 @@
+<?php if($block->getData('salecounter')): ?>
+<span class="salecounter" id="salecounter" style="font-weight: bolder;">
+    <span id="days" class="counter-board"></span>
+    <span id="hours" class="counter-board"></span>
+    <span id="minutes" class="counter-board"></span>
+    <span id="seconds" class="counter-board"></span>
+</span>
+<?php endif; ?>
+<script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("<?php echo $block->getData('salecounter'); ?>").getTime();
+
+    // // Update the count down every 1 second
+    var x = setInterval(function () {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        //days = days - 1;
+        if (days) {
+            document.getElementById("days").innerHTML = String(days).padStart(2, "0") + "D :";
+        } else {
+            document.getElementById("days").innerHTML = "";
+        }
+        document.getElementById("hours").innerHTML = String(hours).padStart(2, "0") + "H :";
+        document.getElementById("minutes").innerHTML = String(minutes).padStart(2, "0") + "M :";
+        document.getElementById("seconds").innerHTML = String(seconds).padStart(2, "0") + "S";
+
+        //If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("salecounter").innerHTML = "";
+        }
+
+        /*else if(){
+           clearInterval(x);
+           document.getElementById("salecounter").innerHTML = "";
+     }*/
+    }, 1000);
+</script>
+<style>
+    /* .salecounter {
+   font-size: 20px;
+   color: #fff;
+   }
+   .salecounter .counter-board {
+   background-color: transparent;
+   padding: 0;
+   border-radius: 10px;
+   color: white;
+   min-width: 20px;
+   font-size: 20px;
+   }
+   .catalog-category-view .page-main {
+   position: relative;
+   }
+   .catalog-category-view .salecounter {
+   margin: 0;
+   position: absolute;
+   z-index: 99;
+   right: 18px;
+   top: 50%;
+   transform: translateY(-50%);
+   }*/
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .catalog-category-view .salecounter,
+        .catalog-category-view .salecounter span {
+            font-size: 12px;
+        }
+    }
+    @media (max-width: 767px) {
+        .catalog-category-view .salecounter span {
+            font-size: 18px;
+        }
+        .catalog-category-view .salecounter {
+            font-size: 18px;
+            top: 0;
+            transform: translatex(-50%);
+            left: 50%;
+        }
+    }
+    @media (max-width: 575px) {
+        .catalog-category-view .salecounter span {
+            font-size: 12px;
+        }
+        .catalog-category-view .salecounter {
+            font-size: 12px;
+            top: -7;
+        }
+    }
+</style>

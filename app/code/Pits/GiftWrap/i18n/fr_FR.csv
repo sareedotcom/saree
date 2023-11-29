@@ -1,0 +1,39 @@
+Gift Wrap,Emballage Cadeau
+Gift Wrap Available,Emballage cadeau disponible
+Gift Wrap %1,Emballage cadeau %1
+We can\'t get the order instance right now.,Nous ne pouvons pas obtenir l'instance de commande en ce moment.
+Gift wrap update failed.,La mise à jour du papier cadeau a échoué.
+No Gift wrap found.,Aucun papier cadeau trouvé.
+Something went wrong while removing gift wrap.,Un problème est survenu lors de la suppression du papier cadeau.
+ERROR: Gift wrap delete failed. %1,ERROR : La suppression du papier cadeau a échoué. %1
+Gift Wrap Fee,Frais de papier cadeau
+ERROR: No gift wrap found.,ERREUR : Aucun papier cadeau trouvé.
+Gift Wrap Order,Commande de papier cadeau
+Gift Message,Message cadeau
+Gift Message for the Entire Order: ,Message cadeau pour l'ensemble de la commande: 
+General Settings,Paramètres généraux
+Enable,Activer
+Enable/Disable Gift Wrap Module,Activer/Désactiver le module d'emballage cadeau
+Fee for the Gift Wrap,Frais pour l'emballage cadeau
+Yes,Oui
+No,Non
+Gift Wrapping applied,Emballage de cadeaux appliqué
+Remove,Retirer
+Edit Message,Modifier le message
+Add Message,Ajouter un message
+Add Gift Message,Ajouter un message pour le cadeau
+Your gift message here,Votre message cadeau ici
+Fee,Frais
+Please enter a valid number in this field.,Veuillez saisir un numéro valide dans ce champ.
+Gift Wrapping applied (All Cart),Emballage de cadeaux appliqué (tous les chariots)
+Gift Wrap Checkbox Label,Étiquette de la case à cocher pour l'emballage-cadeau
+Label for the Gift Wrap Checkbox,Étiquette de la case à cocher pour l'emballage-cadeau
+Show in Cart Summary,Afficher dans le résumé du panier
+Cart Wrap Label,Étiquette pour la case à cocher d'emballage du panier
+Label for the checkbox to wrap whole cart,Étiquette pour la case à cocher pour emballer l'ensemble du panier
+Cart Item Wrapping Note,Note pour chaque article dans le panier
+Note for each items in cart,Note pour chaque article dans le panier
+Cart Wrap Note,Note pour le champ d'emballage du panier dans le résumé
+Note for cart wrap field in cart summary,Note pour le champ d'emballage du panier dans le résumé
+Totals Wrapping Fee Label,Étiquette pour les frais d'emballage totaux dans le panier
+Label for the wrapping fee in cart totals,Étiquette pour les frais d'emballage dans le total du panier

@@ -1,0 +1,8 @@
+<!-- ko if: (showGiftFee()) -->
+<tr class="totals giftwrap_fee excl" data-bind="visible: showGiftFee()">
+    <th class="mark" colspan="1" scope="row" data-bind="text: getFeeTitle()"></th>
+    <td class="amount">
+        <span class="price" data-bind="text: getValue()"></span>
+    </td>
+</tr>
+<!-- /ko -->

@@ -1,0 +1,39 @@
+Gift Wrap,Geschenkverpackung
+Gift Wrap Available,Geschenkverpackung verfügbar
+Gift Wrap %1,Geschenkverpackung %1
+We can\'t get the order instance right now.,Wir können die Bestellinstanz im Moment nicht erhalten.
+Gift wrap update failed.,Geschenkverpackungs-Update fehlgeschlagen.
+No Gift wrap found.,Keine Geschenkverpackung gefunden.
+Something went wrong while removing gift wrap.,Beim Entfernen von Geschenkverpackungen ist etwas schief gelaufen.
+ERROR: Gift wrap delete failed. %1,ERROR: Das Löschen von Geschenkverpackungen ist fehlgeschlagen. %1
+Gift Wrap Fee,Geschenkverpackungsgebühr
+ERROR: No gift wrap found.,ERROR: Keine Geschenkverpackung gefunden.
+Gift Wrap Order,Geschenkverpackungsauftrag
+Gift Message,Geschenknachricht
+Gift Message for the Entire Order: ,Geschenkbotschaft für die gesamte Bestellung: 
+General Settings,Allgemeine Einstellungen
+Enable,Aktivieren
+Enable/Disable Gift Wrap Module,Aktivieren/Deaktivieren des Geschenkverpackungsmoduls
+Fee for the Gift Wrap,Gebühr für die Geschenkverpackung
+Yes,Ja
+No,Nein
+Gift Wrapping applied,Angewandtes Geschenkpapier
+Remove,entfernen
+Edit Message,Meldung bearbeiten
+Add Message,Meldung hinzufügen
+Add Gift Message,Geschenknachricht hinzufügen
+Your gift message here,Ihre Geschenknachricht hier
+Fee,Honorar
+Please enter a valid number in this field.,Bitte geben Sie in dieses Feld eine gültige Zahl ein.
+Gift Wrapping applied (All Cart),Angewandte Geschenkverpackungen (Alle Wagen)
+Gift Wrap Checkbox Label,Label für das Geschenkpapier-Auswahlkästchen
+Label for the Gift Wrap Checkbox,Label für das Geschenkpapier-Auswahlkästchen
+Show in Cart Summary,In der Warenkorbübersicht anzeigen
+Cart Wrap Label,Label für das Geschenkpapier-Auswahlkästchen im Warenkorb
+Label for the checkbox to wrap whole cart,"Label für das Auswahlkästchen, um den gesamten Warenkorb zu verpacken"
+Cart Item Wrapping Note,Anmerkung für jedes Produkt im Warenkorb
+Note for each items in cart,Anmerkung für jedes Artikel im Warenkorb
+Cart Wrap Note,Anmerkung für das Geschenkpapierfeld im Warenkorb
+Note for cart wrap field in cart summary,Anmerkung für das Geschenkpapierfeld in der Warenkorbübersicht
+Totals Wrapping Fee Label,Label für die Gesamtkosten für das Verpacken
+Label for the wrapping fee in cart totals,Label für die Verpackungsgebühr in den Warenkorbgesamtkosten

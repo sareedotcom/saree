@@ -1,0 +1,39 @@
+Gift Wrap,Gift Wrap
+Gift Wrap Available,Gift Wrap Available
+Gift Wrap %1,Gift Wrap %1
+We can\'t get the order instance right now.,We can\'t get the order instance right now.
+Gift wrap update failed.,Gift wrap update failed.
+No Gift wrap found.,No Gift wrap found.
+Something went wrong while removing gift wrap.,Something went wrong while removing gift wrap.
+ERROR: Gift wrap delete failed. %1,ERROR: Gift wrap delete failed. %1
+Gift Wrap Fee,Gift Wrap Fee
+ERROR: No gift wrap found.,ERROR: No gift wrap found.
+Gift Wrap Order,Gift Wrap Order
+Gift Message,Gift Message
+Gift Message for the Entire Order: ,Gift Message for the Entire Order: 
+General Settings,General Settings
+Enable,Enable
+Enable/Disable Gift Wrap Module,Enable/Disable Gift Wrap Module
+Fee for the Gift Wrap,Fee for the Gift Wrap
+Yes,Yes
+No,No
+Gift Wrapping applied,Gift Wrapping applied
+Remove,Remove
+Edit Message,Edit Message
+Add Message,Add Message
+Add Gift Message,Add Gift Message
+Your gift message here,Your gift message here
+Fee,Fee
+Please enter a valid number in this field.,Please enter a valid number in this field.
+Gift Wrapping applied (All Cart),Gift Wrapping applied (All Cart)
+Gift Wrap Checkbox Label,Gift Wrap Checkbox Label
+Label for the Gift Wrap Checkbox,Label for the Gift Wrap Checkbox
+Show in Cart Summary,Show in Cart Summary
+Cart Wrap Label,Cart Wrap Label
+Label for the checkbox to wrap whole cart,Label for the checkbox to wrap whole cart
+Cart Item Wrapping Note,Cart Item Wrapping Note
+Note for each items in cart,Note for each items in cart
+Cart Wrap Note,Cart Wrap Note
+Note for cart wrap field in cart summary,Note for cart wrap field in cart summary
+Totals Wrapping Fee Label,Totals Wrapping Fee Label
+Label for the wrapping fee in cart totals,Label for the wrapping fee in cart totals
