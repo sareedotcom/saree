@@ -1,0 +1,41 @@
+{
+    "order_gift_wrap": {
+        "column": {
+            "id": true,
+            "message": true,
+            "price": true,
+            "is_whole_order": true,
+            "store_price": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "quote": {
+        "column": {
+            "gift_wrap_data": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "gift_wrap_data": true,
+            "gift_wrap_canceled": true,
+            "gift_wrap_invoiced": true,
+            "gift_wrap_refunded": true,
+            "base_gift_wrap_invoiced": true,
+            "base_gift_wrap_refunded": true
+        }
+    },
+    "sales_invoice": {
+        "column": {
+            "giftwrap_fee": true,
+            "base_giftwrap_fee": true
+        }
+    },
+    "sales_creditmemo": {
+        "column": {
+            "giftwrap_fee": true,
+            "base_giftwrap_fee": true
+        }
+    }
+}

@@ -1,0 +1,249 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+$categoryHandle = "";
+if ($category) {
+    $categoryHandle = $category->getUrlKey();
+    
+}
+$cartUrl = $block->getUrl('checkout/cart');
+?>
+<script defer="defer">
+    require(['jquery'], function($) {
+        // Featured view on category page
+        if (wizzyConfig.common.isOnCategoryListing == true) {
+            let button = document.getElementById("wizzyFeaturedViewButton");
+            button.addEventListener('click', function() {
+                if (typeof window.initFeaturedView !== "undefined") {
+                    window.initFeaturedView({
+                        dom: 'wizzyFeaturedViewRoot',
+                        filters: getFilterObject(),
+                        attributeIds: ['sku', 'style', 'occasion', 'fabric'],
+                        attributesToShowOnViewMore: ['sku', 'style', 'occasion', 'fabric'],
+                        displayImageInSquare: false,
+                        displayAddToCart: true,
+                        displayDisplayAddToCartNumber: true,
+                        currentCartCount: 0,
+                        displayViewMore: true,
+                        displayStoreName: true,
+                        storeName: 'Saree'
+                    });
+                }
+            });
+            window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.AFTER_PRODUCTS_TRANSFORMED, function(payload) {
+                payload.forEach((product) => {
+                    product.review = ((product.review / 100) * 5).toFixed(2);
+                    product.mainImage = "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg";
+                    product.images = product.images.map((item) => "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg");
+                    product.backImages = product.backImages.map((item) => "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg");
+                });
+                return payload;
+            });
+        }
+        // Featured view on wizzy search result page
+        window.wizzy.registerEvent(
+            window.wizzy.allowedEvents.PRODUCTS_RESULTS_RENDERED,
+            function(payload) {
+                let button = document.getElementById("wizzyFeaturedViewButton");
+                button.addEventListener('click', function() {
+                    if (typeof window.initFeaturedView !== "undefined") {
+                        window.initFeaturedView({
+                            dom: 'wizzyFeaturedViewRoot',
+                            filters: window.wizzyConfig.pageStore.lastExecutedFilters ? wizzyConfig.pageStore.lastExecutedFilters : JSON.stringify(window.wizzyConfig.pageStore.searchedResponse.filters),
+                            attributeIds: ['sku', 'style', 'occasion', 'fabric'],
+                            attributesToShowOnViewMore: ['sku', 'style', 'occasion', 'fabric'],
+                            displayImageInSquare: false,
+                            displayAddToCart: true,
+                            displayDisplayAddToCartNumber: true,
+                            currentCartCount: 0,
+                            displayViewMore: true,
+                            displayStoreName: true,
+                            storeName: 'Saree'
+                        });
+                    }
+                    return payload;
+                });
+            }
+        );
+        if (window.featuredViewConfig) {
+            // Click back in featuredView
+            // window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.AFTER_PRODUCTS_FETCHED, function(payload) {
+            //     var backButton = document.querySelector('.wizzy-search-back');
+            //     if (backButton) {
+            //         backButton.click();
+            //     }
+            //     return payload;
+            // });
+            window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.AFTER_PRODUCTS_TRANSFORMED, function(payload) {
+                payload.forEach((product) => {
+                    product.review = ((product.review / 100) * 5).toFixed(2);
+                    product.mainImage = "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg";
+                    product.images = product.images.map((item) => "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg");
+                });
+                return payload;
+            });
+            // Add to cart AJAX request
+            window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.ADD_TO_CART, function(payload) {
+                let button = document.querySelector(`#wizzy-featured-view-add-to-cart.wizzy__featuredview__button__rlA6a[product-id="${payload.id}"]`);
+
+                const originalText = button.textContent;
+                button.textContent = "Adding";
+
+                const productId = payload.id;
+                const formKey = window.wizzyConfig.search.addToCart.formKey;
+                const formAction = window.wizzyConfig.search.addToCart.formAction;
+                const url = formAction + productId;
+                const uenc = window.btoa(url);
+
+                const data = {
+                    product: productId,
+                    uenc: uenc,
+                    form_key: formKey
+                };
+
+                fetch(formAction, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            setTimeout(() => {
+                                button.textContent = "Added";
+                                setTimeout(() => {
+                                    button.textContent = "Add to Cart";
+                                }, 500);
+                            }, 500);
+
+                            window.featuredViewConfig.events.triggerEvent(window.featuredViewConfig.events.allowedEvents.ON_ADD_TO_CART_SUCCESS, window.getWizzyFeaturedViewCurrentCartCount() + 1);
+
+                            setTimeout(() => {
+                                var cartCountElement = document.querySelector('.wizzy__featuredview__cartCount__Ttudn');
+                                console.log("=>", cartCountElement);
+                                cartCountElement.innerHTML = window.getWizzyFeaturedViewCurrentCartCount();
+                            }, 500);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error adding to Cart:', error);
+                    });
+
+                return payload;
+            });
+        } else {
+            document.addEventListener('wizzyFeaturedViewLoaded', function() {
+                window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.AFTER_PRODUCTS_TRANSFORMED, function(payload) {
+                    payload.forEach((product) => {
+                        product.review = ((product.review / 100) * 5).toFixed(2);
+                        product.mainImage = "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg";
+                        product.images = product.images.map((item) => "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg");
+                        product.backImages = product.backImages.map((item) => "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg");
+                    });
+                    return payload;
+                });
+                window.featuredViewConfig.events.registerEvent(window.featuredViewConfig.events.allowedEvents.ADD_TO_CART, function(payload) {
+                    let button = document.querySelector(`#wizzy-featured-view-add-to-cart.wizzy__featuredview__button__rlA6a[product-id="${payload.id}"]`);
+
+                    const originalText = button.textContent;
+                    button.textContent = "Adding";
+
+                    const productId = payload.id;
+                    const formKey = window.wizzyConfig.search.addToCart.formKey;
+                    const formAction = window.wizzyConfig.search.addToCart.formAction;
+                    const url = formAction + productId;
+                    const uenc = window.btoa(url);
+
+                    const data = {
+                        product: productId,
+                        uenc: uenc,
+                        form_key: formKey
+                    };
+
+                    fetch(formAction, {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&')
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                setTimeout(() => {
+                                    button.textContent = "Added";
+                                    setTimeout(() => {
+                                        button.textContent = "Add to Cart";
+                                    }, 500);
+                                }, 500);
+
+                                window.featuredViewConfig.events.triggerEvent(window.featuredViewConfig.events.allowedEvents.ON_ADD_TO_CART_SUCCESS, window.getWizzyFeaturedViewCurrentCartCount() + 1);
+
+                                setTimeout(() => {
+                                    var cartCountElement = document.querySelector('.wizzy__featuredview__cartCount__Ttudn');
+                                    console.log("=>", cartCountElement);
+                                    cartCountElement.innerHTML = window.getWizzyFeaturedViewCurrentCartCount();
+                                }, 500);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error adding to Cart:', error);
+                        });
+
+                    return payload;
+                });
+            });
+        }
+        document.addEventListener('click', function(event) {
+            if (event.target.matches(".wizzy__featuredview__cart__dj89c") || event.target.matches(".wizzy__featuredview__cart__dj89c svg")) {
+                var magentoCartUrl = "<?php echo $cartUrl ?>";
+                window.location.href = magentoCartUrl;
+            }
+        });
+
+        function getFilterObject() {
+            var categoryHandle = <?php echo json_encode($categoryHandle); ?>;
+            var productsCount = window.wizzyConfig.search.configs.general.noOfProducts;
+            var object = {
+                "attributes": {},
+                "categories": [categoryHandle],
+                "page": 1,
+                "sort": [{
+                    "field": "relevance",
+                    "order": "asc"
+                }],
+                "type": "CATEGORY_PAGE",
+                "getAllVariants": "false",
+                "swatch": [],
+                "currency": "INR",
+                "productsCount": 10
+            };
+            object = JSON.stringify(object);
+            return object;
+        }
+
+        // let interval = setInterval(function(){
+        //     let button = document.getElementById("wizzyFeaturedViewButton");
+        //     let iframe = document.getElementById("wizzyFeaturedViewIframe");
+        //     if(button && iframe){
+        //         clearInterval(interval);
+        //         button.addEventListener('click', function() {
+        //         if(iframe.style.display === "none"){
+        //         iframe.style.display = "block";
+        //         }
+        //         else{
+        //         iframe.style.display = "none";
+        //         }
+        //      }); 
+        //     }
+        // },500)
+
+
+    });
+
+
+</script>

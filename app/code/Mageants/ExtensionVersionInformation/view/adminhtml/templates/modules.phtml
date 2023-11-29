@@ -1,0 +1,197 @@
+<?php
+/** @var Mageants\ExtensionVersionInformation\Block\Adminhtml\Extensions $block */
+
+$installedModules = $block->getModulesList();
+?>
+<div class="support-container-wrapper">
+    <div class="support-container">
+        <div class="support-header support-container-header">
+            <img class="mageants-logo" src="<?php echo $this->getViewFileUrl('Mageants_ExtensionVersionInformation::images/mageants-logo.png'); ?>" alt="money-bag" />
+
+            <div class="support-header-title-wrapper" >
+                <p class="support-header-title" ><?php echo __("Installed Extensions Information")?></p>
+                <span class="support-header-subtitle" ><?php echo __("Mageants Extensions you've purchased from the website")?> <a href="https://www.mageants.com/?utm_source=coreext&utm_medium=link&utm_campaign=coreext" target="_blank"> <?php echo __("Mageants")?> </a><?php echo __(" or")?> <a href="https://marketplace.magento.com/partner/Mageants" target="_blank"> <?php echo __("Marketplace")?></a>. <?php echo __("Rate your experience with our extensions to help us serve you better. It won't take more than a minute.")?></span>
+            </div>
+
+            <a class="support-header-link" href="mailto:support@mageants.com?utm_source=coreext&utm_medium=link&utm_campaign=coreext" target="_blank" >
+                <?php echo __("SUPPORT")?>
+            </a>
+        </div>
+        <div class="support-container-main">
+            <?php foreach($installedModules as $module): ?>
+                <div class="support-card">
+                    <div class="support-card-left">
+                        <a href="<?= 'https://www.mageants.com/'.$module['data']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                            <img class="support-card-img" src="<?= $module['data']['small_image']; ?>" alt="extension" />
+                        </a>
+                    </div>
+
+                    <div class="support-card-right">
+                        <div class="support-card-card-top">
+                            <a href="<?= 'https://www.mageants.com/'.$module['data']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                                <p class="support-card-right-title"><?php echo $module['name']; ?></p>
+                            </a>
+                            <div class="support-user-card-links">
+                                <a href="<?= $module['data']['user_guide']; ?>" target="_blank" ><?php echo __("User Guide") ?></a>
+                            </div>
+                        </div>
+
+                        <div class="support-card-card-bottom">
+                            <span class="extension-card-version" style="color:#008000;" > <?php echo __("Current Version - ".$module['current_version']); ?></span><br>
+                            <span class="extension-card-version" style="color:#ff0315;"> <?php echo __("Available version - ".$module['data']['extension_version']); ?></span> <br>
+                            <a href="<?= 'https://www.mageants.com/'.$module['data']['url_key'].'.html#changelog.tab'; ?>" target="_blank" class="extension-card-changelog"><?php echo __("See What's New!")?></a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div><br>
+
+    <div class="support-container">
+        <div class="extension-container-header extension-performnce-container">
+            <img class="mageants-logo" src="<?php echo $this->getViewFileUrl('Mageants_ExtensionVersionInformation::images/mageants-logo.png'); ?>" alt="top-perform" />
+            <div class="performing-header-title-wrapper">
+                <p class="performing-header-title"><?= __("Our Top 5 Perfoming Extensions"); ?></p>
+                <span class="performing-header-subtitle">
+                    <?= __("Explore our top-performing extensions to enhance your store experience for optimum conversions and sales."); ?>
+                </span>
+            </div>
+        </div>
+        <div class="support-container-main scroll-bar">
+            <div class="support-card mt-10">
+                <div class="support-card-left">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_FreeGift']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <img class="performing-card-img" src="<?= $installedModules[0]['topfive']['Mageants_FreeGift']['small_image']; ?>" alt="free-gift" />
+                    </a>
+                </div>
+                <div class="support-card-right">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_FreeGift']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                        <p class="performing-card-ttl"><?= __("Magento 2 Free Gift"); ?></p>
+                    </a>
+
+                    <span class="performing-card-price"><?= $installedModules[0]['topfive']['Mageants_FreeGift']['price'] ?></span>
+                    <span class="performing-card-description">MageAnts Free Gift extension helps store owners to offer free gifts to their customers on purchasing particular products automatically.</span><br>
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_FreeGift']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <btn class="performing-card-btn"> Buy Now </btn>
+                    </a>
+                </div>
+            </div>
+
+            <div class="support-card mt-10">
+                <div class="support-card-left">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_SimpleConfigurable']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <img class="performing-card-img" src="<?= $installedModules[0]['topfive']['Mageants_SimpleConfigurable']['small_image']; ?>" alt="free-gift" />
+                    </a>
+                </div>
+                <div class="support-card-right">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_SimpleConfigurable']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                        <p class="performing-card-ttl"><?= __("Magento 2 Simple Configurable"); ?></p>
+                    </a>
+
+                    <span class="performing-card-price"><?= $installedModules[0]['topfive']['Mageants_SimpleConfigurable']['price'] ?></span>
+                    <span class="performing-card-description">MageAnts Simple Configurable Products helps store owners provide every product its own identity.</span><br>
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_SimpleConfigurable']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <btn class="performing-card-btn"> Buy Now </btn>
+                    </a>
+                </div>
+            </div>
+
+            <div class="support-card mt-10">
+                <div class="support-card-left">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_PdfInvoice']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <img class="performing-card-img" src="<?= $installedModules[0]['topfive']['Mageants_PdfInvoice']['small_image']; ?>" alt="free-gift" />
+                    </a>
+                </div>
+                <div class="support-card-right">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_PdfInvoice']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                        <p class="performing-card-ttl"><?= __("Magento 2 PDF Invoice"); ?></p>
+                    </a>
+
+                    <span class="performing-card-price"><?= $installedModules[0]['topfive']['Mageants_PdfInvoice']['price'] ?></span>
+                    <span class="performing-card-description">MageAnts PDF Invoice extension to customize the PDF designs of your store's invoice, order, shipment and credit memo as per brand image.</span><br>
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_PdfInvoice']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <btn class="performing-card-btn"> Buy Now </btn>
+                    </a>
+                </div>
+            </div>
+
+            <div class="support-card mt-10">
+                <div class="support-card-left">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_ExtraFee']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <img class="performing-card-img" src="<?= $installedModules[0]['topfive']['Mageants_ExtraFee']['small_image']; ?>" alt="free-gift" />
+                    </a>
+                </div>
+                <div class="support-card-right">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_ExtraFee']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                        <p class="performing-card-ttl"><?= __("Magento 2 Extra Fee"); ?></p>
+                    </a>
+
+                    <span class="performing-card-price"><?= $installedModules[0]['topfive']['Mageants_ExtraFee']['price'] ?></span>
+                    <span class="performing-card-description">MageAnts Extra Fee extension helps store owners to add extra charges for different services and display them on the checkout page.</span><br>
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_ExtraFee']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <btn class="performing-card-btn"> Buy Now </btn>
+                    </a>
+                </div>
+            </div>
+
+            <div class="support-card mt-10">
+                <div class="support-card-left">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_StorePickup']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <img class="performing-card-img" src="<?= $installedModules[0]['topfive']['Mageants_StorePickup']['small_image']; ?>" alt="free-gift" />
+                    </a>
+                </div>
+                <div class="support-card-right">
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_StorePickup']['url_key'].'.html'; ?>" target="_blank" class="support-card-name-link">
+                        <p class="performing-card-ttl"><?= __("Magento 2 Store Pickup"); ?></p>
+                    </a>
+
+                    <span class="performing-card-price"><?= $installedModules[0]['topfive']['Mageants_StorePickup']['price'] ?></span>
+                    <span class="performing-card-description">MageAnts Store Pickup extension allows customers to place an order online and pickup it from the nearest offline store with the most convenient dates and times.</span><br>
+                    <a href="<?= 'https://www.mageants.com/'.$installedModules[0]['topfive']['Mageants_StorePickup']['url_key'].'.html'; ?>" target="_blank" class="support-card-img-link">
+                        <btn class="performing-card-btn"> Buy Now </btn>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="support-container extension-service-container">
+        <img class="header-img" src="<?php echo $this->getViewFileUrl('Mageants_ExtensionVersionInformation::images/images.png'); ?>" alt="image-logo" />
+
+        <div class="support-header-title-wrapper" >
+            <p class="service-title" ><?php echo __("Need Magento Service?")?></p>
+            <span class="service-subtitle" ><?php echo __("Are you looking for Magento 2 Development services? MageAnts offer a one stop solution of Magento like custom development, Magento 2 upgrade version with the latest, migration services, hyva theme integration, payment, CRM and ERP integration service etc.. We offer dedicated Magento 2 certified developers too. Contact us for any custom task and get your free  quote now.")?></span>
+        </div>
+
+        <a class="support-header-link" href="https://www.mageants.com/services.html" target="_blank" >
+            <?php echo __("SERVICE")?>
+        </a>
+    </div><br>
+
+    <div class="support-container">
+        <div  class="support-header support-container-header">
+            <div class="btns-block">
+                <a href="https://www.mageants.com/magento-2-upgrade-services.html"
+                class="mageants-btn -orange" target="_blank" title="<?= $block->escapeHtml(__('Magento 2 Upgrade Services')) ?>">
+                    <?= $block->escapeHtml(__('Magento 2 Upgrade Services')) ?>
+                </a>
+
+                <a href="https://rocktechnolabs.com/magento-support-maintenance-services/"
+                class="mageants-btn -blue" target="_blank" title="<?= $block->escapeHtml(__('Magento 2 Maintenance and Support')) ?>">
+                    <?= $block->escapeHtml(__('Magento 2 Maintenance and Support')) ?>
+                </a>
+
+                <a href="https://www.mageants.com/hire-magento-2-developers.html"
+                class="mageants-btn -orange btn-hire" target="_blank" title="<?= $block->escapeHtml(__('Hire Magento2 Developers')) ?>">
+                    <?= $block->escapeHtml(__('Hire Magento2 Developers')) ?>
+                </a>
+
+                <a href="https://www.mageants.com/magento-2-hyva-theme-development-services.html"
+                class="mageants-btn -blue" target="_blank" title="<?= $block->escapeHtml(__('Speed up your store with Hyvä Theme')) ?>">
+                    <?= $block->escapeHtml(__('Speed up your store with Hyvä Theme')) ?>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+?>
+<?php
+
+    $viewModel = $block->getData("viewModel");
+    $registry = $viewModel->getRegister();
+    
+?>
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+    <div data-role="loader" class="loading-mask">
+        <div class="loader">
+            <img src="<?=  /* @noEscape */ $block->getViewFileUrl('images/loader-1.gif'); ?>"
+                 alt="<?=  /* @noEscape */ __('Loading...') ?>">
+        </div>
+    </div>
+</div>
+<!--Fix for jumping content. Loader must be the same size as gallery.-->
+<script>
+    var config = {
+            "width": <?=  /* @noEscape */ $block->getImageAttribute('product_page_image_medium', 'width'); ?>,
+            "thumbheight": <?=  /* @noEscape */ $block->getImageAttribute('product_page_image_small', 'height')
+                        ?: $block->getImageAttribute('product_page_image_small', 'width'); ?>,
+            "navtype": "<?= /* @noEscape */  $block->getVar("gallery/navtype"); ?>",
+            "height": <?=  /* @noEscape */ $block->getImageAttribute('product_page_image_medium', 'height'); ?>
+        },
+        thumbBarHeight = 0,
+        loader = document.querySelectorAll('[data-gallery-role="gallery-placeholder"] [data-role="loader"]')[0];
+
+    if (config.navtype === 'horizontal') {
+        thumbBarHeight = config.thumbheight;
+    }
+
+    loader.style.paddingBottom = ( config.height / config.width * 100) + "%";
+    loader.style.display = 'none';
+</script>
+<script type="text/x-magento-init">
+    {
+        "[data-gallery-role=gallery-placeholder]": {
+            "mage/gallery/gallery": {
+                "mixins":["magnifier/magnify"],
+                "magnifierOpts": <?=  /* @noEscape */ $block->getMagnifier(); ?>,
+                "data": <?=  /* @noEscape */ $block->getGalleryImagesJson(); ?>,
+                "options": {
+                    "nav": "<?=  /* @noEscape */ $block->getVar("gallery/nav"); ?>",
+                    <?php if (($block->getVar("gallery/loop"))): ?>
+                        "loop": <?=  /* @noEscape */ $block->getVar("gallery/loop"); ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/keyboard"))): ?>
+                        "keyboard": <?=  /* @noEscape */ $block->getVar("gallery/keyboard"); ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/arrows"))): ?>
+                        "arrows": <?=  /* @noEscape */ $block->getVar("gallery/arrows"); ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/allowfullscreen"))): ?>
+                        "allowfullscreen": <?=  /* @noEscape */ $block->getVar("gallery/allowfullscreen"); ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/caption"))): ?>
+                        "showCaption": <?=  /* @noEscape */ $block->getVar("gallery/caption"); ?>,
+                    <?php endif; ?>
+                    "width": "<?=  /* @noEscape */ $block->getImageAttribute('product_page_image_medium', 'width'); ?>",
+                    "thumbwidth":
+                    "<?=  /* @noEscape */ $block->getImageAttribute('product_page_image_small', 'width'); ?>",
+                    <?php
+                    if ($block->getImageAttribute('product_page_image_small', 'height')
+                        || $block->getImageAttribute('product_page_image_small', 'width')): ?>
+                        "thumbheight":
+                            <?=  /* @noEscape */ $block->getImageAttribute('product_page_image_small', 'height')
+                            ?: $block->getImageAttribute('product_page_image_small', 'width'); ?>,
+                    <?php endif; ?>
+                    <?php
+                    if ($block->getImageAttribute('product_page_image_medium', 'height')
+                        || $block->getImageAttribute('product_page_image_medium', 'width')): ?>
+                        "height": <?=  /* @noEscape */ $block->getImageAttribute('product_page_image_medium', 'height')
+                        ?: $block->getImageAttribute('product_page_image_medium', 'width'); ?>,
+                    <?php endif; ?>
+                    <?php if ($block->getVar("gallery/transition/duration")): ?>
+                        "transitionduration": <?= /* @noEscape */  $block->getVar("gallery/transition/duration"); ?>,
+                    <?php endif; ?>
+                    "transition": "<?= /* @noEscape */  $block->getVar("gallery/transition/effect"); ?>",
+                    <?php if (($block->getVar("gallery/navarrows"))): ?>
+                        "navarrows": <?= /* @noEscape */  $block->getVar("gallery/navarrows"); ?>,
+                    <?php endif; ?>
+                    "navtype": "<?= /* @noEscape */  $block->getVar("gallery/navtype"); ?>",
+                    "navdir": "<?= /* @noEscape */  $block->getVar("gallery/navdir"); ?>"
+                },
+                "fullscreen": {
+                    "nav": "<?= /* @noEscape */  $block->getVar("gallery/fullscreen/nav"); ?>",
+                    <?php if ($block->getVar("gallery/fullscreen/loop")): ?>
+                        "loop": <?= /* @noEscape */  $block->getVar("gallery/fullscreen/loop"); ?>,
+                    <?php endif; ?>
+                    "navdir": "<?= /* @noEscape */  $block->getVar("gallery/fullscreen/navdir"); ?>",
+                    <?php if ($block->getVar("gallery/transition/navarrows")): ?>
+                        "navarrows": <?= /* @noEscape */  $block->getVar("gallery/fullscreen/navarrows"); ?>,
+                    <?php endif; ?>
+                    "navtype": "<?= /* @noEscape */  $block->getVar("gallery/fullscreen/navtype"); ?>",
+                    <?php if ($block->getVar("gallery/fullscreen/arrows")): ?>
+                        "arrows": <?= /* @noEscape */  $block->getVar("gallery/fullscreen/arrows"); ?>,
+                    <?php endif; ?>
+                    <?php if ($block->getVar("gallery/fullscreen/caption")): ?>
+                        "showCaption": <?= /* @noEscape */  $block->getVar("gallery/fullscreen/caption"); ?>,
+                    <?php endif; ?>
+                    <?php if ($block->getVar("gallery/fullscreen/transition/duration")): ?>
+                        "transitionduration": 
+                        <?= /* @noEscape */  $block->getVar("gallery/fullscreen/transition/duration"); ?>,
+                    <?php endif; ?>
+                    "transition": "<?= /* @noEscape */  $block->getVar("gallery/fullscreen/transition/effect"); ?>"
+                },
+                "breakpoints": <?=  /* @noEscape */ $block->getBreakpoints(); ?>
+            }
+        }
+    }
+</script>

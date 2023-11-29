@@ -1,0 +1,136 @@
+{
+    "gift_code_set": {
+        "column": {
+            "code_set_id": true,
+            "code_title": true,
+            "code_pattern": true,
+            "code_qty": true,
+            "unused_code": true
+        },
+        "index": {
+            "GIFT_CODE_SET_CODE_TITLE_CODE_PATTERN": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "gift_code_list": {
+        "column": {
+            "code_list_id": true,
+            "code": true,
+            "allocate": true,
+            "code_set_id": true
+        },
+        "index": {
+            "GIFT_CODE_LIST_CODE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "gift_code_account": {
+        "column": {
+            "account_id": true,
+            "order_id": true,
+            "gift_code": true,
+            "categories": true,
+            "status": true,
+            "website": true,
+            "initial_code_value": true,
+            "current_balance": true,
+            "expire_at": true,
+            "comment": true,
+            "template": true,
+            "customer_id": true,
+            "discount_type": true,
+            "temp_customer_id": true,
+            "custom_upload": true,
+            "notified": true,
+            "sendtemplate_id": true,
+            "order_increment_id": true,
+            "percentage": true,
+            "allow_balance": true
+        },
+        "index": {
+            "FTI_6AB4ABEA5B17B578B69AF3D661371D07": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "gift_code_customer": {
+        "column": {
+            "customer_id": true,
+            "temp_customer_id": true,
+            "code_value": true,
+            "card_type": true,
+            "sender_name": true,
+            "sender_email": true,
+            "recipient_name": true,
+            "recipient_email": true,
+            "date_of_delivery": true,
+            "time_zone": true,
+            "message": true,
+            "order_id": true,
+            "timezone": true,
+            "emailtime": true,
+            "sentgiftcard": true
+        },
+        "index": {
+            "FTI_13604E567EAB5021568C978B5F61DA05": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "gift_quote": {
+        "column": {
+            "id": true,
+            "gift_card_value": true,
+            "card_types": true,
+            "categories": true,
+            "template_id": true,
+            "sender_name": true,
+            "sender_email": true,
+            "recipient_name": true,
+            "recipient_email": true,
+            "date_of_delivery": true,
+            "message": true,
+            "quote_id": true,
+            "product_id": true,
+            "codesetid": true,
+            "customer_id": true,
+            "expiry_date": true,
+            "temp_customer_id": true,
+            "timezone": true,
+            "custom_upload": true,
+            "emailtime": true,
+            "sendtemplate_id": true,
+            "order_increment_id": true,
+            "code_validity": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "gift_templates": {
+        "column": {
+            "image_id": true,
+            "image": true,
+            "image_title": true,
+            "status": true,
+            "code_position": true,
+            "message": true,
+            "color": true,
+            "forecolor": true,
+            "positionleft": true,
+            "positiontop": true
+        },
+        "index": {
+            "GIFT_TEMPLATES_IMAGE_IMAGE_TITLE_STATUS": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

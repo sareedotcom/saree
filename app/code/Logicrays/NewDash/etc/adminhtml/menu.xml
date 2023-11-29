@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Logicrays_NewDash::dashboard"
+            title="Dashboard"
+            module="Logicrays_NewDash"
+            sortOrder="20"
+            parent="Magento_Sales::sales"
+            action="newdashboard/dashboard/index"
+            resource="Logicrays_NewDash::dashboard"/>
+    </menu>
+</config>

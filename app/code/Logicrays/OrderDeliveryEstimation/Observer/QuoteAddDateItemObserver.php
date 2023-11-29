@@ -75,6 +75,8 @@ class QuoteAddDateItemObserver implements ObserverInterface
                     $QuoteItem = $this->checkoutSession->getQuote()->getItemByProduct($productQuoteData);
                     foreach ($items as $item) {
                         $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+                        // echo "<pre/>";
+                        // print_r($options);exit;
                         $product = $this->productRepository->getById($item->getProductId());
                         if (isset($options['options'])) {
                             $optionData = $options['options'];

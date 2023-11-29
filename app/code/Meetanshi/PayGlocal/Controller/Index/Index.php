@@ -157,6 +157,14 @@ class Index extends Action
 
                 $response = curl_exec($curl);
                 $data = json_decode($response, true);
+                
+                $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/sanjay.log');
+$logger = new \Zend_Log();
+$logger->addWriter($writer);
+$logger->info(__CLASS__ .'::'.__FUNCTION__.':: START');
+$logger->info(print_r($data,true));
+            
+            
                 curl_close($curl);
                 return $this->jsonFactory->create()->setData($data['data']);
 

@@ -26,7 +26,7 @@ define(
               checkoutData) {
         'use strict';
 
-        var payglocalResponce, intervalId;
+        var payglocalResponce, intervalId, orderId;
         payglocalResponce = {};
         payglocalResponce ["status"] = "no";
         return Component.extend({

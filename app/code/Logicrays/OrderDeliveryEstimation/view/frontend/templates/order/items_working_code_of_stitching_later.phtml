@@ -1,0 +1,306 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+
+/** @var \Magento\Sales\Block\Order\Items $block */
+?>
+<div class="table-wrapper order-items">
+    <table class="data table table-order-items" id="my-orders-table" summary="<?= $block->escapeHtml(__('Items Ordered')) ?>">
+        <caption class="table-caption"><?= $block->escapeHtml(__('Items Ordered')) ?></caption>
+        <thead>
+            <?php if ($block->isPagerDisplayed()) : ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-top" class="order-pager-wrapper order-pager-wrapper-top">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <tr>
+                <th class="col name"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                <th class="col sku"><?= $block->escapeHtml(__('SKU')) ?></th>
+                <th class="col price"><?= $block->escapeHtml(__('Price')) ?></th>
+                <th class="col qty"><?= $block->escapeHtml(__('Qty')) ?></th>
+                <th class="col subtotal"><?= $block->escapeHtml(__('Subtotal')) ?></th>
+            </tr>
+        </thead>
+        <?php $items = $block->getItems(); ?>
+        <?php $giftMessage = ''?>
+        <?php foreach ($items as $item):
+            if ($item->getParentItem()):
+                continue;
+            endif;
+            ?>
+            <tbody>
+                <?= $block->getItemHtml($item) ?>
+                <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)->isMessagesAllowed('order_item', $item) && $item->getGiftMessageId()) : ?>
+                    <?php $giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)->getGiftMessageForEntity($item); ?>
+                    <tr>
+                        <td class="col options" colspan="5">
+                            <a href="#"
+                               id="order-item-gift-message-link-<?= (int) $item->getId() ?>"
+                               class="action show"
+                               aria-controls="order-item-gift-message-<?= (int) $item->getId() ?>"
+                               data-item-id="<?= (int) $item->getId() ?>">
+                                <?= $block->escapeHtml(__('Gift Message')) ?>
+                            </a>
+                            <?php $giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)->getGiftMessageForEntity($item); ?>
+                            <div class="order-gift-message" id="order-item-gift-message-<?= (int) $item->getId() ?>" role="region" aria-expanded="false" tabindex="-1">
+                                <a href="#"
+                                   title="<?= $block->escapeHtml(__('Close')) ?>"
+                                   aria-controls="order-item-gift-message-<?= (int) $item->getId() ?>"
+                                   data-item-id="<?= (int) $item->getId() ?>"
+                                   class="action close">
+                                    <?= $block->escapeHtml(__('Close')) ?>
+                                </a>
+                                <dl class="item-options">
+                                    <dt class="item-sender"><strong class="label"><?= $block->escapeHtml(__('From')) ?></strong><?= $block->escapeHtml($giftMessage->getSender()) ?></dt>
+                                    <dt class="item-recipient"><strong class="label"><?= $block->escapeHtml(__('To')) ?></strong><?= $block->escapeHtml($giftMessage->getRecipient()) ?></dt>
+                                    <dd class="item-message"><?= /* @noEscape */ $this->helper(\Magento\GiftMessage\Helper\Message::class)->getEscapedGiftMessage($item) ?></dd>
+                                </dl>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endif ?>
+                <?php $estdDispatchDate = $item->getEstdDispatchDate(); ?>
+                <?php if ($estdDispatchDate): ?>
+                    <tr>
+                        <td colspan="5">
+                            <dt class="delivery-info"><span>Est Dispatch Date: </span> <?= $block->escapeHtml($estdDispatchDate) ?></dt>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php 
+                    $productOption = $item->getProductOptions();
+                    $isUnstitched = 0;
+                    foreach($productOption['info_buyRequest']['options'] AS $key => $val){ ?>
+                        <input type="hidden" class="filledOption <?php echo $key; ?>" value="<?php echo $val; ?>">
+                    <?php }
+                    foreach($productOption['options'] AS $val){
+                        if($val['value'] == 'Stitching Later' || "Measurements Later" == $val['value']){
+                            $isUnstitched = 1;
+                            break;
+                        }
+                    }
+                    // die;
+                ?>
+                <?php if ($isUnstitched): 
+                    $itemId = $item->getId();
+                    ?>
+                    <tr>
+                        <td colspan="5">
+                            <dt class="delivery-infoaaa">
+                                <div class="measurements-options"></div>
+                                <div class="stiticing-options">
+                                <input type="hidden" value="<?php echo $item->getOrderId();?>" id="orderId">
+                                <input type="hidden" value="<?php echo $itemId ?>" id="itemId">
+                                <span>Add Measurements: </span><input type="checkbox" class="measurements" value="<?php echo $item->getProduct()->getId(); ?>" id="<?php echo $itemId; ?>">
+                                </div>
+                                <div class="order-option-data" id="order-option-data_<?php echo $itemId; ?>">
+                                </div>
+                            </dt>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        <?php endforeach; ?>
+        <tfoot>
+            <?php if ($block->isPagerDisplayed()): ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-bottom" class="order-pager-wrapper order-pager-wrapper-bottom">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+</div>
+<?php if ($giftMessage): ?>
+<script type="text/x-magento-init">
+    {
+        "a.action.show, a.action.close": {
+            "giftMessage": {}
+        }
+    }
+</script>
+<?php endif; ?>
+<script type="text/javascript">
+    require(["jquery"],function($) {
+        $(document).on('click','.measurements',function(){
+            if($(this).is(":checked")){
+                $(".orderoption-data").css("display","block");
+                var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+                var valueSelected = this.value;
+                var itemId = $(this).attr("id");
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        stiching_selected: valueSelected,
+                        itemId: itemId
+                    },
+                complete: function(response) {
+                    var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+                    var newhtml = "";
+                    $(".order-option-data").empty();
+                    $.each(response.responseJSON.result, function( key, value ) {
+                        
+                        if(response.responseJSON.result[key][0].type == "drop_down"){
+                            
+                            newhtml += "<br>"+response.responseJSON.result[key][0].title;
+
+                            var optionIdForDisable = response.responseJSON.result[key][0].option_id;
+                            var optionVal = $("."+optionIdForDisable).val();
+                            if(optionVal){
+                                newhtml += "<select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox' disabled>";
+                            }
+                            else{
+                                if(fieldDisabled){
+                                    newhtml += "<select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox' disabled>";
+                                }
+                                else{
+                                    newhtml += "<select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox'>";
+                                }
+                            }                            
+                            newhtml += "<option value='-- Please Select --'>-- Please Select --</option>";
+                            $.each(response.responseJSON.result[key], function( key1, value1) {
+                                if(value1.type == "drop_down"){
+                                    var label = value1.optiontitle;
+                                    var optionPrintValue = value1.optiontypetitle;
+                                    var optionId = value1.option_id;
+                                    var optionType = value1.type;
+                                    var optionValue = value1.option_type_id;
+                                    var productId = value1.product_id;
+                                    var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+                                    var optCount = 0;
+                                    if(value1.optiontitle == "Stitching Option" && optionPrintValue == 'Stitched'){
+                                        newhtml += "<option class='"+optionValue+"' value='"+optionValueParam+"' selected='true'>"+optionPrintValue+"</option>";
+                                    }
+                                    else{
+                                        var optionVal = 0; 
+                                        optionVal = $("."+optionId).val();
+                                        if(optionVal == optionValue){
+                                            newhtml += "<option class='"+optionValue+"' disabled value='"+optionValueParam+"' selected='true'>"+optionPrintValue+"</option>";
+
+                                        }
+                                        else{
+                                            newhtml += "<option class='"+optionValue+"' value='"+optionValueParam+"'>"+optionPrintValue+"</option>";
+                                        }
+                                    }
+                                }
+                            });
+                            newhtml += "</select>";
+                        }
+                        else if(response.responseJSON.result[key][0].type == "checkbox"){
+                            var label = response.responseJSON.result[key][0].optiontitle;
+                            var optionPrintValue = response.responseJSON.result[key][0].optiontypetitle;
+                            var optionId = response.responseJSON.result[key][0].option_id;
+                            var optionType = response.responseJSON.result[key][0].type;
+                            var optionValue = response.responseJSON.result[key][0].option_type_id;
+                            var productId = response.responseJSON.result[key][0].product_id;
+                            var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+                            newhtml += "<br>"+response.responseJSON.result[key][0].title;
+                            if("Blouse Stitching" == response.responseJSON.result[key][0].optiontitle || "Petticoat Stitching" == response.responseJSON.result[key][0].optiontitle || "Lehenga Stitching" == response.responseJSON.result[key][0].optiontitle){
+                                newhtml += "<input class='checkedBox' id='"+optionValueParam+"' type='checkbox' checked='true' disabled='true'>"+response.responseJSON.result[key][0].optiontypetitle;
+                            }
+                            else{
+                                newhtml += "<input class='checkedBox' id='"+optionValueParam+"' type='checkbox'>"+response.responseJSON.result[key][0].optiontypetitle;
+                            }
+                            
+                        }
+                        else if(response.responseJSON.result[key][0].type == "radio"){
+                            newhtml += "<br>"+response.responseJSON.result[key][0].title+"  ";
+                            var StitchedOptionNameAttr = "";
+                            var StitchedOptionIdAttr = "";
+                            var StitchedOptionOptionValueAttr = "";
+                            fieldDisabled = 0;
+                            $.each(response.responseJSON.result[key], function( key1, value1) {
+                                if(value1.type == "radio"){
+                                    var label = value1.optiontitle;
+                                    var optionPrintValue = value1.optiontypetitle;
+                                    var optionId = value1.option_id;
+                                    var optionType = value1.type;
+                                    var optionValue = value1.option_type_id;
+                                    var productId = value1.product_id;
+                                    var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+
+                                    optionVal = $("."+optionId).val();
+                                    if(optionVal == optionValue){
+                                        if(optionPrintValue == "Stitching Later" || optionPrintValue == "Measurements Later"){
+                                            if(optionPrintValue == "Measurements Later"){
+                                                newhtml += "<input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Measurements Now";
+                                            }
+                                            else{
+                                                newhtml += "<input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Stitching Now";
+                                            }
+                                        }
+                                        else{
+                                            if(optionPrintValue == "Unstitched"){
+                                                fieldDisabled = 1;
+                                            }
+                                            newhtml += "<input class='radiobutton' name="+optionId+"  id='"+optionValueParam+"' value="+optionValue+"  type='radio' checked='true'>"+optionPrintValue;
+                                        }
+                                    }
+                                    else{
+                                        if(optionPrintValue == "Stitched" || optionPrintValue == "Measurements Now"){
+                                            StitchedOptionNameAttr = optionId;
+                                            StitchedOptionIdAttr = optionValueParam;
+                                            StitchedOptionOptionValueAttr = optionValue;
+                                        }
+                                        newhtml += "<input class='radiobutton' name="+optionId+" id='"+optionValueParam+"' value="+optionValue+" type='radio' disabled>"+optionPrintValue;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    newhtml += "<button type='button' title='Submit Measurements' class='action primary add' id='submit' itemId="+response.responseJSON.itemId+"><span>Submit Measurements</span></button>";
+                    $("#order-option-data_"+itemId).append(newhtml);
+                }
+                });
+            }
+            else{
+                $(".order-option-data").empty();
+            }
+        });
+
+        $(document).on('click','#submit',function(){
+            var optionsData = [];
+            $("input:checkbox[class=checkedBox]:checked").each(function(){
+                optionsData.push($(this).attr('id'));
+            });
+
+            var options = $('.selectBox option:selected');
+            var values = $.map(options ,function(option) {
+                if(option.value != "-- Please Select --"){
+                    optionsData.push(option.value);   
+                }
+            });
+
+            $(':radio:checked').each(function(){
+                optionsData.push($(this).attr('id'));
+            });
+
+            var myJsonString = JSON.stringify(optionsData);
+            var itemId = $(this).attr("itemId");
+            var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    measureedoptions: myJsonString,
+                    itemId: itemId
+                },
+                complete: function(response) {
+                    location.reload();
+                }
+            });
+        });
+        return false;
+    });
+</script>

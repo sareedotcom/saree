@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+          <block class="Mageants\GiftCard\Block\Adminhtml\Codeset\Codeset" name="codeset" />
+        </referenceContainer>
+          <referenceContainer name="left">
+            <block class="Mageants\GiftCard\Block\Adminhtml\Codeset\Edit\Tabs" name="codeset_tabs" >
+                <block class="Mageants\GiftCard\Block\Adminhtml\Codeset\Edit\Tabs\General" name="codeset_general"/>
+                <block class="Mageants\GiftCard\Block\Adminhtml\Codeset\Edit\Tabs\View\Codelist" name="codelist_grid" />
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section_1</argument>
+                    <argument name="block" xsi:type="string">codeset_general</argument>
+                </action>
+
+               <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Code Lists</item>
+                        <item name="title" xsi:type="string">Code Lists</item>
+                        <item name="url" xsi:type="url" path="*/*/codelist"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+
+            </block>
+         </referenceContainer>
+    </body>
+</page>

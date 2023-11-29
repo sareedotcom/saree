@@ -1,0 +1,30 @@
+/**
+  * Mageants GiftCard Magento2 Extension                           
+*/
+.category-giftcertificate .products-grid .action.tocart.primary ,.category-giftcertificate .products-list .action.tocart.primary {
+  display: none;
+}
+div#gift-template-content {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+a.switch-prices {
+    background: #ccc;
+    padding: 6px;
+    border-radius: 5px;
+}
+.giftemplates {
+    display: inline;
+}
+
+#narrow-by-list {
+    display: none !important;
+}
+
+.category-description {
+    display: none !important;
+}
+
+.sidebar .sidebar-additional {
+    display: none !important;
+}

@@ -1,0 +1,97 @@
+<script>
+ require([
+     'jquery',
+     'chartJs'
+  ], function($,Chart){
+    $(document).ready(function(){
+        var popCanvas = $("#popChartFreeOrShipping");
+        var popCanvas = document.getElementById("popChartFreeOrShipping");
+        var popCanvas = document.getElementById("popChartFreeOrShipping").getContext("2d");
+        var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/freeorpaidship/?isAjax=true'); ?>";
+        var filterVal = '30d';
+        $.ajax({
+            url: customurl,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'isAjax': true,
+                'filterVal': filterVal
+            },
+            success: function(response) {      
+                var barChart = new Chart(popCanvas, {
+                type: 'bar',
+                data: {
+                    labels: response[0],
+                    datasets: [{
+                        label: 'Free or Paid Shipping',
+                        data: response[1],
+                        backgroundColor: '#f1d4b3',
+                        borderColor: '#eb5202',
+                        borderWidth: 1
+                    }]
+                }
+            })
+            }
+        });
+        
+        var filterVal = $("#dashboard_chart_period").val();
+        $("#dashboard_chart_period").on('change',function(){
+            var filterVal = $("#dashboard_chart_period").val();
+            var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/freeorpaidship'); ?>";
+            $("#cvdiv1").empty();
+            $("#cvdiv1").append('<canvas id="popChartFreeOrShipping" width="1131" height="565"></canvas>');
+            var popCanvas = document.getElementById("popChartFreeOrShipping");
+            var popCanvas = document.getElementById("popChartFreeOrShipping").getContext("2d");
+            var filterVal = $("#dashboard_chart_period").val();
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    filterVal: filterVal
+                },
+                success: function(response) {      
+                    var barChart = new Chart(popCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: response[0],
+                        datasets: [{
+                            label: 'Free or Paid Shipping',
+                            data: response[1],
+                            backgroundColor: '#f1d4b3',
+                            borderColor: '#eb5202',
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                $("#export-chart").val(filterVal);
+                }
+            });
+        });
+
+        $("#export-chart").on('click',function(){
+            var filterVal = $(this).val();
+            var activeTab = $(".ui-state-default.ui-corner-top.ui-tabs-active.ui-state-active").attr("aria-controls");
+            if(activeTab == "diagram_tab_freeorpaidship_content"){
+                var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/freeorpaidship'); ?>";
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        isExport: filterVal
+                    },
+                    success: function(response) {
+                        var exportLink = '<?php echo $this->getBaseUrl() ?>'+response;
+                        window.location.href = exportLink;
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+
+<div id="cvdiv1">
+<canvas id="popChartFreeOrShipping" width="1131" height="565"></canvas>
+</div>

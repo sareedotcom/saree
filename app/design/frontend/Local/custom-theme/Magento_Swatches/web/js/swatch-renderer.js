@@ -1298,6 +1298,11 @@
                 gallery = context.find(this.options.mediaGallerySelector).data('gallery'),
                 isInitial;
 
+            if (justAnImage && justAnImage.img) {
+                context.find('.product-image-photo').removeAttr('srcset');
+                context.find('.product-image-photo').attr('src', justAnImage.img);
+            }
+
             if (isInProductView) {
                 if (_.isUndefined(gallery)) {
                     context.find(this.options.mediaGallerySelector).on('gallery:loaded', function () {
@@ -1318,8 +1323,6 @@
 
                 gallery.updateData(imagesToUpdate);
                 this._addFotoramaVideoEvents(isInitial);
-            } else if (justAnImage && justAnImage.img) {
-                context.find('.product-image-photo').attr('src', justAnImage.img);
             }
         },
 

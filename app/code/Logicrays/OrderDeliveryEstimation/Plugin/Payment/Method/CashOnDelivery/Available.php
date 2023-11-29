@@ -52,7 +52,7 @@ class Available
                 if (!empty($customOptions)) {
                     foreach ($customOptions as $option) {
                         $optionValue = $option['value'];
-                        if (!empty($optionValue) && $optionValue == 'Measurements') {
+                        if (!empty($optionValue) && ($optionValue == 'Measurements' || $optionValue == 'Later')) {
                             $flag = 1;
                         }
                     }

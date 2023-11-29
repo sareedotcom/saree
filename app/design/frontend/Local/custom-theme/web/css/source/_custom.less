@@ -740,3 +740,330 @@ body {
     }
   }
 }
+
+.size-chart-tabs {
+    position: relative;
+}
+
+.tab-inner-titles {
+    position: absolute;
+    display: flex;
+    right: 20px;
+    top: 20px;
+}
+
+.tab-inner-titles .switch {
+    padding: 5px 10px;
+    border: 1px solid #000;
+    display: block;
+    line-height: 14px;
+}
+
+.tab-inner-titles [aria-expanded="true"] .switch {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+.size-chart-modal .table-chart span.test-measure {
+    margin-right: 120px;
+    margin-left: 20px;
+}
+.size-chart-modal .tab-title {
+    justify-content: space-around;
+}
+.modal-popup .action-close {
+    z-index: 11;
+}
+.size-chart-modal .table-chart span.test-measure {
+    padding-right: 130px;
+}
+
+@media(min-width:768px){
+    .size-chart-modal .table-chart .size-table table tr td,
+    .size-chart-modal .table-chart .size-table table tr th {
+        width: 70px;
+        white-space: nowrap;
+    }
+    .tab-inner-titles {
+        right: 40px;
+    }
+}
+
+@media(max-width:767px){
+    body .size-chart-modal .table-chart .size-table table tr td,
+    body .size-chart-modal .table-chart .size-table table tr th {
+        padding: 5px;
+    }
+    
+    body .size-chart-modal .table-chart .size-table table tr td,
+    body .size-chart-modal .table-chart .size-table table tr th {
+        font-size: 10px;
+        padding: 4px 5px;
+    }
+}
+
+.homepage-banner {
+    position: relative;
+}
+.homepage-banner-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 30px;
+    width: 40%;
+    font-size: 32px;
+    color: #000000;
+    font-weight: 400;
+    font-family: "Jost";
+    text-align: center;
+}
+.homepage-banner-text .deal-text {
+    font-size: 40px;
+    text-transform: uppercase;
+    color: #000000;
+    font-family: "New York";
+    text-align: center;
+}
+.homepage-banner-text .discount-rate {
+    font-size: 53px;
+    line-height: 80px;
+    text-transform: uppercase;
+    color: #000000;
+    font-weight: 500;
+    font-family: "Jost";
+    text-align: center;
+}
+.homepage-banner-text .salecounter {
+    font-size: 25px;
+    line-height: 50px;
+    text-transform: uppercase;
+    color: #000000;
+    font-weight: 500;
+    font-family: "Jost";
+}
+.homepage-banner-text .discount-code {
+    font-size: 40px;
+    line-height: 67px;
+    color: #000000;
+    font-weight: 500;
+    font-family: "Jost";
+    text-transform: uppercase;
+}
+.homepage-banner-text .discount-button {
+    display: inline-block;
+    width: 192px;
+    height: 44px;
+    background: #000;
+    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 44px;
+}
+@media only screen and (min-width: 768px)  and (max-width: 1200px){
+    .homepage-banner-text {
+        font-size: 26px;
+    }
+    .homepage-banner-text .deal-text {
+        font-size: 30px;
+        line-height: 20px;
+    }
+    .homepage-banner-text .discount-rate {
+        font-size: 33px;
+        line-height: 40px;
+    }
+    .homepage-banner-text .salecounter {
+        font-size: 35px;
+        line-height: 52px;
+    }
+    .homepage-banner-text .discount-code {
+        font-size: 20px;
+        line-height: 30px;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .homepage-banner-text {
+        right: 20px;
+        font-size: 12px;
+    }
+    .homepage-banner-text .deal-text {
+        font-size: 15px;
+    }
+    .homepage-banner-text .discount-rate {
+        font-size: 18px;
+        line-height: 20px;
+    }
+    .homepage-banner-text .salecounter {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    .homepage-banner-text .discount-code {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    .homepage-banner-text .discount-button {
+        width: 90px;
+        height: 25px;
+        font-size: 10px;
+        line-height: 25px;
+    }
+}
+
+.category-banner {
+   line-height: 0;
+}
+.category-banner-text {
+    line-height: normal;
+    font-size: 26px;
+    color: #ffffff;
+    font-weight: 400;
+    font-family: "Jost";
+}
+.category-banner-text .deal-text {
+    font-size: 31px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'NewYork';
+    text-align: center;
+    filter: drop-shadow(1.928px 2.298px 1.5px rgba(0,0,0,0.76));
+}
+.category-banner-text .discount-rate {
+    font-size: 38px;
+    text-transform: uppercase;
+    margin-right: 20px;
+    font-weight: 500;
+    font-family: "Jost";
+    filter: drop-shadow(1.928px 2.298px 1.5px rgba(0,0,0,0.76));
+}
+.category-banner-text .discount-code {
+    font-size: 23px;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-weight: 500;
+    font-family: "Jost";
+    margin: 0 10px;
+    filter: drop-shadow(1.928px 2.298px 1.5px rgba(0,0,0,0.76));
+}
+.category-banner-text .salecounter {
+   font-size: 42px;
+    margin-right: 10px;
+    filter: drop-shadow(1.928px 2.298px 1.5px rgba(0,0,0,0.76));
+}
+.category-banner-text .discount-button {
+    font-size: 21px;
+    color: #000000;
+    font-weight: 500;
+    font-family: "Jost";
+    width: 155px;
+    height: 35px;
+    line-height: 35px;
+    background-color: #ffffff;
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+@media only screen and (min-width: 1700px){
+   .category-banner-text .deal-text {
+      font-size: 31px;
+      letter-spacing: 3px;
+   }
+   .category-banner-text .discount-rate {
+      font-size: 38px;
+      margin-right: 20px;
+   }
+   .category-banner-text .discount-code {
+      font-size: 23px;
+      margin: 0 10px;
+   }
+   .category-banner-text .salecounter {
+      font-size: 42px;
+      margin-right: 10px;
+   }
+   .category-banner-text .discount-button {
+      font-size: 21px;
+      width: 155px;
+      height: 35px;
+      line-height: 35px;
+   }
+}
+
+@media only screen and (min-width: 768px)  and (max-width: 1699px){
+   .category-banner-text {
+      font-size: 14px;
+   }
+   .category-banner-text .deal-text {
+      font-size: 14px;
+      letter-spacing: 3px;
+   }
+   .category-banner-text .discount-rate {
+      font-size: 14px;
+      margin-right: 10px;
+   }
+   .category-banner-text .discount-code {
+      font-size: 13px;
+      margin: 0 5px;
+   }
+   .category-banner-text .salecounter {
+      font-size: 17px;
+      margin-right: 10px;
+   }
+   .category-banner-text .discount-button {
+      font-size: 12px;
+      width: 85px;
+      height: 25px;
+      line-height: 25px;
+      vertical-align: baseline;
+   }
+}
+
+@media only screen and (min-width: 768px) {
+   .category-banner-text {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      right: 0;
+   }
+
+   .category-banner-text br {
+      display: none;
+   }
+}
+
+@media only screen and (max-width: 767px) {
+   .category-banner > img {
+      display: none;
+   }
+   .category-banner-text {
+      font-size: 13px;
+      background-image: url(../images/category-banner.jpg);
+      background-size: contain;
+      padding: 20px 25px;
+   }
+   .category-banner-text .deal-text {
+      font-size: 14px;
+      letter-spacing: 1px;
+   }
+   .category-banner-text .discount-rate {
+      font-size: 14px;
+      margin-right: 5px;
+   }
+   .category-banner-text .discount-code {
+      font-size: 12px;
+      margin: 0 5px;
+   }
+   .catalog-category-view .salecounter {
+      font-size: 12px;
+      margin: 0;
+   }
+
+   .category-banner-text .discount-button {
+      font-size: 14px;
+      width: 115px;
+      height: 25px;
+      line-height: 25px;
+      vertical-align: text-top;
+      margin-top: 10px;
+   }
+}

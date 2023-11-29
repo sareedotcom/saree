@@ -1303,8 +1303,6 @@ margin: 0;
 .page-header .block-search .input-text {
 border: 1px solid #222 !important;
     padding-left: 15px;
-}.wizzy-autocomplete-wrapper {
-/*top: 93px !important;*/
 }
 
 .page-wrapper .page-header .header.wrapper .header.content {
@@ -1315,4 +1313,10 @@ padding-bottom: 60px;
 display: block;
 }
 
+}
+.wizzy-search-results button.action.towishlist.wizzy-towishlist-button {
+	bottom: 5px !important;
+}
+.wizzy-img-wrapper {
+    position: relative;
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+           <block class="Mageants\GiftCard\Block\Adminhtml\Account\Account" name="addaccount" />
+        </referenceContainer>
+		  <referenceContainer name="left">
+		  <block class="Mageants\GiftCard\Block\Adminhtml\Account\Edit\Tabs" name="codeset_tabs" >
+				<block class="Mageants\GiftCard\Block\Adminhtml\Account\Edit\Tabs\General" name="account"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">account_section</argument>
+                    <argument name="block" xsi:type="string">account</argument>
+                </action>
+				<block class="Mageants\GiftCard\Block\Adminhtml\Account\Edit\Tabs\Resend" name="resend_email"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">resend</argument>
+                    <argument name="block" xsi:type="string">resend_email</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">order</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Order History</item>
+                        <item name="title" xsi:type="string">Order History</item>
+						<item name="url" xsi:type="url"  path="giftcertificate/gcaccount/order"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+			</block>
+			</referenceContainer>
+    </body>	 
+</page>

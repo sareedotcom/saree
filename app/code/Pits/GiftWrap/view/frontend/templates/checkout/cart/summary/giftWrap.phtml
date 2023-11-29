@@ -1,0 +1,65 @@
+<?php
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+
+use Magento\Framework\Pricing\Helper\Data;
+
+$quoteGiftWrapPrice = $block->getGiftWrapPrice();
+$priceHelper = $this->helper(Data::class);
+$item = $block->getItem();
+$quoteGiftWrapData = $block->getQuoteGiftWrapData();
+?>
+<div id="block-giftwrap"
+     class="block giftwrap"
+     data-mage-init='{"collapsible":{"openedState": "active", "saveState": true}}'>
+    <div class="title" data-role="title">
+        <strong id="block-giftwrap-heading" role="heading" aria-level="2">
+            <?= $block->escapeHtml(__('Gift Wrap Available')) ?>
+        </strong>
+    </div>
+    <div id="block-summary"
+         data-bind="scope:'block-summary'"
+         class="content"
+         data-role="content"
+         aria-labelledby="block-giftwrap-heading"
+    >
+        <div class="gift-default-wrap gift-right-block" id="quote-giftwrap" data-bind="scope: 'quote-giftwrap'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <script type="text/x-magento-init">
+            {
+                "#quote-giftwrap": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "quote-giftwrap": {
+                            "component": "Pits_GiftWrap/js/view/checkout/cart/item/renderer",
+                            "orderItemId": "",
+                            "giftWrapData": <?= $quoteGiftWrapData ?>,
+                            "giftWrapSaveUrl": "<?= $block->getUrl('giftWrap/giftWrap/save') ?>",
+                            "giftWrapRemoveUrl": "<?= $block->getUrl('giftWrap/giftWrap/delete') ?>",
+                            "giftWrapLabelWithPrice": "<?= __('Gift Wrap %1',
+                    $priceHelper->currency($quoteGiftWrapPrice, true, false)) ?>",
+                            "isWholeCart": true
+                            }
+                        }
+                    }
+                }
+            }
+            </script>
+        </div>
+    </div>
+</div>

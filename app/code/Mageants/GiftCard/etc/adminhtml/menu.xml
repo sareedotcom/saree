@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+	    <add id="Mageants_GiftCard::giftcertificate" title="Gift Card" module="Mageants_GiftCard" sortOrder="10" resource="Mageants_GiftCard::giftcertificate"/>
+	    <add id="Mageants_GiftCard::giftcard_codes" title="Gift Card Code" module="Mageants_GiftCard" sortOrder="10" parent="Mageants_GiftCard::giftcertificate" action="giftcertificate/index" resource="Mageants_GiftCard::giftcard_codes"/>
+		<add id="Mageants_GiftCard::giftcard_accounts" title="Gift Card Accounts" module="Mageants_GiftCard" sortOrder="20" parent="Mageants_GiftCard::giftcertificate" action="giftcertificate/gcaccount" resource="Mageants_GiftCard::giftcard_accounts"/>
+		<add id="Mageants_GiftCard::giftcard_images" title="Gift Card Templates" module="Mageants_GiftCard" sortOrder="30" parent="Mageants_GiftCard::giftcertificate" action="giftcertificate/gcimages" resource="Mageants_GiftCard::giftcard_images"/>
+		<add id="Mageants_GiftCard::gcconfig" title="Gift Card Setting" module="Mageants_GiftCard" sortOrder="30" parent="Mageants_GiftCard::giftcertificate" action="adminhtml/system_config/edit/section/giftcertificate" resource="Mageants_GiftCard::gcconfig"/>
+	</menu>
+</config>
+

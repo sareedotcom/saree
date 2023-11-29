@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <preference for="MageWorx\OrderEditor\Controller\Adminhtml\Edit\Items" type="Logicrays\UpdateOrder\Controller\Adminhtml\Edit\Items" />
+    <preference for="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\Wrapper" type="Logicrays\UpdateOrder\Block\Adminhtml\Sales\Order\Edit\Wrapper" />
+</config>

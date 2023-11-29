@@ -21,6 +21,8 @@ requirejs(['jquery'], function($) {
 		            }
 		        }
 
+				products[i]['images'] = [];
+				products[i]['mainImage'] = "https://www.saree.com/media/catalog/product/cache/105f7cd698c40f8c8cb493800ea1f5ad/p/c/pccdl2393a-lime-green-floral-printed-lehenga-in-organza-with-sequins-work1.jpg"
 		        products[i]['sku'] = sku;
 		        products[i]['brand'] = brand;
 		    }

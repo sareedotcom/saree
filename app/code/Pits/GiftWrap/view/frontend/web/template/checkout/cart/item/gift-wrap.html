@@ -1,0 +1,43 @@
+<!-- ko if: (rendererValue(arrayIndex, 'giftWrapSummary')) -->
+<div class="giftwrap-applied">
+    <div class="applied-msg-gift">
+        <label data-bind="i18n: 'Gift Wrapping applied'"></label>
+    </div>
+    <div class="applied-gift-block">
+        <div><span data-bind="text: giftWrapRendererValue(arrayIndex, 'message')"></span></div>
+        <div class="giftwrap-remove"
+             data-bind="event: {click: removeGiftWrap}, attr: {'data-wrap-id': giftWrapRendererValue(arrayIndex, 'id')}, i18n: 'Remove'"></div>
+        <!-- ko if: (giftWrapRendererValue(arrayIndex, 'message')) -->
+        <div class="giftwrap-edit" data-bind="event: {click: triggerGiftWrapUpdate}, i18n: 'Edit Message'"></div>
+        <!-- /ko -->
+        <!-- ko if: (giftWrapRendererValue(arrayIndex, 'message') == '' || !giftWrapRendererValue(arrayIndex, 'message')) -->
+        <!--<div class="giftwrap-edit" data-bind="event: {click: triggerGiftWrapUpdate}, i18n: 'Add Message'"></div>-->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<div class="gift-wrap" data-bind="visible: rendererValue(arrayIndex, 'displayGiftWrapForm')">
+    <div class="field-giftwrap">
+        <input type="checkbox"
+               class="checkbox"
+               data-bind="checked: rendererValue(arrayIndex, 'itemGiftWrapSelected'), attr: {id: 'item-' + orderItemId, 'data-index': arrayIndex}, event: {change: triggerGiftWrapSelection}">
+        <label data-bind="attr: {for: 'item-' + orderItemId}">
+            <span data-bind="text: giftWrapLabelWithPrice"></span>
+        </label>
+    </div>
+    <!--<div class="gift-message-container" data-bind="visible: rendererValue(arrayIndex, 'showGiftMessageContainer')">
+        <div class="field-giftmsg">
+            <input type="checkbox" name="gift-message"
+                   class="checkbox"
+                   data-bind="checked: rendererValue(arrayIndex, 'displayItemGiftMessage'), attr: {id: 'item-message-' + orderItemId, 'data-index': arrayIndex}, event: {change: triggerAddMessageSelection}">
+            <label data-bind="attr: {for: 'item-message-' + orderItemId}">
+                <span data-bind="i18n: 'Add Gift Message'"></span>
+            </label>
+        </div>
+        <div class="field-gifttxt"
+             data-bind="visible: rendererValue(arrayIndex, 'displayItemGiftMessage') && rendererValue(arrayIndex, 'itemGiftWrapSelected')">
+        <textarea
+            data-bind="attr: {placeholder: $t('Your gift message here'), 'data-index': arrayIndex}, value: itemGiftMessage, event: {blur: updateItemGiftMessage}"></textarea>
+        </div>
+    </div>-->
+</div>

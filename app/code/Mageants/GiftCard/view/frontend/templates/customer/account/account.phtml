@@ -1,0 +1,84 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+
+$status=[0=>'Inactive',1=>'Active'];
+$viewModel = $block->getData("viewModel");
+?>
+<div class="block block-dashboard-orders">
+<?php $_orders = $block->getGiftOrder(); ?>
+    <div class="block-title order">
+        <strong> <?= /* @noEscape */ __('My Orders') ?></strong>
+       
+    </div>
+    <div class="block-content">
+    <?php if (count($_orders->getItems()) > 0): ?>
+        <div class="table-wrapper orders-recent">
+            <table class="data table table-order-items recent" id="my-orders-table">
+                <caption class="table-caption"><?= /* @noEscape */ __('Recent Orders') ?>
+                    
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="col account_id"> <?= /* @noEscape */
+                        __('Order #') ?></th>
+                        <th scope="col" class="col initial_code_value">
+                            <?= /* @noEscape */ __('Initial Value') ?></th>
+                        <th scope="col" class="col current_balance">
+                            <?= /* @noEscape */ __('Current Balance') ?></th>
+                        <th scope="col" class="col gift_code">
+                            <?= /* @noEscape */ __('Code') ?></th>
+                        <th scope="col" class="col status">
+                            <?= /* @noEscape */ __('Status') ?></th>
+                     </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $count = 0;
+                    foreach ($_orders as $_order):
+                        $count++;
+                        ?>
+                        <tr>
+                            <td data-th="<?= /* @noEscape */ $block->
+                            escapeHtml(__('Order #')) ?>" class="col id"><?= /* @noEscape */
+                            __($count) ?>
+                            <!-- $_order->getAccountId() ?> -->
+                            </td>
+                            <td data-th="<?= /* @noEscape */ $block->
+                            escapeHtml(__('Initial Value')) ?>" class="col total">
+                            <?= /* @noEscape */ $viewModel->getdata()->currency(
+                                $_order->getInitialCodeValue(),
+                                true,
+                                false
+                            ); ?> 
+                                    
+                                </td>
+                            <td data-th="<?= /* @noEscape */ $block->
+                            escapeHtml(__('Current Balance')) ?>" class="col shipping">
+                            <?= /* @noEscape */ $viewModel->getdata()->currency(
+                                $_order->getCurrentBalance(),
+                                true,
+                                false
+                            ); ?>
+                            </td>
+                            <td data-th="<?= /* @noEscape */ $block->
+                            escapeHtml(__('Status')) ?>" class="col status">
+                            <?= /* @noEscape */ $_order->getGiftCode() ?></td>
+                            <td data-th="<?= /* @noEscape */ $block->
+                            escapeHtml(__('Status')) ?>" class="col status">
+                            <?= /* @noEscape */ $status[$_order->getStatus()] ?></td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <div class="message info empty"><span><?= /* @noEscape */ __('You have placed no orders.'); ?></span></div>
+    <?php endif; ?>
+    </div>
+</div>

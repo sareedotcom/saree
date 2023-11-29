@@ -1,4 +1,5 @@
 <?php
+
 /** @var $block \Magento\Framework\View\Element\Template */
 $configs = $block->getConfigs();
 $currency = $configs['store']['currency']['symbol'];
@@ -15,12 +16,33 @@ $displayAddToWishlistButton = $configs['search']['addToWishlist']['display'];
       <span class="wizzy-product-variation-loader-bg"></span>
       <span class="wizzy-product-variation-loader"></span>
 
-      <a href="{{{url}}}" class="wizzy-result-product-item">
-         <div class="result-product-item-image">
-            <img src="{{ mainImage }}" class="product-item-image" />
-         </div><!-- ending of result-product-item-image -->
+      <div class="wizzy-result-product-item">
+        <div class="wizzy-img-wrapper">
+            <?php if ($displayAddToWishlistButton) { ?>
+            <div class="actions-secondary" data-role="add-to-links">
+                <div class="wizzy-product-add-to-wishlist">
+                    <button
+                        class="action towishlist wizzy-towishlist-button"
+                        title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                        aria-label="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                        data-post=''
+                        data-productid="{{id}}"
+                        data-groupid="{{#groupId}}{{groupId}}{{/groupId}}"
+                        data-action="add-to-wishlist"
+                        role="button">
+                        <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                    </button>
+                </div>
+            </div>
+            <?php } ?>
+            <a href="{{{url}}}">
+            <div class="result-product-item-image">
+                <img src="{{ mainImage }}" class="product-item-image" />
+            </div><!-- ending of result-product-item-image -->
+            </a>
+        </div>
          <div class="result-product-item-info">
-            <?/*<strong class="product name product-item-name">{{{ brand }}}</strong>*/?>
+            <?/*<strong class="product name product-item-name">{{{ brand }}}</strong>*/ ?>
             {{#swatches}}
              <div class="product-item-swatch-group
              {{#isPrimary}}swatch-group-primary{{/isPrimary}} swatch-group-{{key}}"
@@ -36,8 +58,7 @@ $displayAddToWishlistButton = $configs['search']['addToWishlist']['display'];
             </div><!-- ending of product-item-swatch-group -->
             {{/swatches}}
             <div class="wizzy-product-item-price-reviews-wrapper">
-
-              
+                <a href="{{{url}}}">
               <p class="product-item-title">{{{ name }}}</p>
               
                <div class="wizzy-product-item-price {{#hasSwatches}}with-swatches{{/hasSwatches}}">
@@ -54,7 +75,7 @@ $displayAddToWishlistButton = $configs['search']['addToWishlist']['display'];
                                </span> */ ?>
                   {{/price}}
                </div>
-               
+                </a>
                <div class="wizzy-product-item-reviews">
                   {{#avgRatings}}
                    <span class="product-item-reviews-avgRatings">{{avgRatings}}</span><span
@@ -64,7 +85,7 @@ $displayAddToWishlistButton = $configs['search']['addToWishlist']['display'];
                   {{/avgRatings}}
                </div>
                
-<?/*		<span class="product-item-link">{{{ sku }}}</span> */?>
+<?/*		<span class="product-item-link">{{{ sku }}}</span> */ ?>
 
                 <div class="wizzy-product-actions">
                     <div class="product_item-actions actions">
@@ -88,31 +109,12 @@ $displayAddToWishlistButton = $configs['search']['addToWishlist']['display'];
                                 </div>
                             </div>
                         <?php } ?>
-
-                        <?php if ($displayAddToWishlistButton) { ?>
-                            <div class="actions-secondary" data-role="add-to-links">
-                                <div class="wizzy-product-add-to-wishlist">
-                                    <button
-                                       class="action towishlist wizzy-towishlist-button"
-                                       title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
-                                       aria-label="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
-                                       data-post=''
-                                       data-productid="{{id}}"
-                                       data-groupid="{{#groupId}}{{groupId}}{{/groupId}}"
-                                       data-action="add-to-wishlist"
-                                       role="button">
-                                        <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
-                                    </button>
-                                </div>
-                            </div>
-                        <?php } ?>
-
                     </div>
                 </div><!-- ending of wizzy-product-actions -->
 
             </div><!-- ending of wizzy-product-item-price-reviews-wrapper -->
          </div><!-- ending of result-product-item-info -->
-      </a><!-- ending of wizzy-result-product-item -->
+        </div><!-- ending of wizzy-result-product-item -->
    </li><!-- ending of wizzy-result-product -->
 
 </script>

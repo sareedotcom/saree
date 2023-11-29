@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="razorpay_payment_link" resource="default" engine="innodb" comment="Razorpay Payment Link">
+    <column xsi:type="int" name="id" unsigned="false" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="varchar" name="orderid" nullable="false" length="25" comment="Reference Id / Order Id"/>
+    <column xsi:type="varchar" name="status" nullable="false" length="25" comment="Status"/>
+    <column xsi:type="varchar" name="short_url" nullable="true" length="255" comment="Payment Link"/>
+    <column xsi:type="text" name="payments" nullable="true" comment="Details About Payments"/>
+    <column name="created_at" nullable="false" xsi:type="datetime" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+    <column name="updated_at" nullable="true" xsi:type="datetime" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+        <column name="id"/>
+    </constraint>
+  </table>
+</schema>

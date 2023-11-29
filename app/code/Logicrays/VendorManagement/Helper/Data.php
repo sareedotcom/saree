@@ -83,11 +83,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function updateVendorProduct($productId, $vendorId)
     {
-        if ($vendorId) {
-            $table = self::VENDOR_PRODUCT_TABLE;
-            $data = ['vendor_id' => $vendorId, 'product_id' => (int) $productId];
-            $this->connection->insert($table, $data);
-        }
+        $table = self::VENDOR_PRODUCT_TABLE;
+        $data = ['vendor_id' => $vendorId, 'product_id' => (int) $productId];
+        $this->connection->insert($table, $data);
     }
 
     /**

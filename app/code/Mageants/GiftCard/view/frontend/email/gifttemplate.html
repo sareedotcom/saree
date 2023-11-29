@@ -1,0 +1,42 @@
+<!--@subject Congrats! You got gift card @-->
+<!--@vars
+{
+  "store url=\"\"":"Store Url",
+  "var logo_url":"Email Logo Image Url",
+  "var logo_alt":"Email Logo Image Alt",
+  "var data.custom_variable":"Custom variable",
+  "var data.message":"Message",
+  "var data.template":"Template"
+}
+@-->
+ 
+<!--@styles 
+.template {color: green; width:150px; height:100px;}
+#codeset{color:green;}
+@--> 
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+    <div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+    
+       <!--  <div style="width:600px;position:relative;height:200px;margin:10px 0;border:2px solid #000;background-image:url({{trans '%myVar' myVar=$data.template}});background-size:cover;background-color: #000 !important;background-repeat: no-repeat;background-position: center;" id="customdiv"> -->
+        <div style="width:600px;position:relative;height:200px;margin:10px 0;border:2px solid #000;
+        background-image:url({{trans '%myVar' myVar=$data.template}});background-size:cover;background-color: #000 !important;background-repeat: no-repeat;background-position: center;" id="customdiv">
+           <div class="draggable" style="left:50px; top:96px;">{{trans "%myVar" myVar=$data.message}} </div>
+        </h1></div>
+         
+
+            <style>
+            .draggable {
+               width: 250px;
+               height: 100px;
+               line-height: 100px;
+               text-align: center;
+               background: #f00;
+               border-radius: 3px;
+               color: #fff;
+               position:absolute;
+
+            }
+            </style>
+
+    </div>
+</body>

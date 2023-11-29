@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Mageants_GiftCard::css/css/font-awesome.min.css"/>
+        <css src="Mageants_GiftCard::css/css/giftcertificate.css"/>
+    </head>
+    <body>
+        <referenceContainer name="checkout.cart.methods">
+            <block class="Magento\Multishipping\Block\Checkout\Link" name="checkout.cart.methods.multishipping" template="Mageants_GiftCard::checkout/link.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="additional.product.info">
+            <block class="Mageants\GiftCard\Block\AdditionalProInfo" name="gift_info_certi" template="Mageants_GiftCard::checkout/cart/item/additionalinfo.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="cart.discount">
+                        <block class="Mageants\GiftCard\Block\Giftcode" name="giftcode_certi" template="Mageants_GiftCard::checkout/cart/item/Giftcode.phtml" after="-"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="giftcertificate" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Mageants_GiftCard/js/view/checkout/cart/totals/giftcertificate</item>
+                                    <item name="sortOrder" xsi:type="string">20</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Mageants_GiftCard/checkout/cart/totals/giftcertificate</item>
+                                        <item name="title" xsi:type="string" translate="true">Gift Card</item>
+                                         <item name="link" xsi:type="string" translate="true">Remove</item>
+                                    </item>
+                                </item>
+
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

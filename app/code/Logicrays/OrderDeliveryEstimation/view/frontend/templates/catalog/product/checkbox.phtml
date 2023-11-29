@@ -53,6 +53,8 @@ $moduleEnable = $helper->isEnable();
                 });
             }
 
+            /*
+            Add this code into comment after add Yes Later No option
             $('.product-custom-option.admin__control-select').on('change', function() {
                 if ($(this).val()) {
                     productDeliveryEstimationDate();
@@ -66,7 +68,22 @@ $moduleEnable = $helper->isEnable();
                         $('#custom_measurement_message').hide();
                     }
                 }
+            });*/
+
+            jQuery(".radio.admin__control-radio.required.product-custom-option").change(function(){
+                var checkboxLabel = jQuery(this).next("label").children("span").text();
+                productDeliveryEstimationDate();
+                if(checkboxLabel.trim() == "Later" || checkboxLabel.trim() == "Yes"){
+                    $('#custom_measurement_message').show();
+                }
+                else{
+                    var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
+                    $('#estd-dispatch-date').val(deliveryEstimationDate);
+                    $('#delivery-estimation-date').text(deliveryEstimationDate);
+                    $('#custom_measurement_message').hide();
+                }
             });
+
         });
     });
 </script>

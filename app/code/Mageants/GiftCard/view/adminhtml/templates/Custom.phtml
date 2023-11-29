@@ -1,0 +1,81 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+$viewModel = $block->getData("viewModel");
+
+$giftValue=$block->getOrder()->getOrderGift();
+$attribute_val = "";
+
+    $orderId = $block->getRequest()->getParam('order_id');
+
+    $orderCollection = $viewModel->getOrderId()->get($orderId);
+    $orderItems = $orderCollection->getAllVisibleItems();
+
+foreach ($orderItems as $values) {
+    if (method_exists($values->getProduct(), 'getId')) {
+            $productId = $values->getProduct()->getId();
+            $product = $viewModel->getProductdetail()->load(
+                $productId
+            );
+        
+        if ($product->getTypeId() == 'giftcertificate') {
+            if ($product->getAttributeText('gifttype') == 'Virtual') {
+                    $attribute_val = "Virtual Product";
+            } elseif ($product->getAttributeText('gifttype') == 'Printed') {
+                    $attribute_val = "Printed Product";
+            } else {
+                    $gift_data = $viewModel->getCustomerdetail();
+                    
+                    $gift_type_data= $gift_data->getCollection()->addFieldToFilter(
+                        'order_id',
+                        $orderCollection->getIncrementId()
+                    )->getData();
+                if (!empty($gift_type_data)) {
+                    if ($gift_type_data[0]['card_type'] == 0) {
+                        $attribute_val = "Virtual Product";
+                    } elseif ($gift_type_data[0]['card_type'] == 1) {
+                        $attribute_val = "Printed Product";
+                    } else {
+                        $attribute_val = "Both Virtual & Printed";
+                    }
+                }
+            }
+        }
+    }
+}
+    
+if (empty($giftValue)) {
+    $giftValue="0.00";
+}
+?>
+
+<div class="admin__page-section-content">
+    <div class="admin__page-section-item order-payment-method">
+        <div class="admin__page-section-item-title">
+            <span class="title">Gift Card</span>
+        </div>
+        <div class="admin__page-section-item-content">
+            <div class="order-payment-currency">The order was placed using Gift Card Code.</div>
+            
+            <div class="admin__page-section-item-content" style="padding-top: 20px;">
+                <strong>Gift Type - </strong>
+                <span class="type"><?= /* @noEscape */ $attribute_val; ?></span>
+            </div>
+        </div>
+    </div>
+    <div class="admin__page-section-item order-shipping-method">
+        <div class="admin__page-section-item-title">
+            <span class="title">Gift Price Information</span>
+        </div>
+        <div class="admin__page-section-item-content">
+            <strong>Gift Amount - </strong>
+            <span class="price">
+                <?= /* @noEscape */ $viewModel->getHelperdata()->getCurrencySymbol()."".$giftValue; ?>
+            </span>
+        </div>
+    </div>
+</div>

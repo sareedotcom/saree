@@ -1,0 +1,98 @@
+<script>
+ require([
+     'jquery',
+     'chartJs'
+  ], function($,Chart){
+    $(document).ready(function(){
+        var popCanvas = $("#popChartPaymentGatewayChart");
+        var popCanvas = document.getElementById("popChartPaymentGatewayChart");
+        var popCanvas = document.getElementById("popChartPaymentGatewayChart").getContext("2d");
+        var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/paymentchart/?isAjax=true'); ?>";
+        var filterVal = '30d';
+        $.ajax({
+            url: customurl,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                'isAjax': true,
+                'filterVal': filterVal
+            },
+            success: function(response) {      
+                var barChart = new Chart(popCanvas, {
+                type: 'bar',
+                data: {
+                    labels: response[0],
+                    datasets: [{
+                        label: 'Payment Gateway Chart',
+                        data: response[1],
+                        backgroundColor: '#f1d4b3',
+                        borderColor: '#eb5202',
+                        borderWidth: 1
+                    }]
+                }
+            })
+            }
+        });
+        
+        var filterVal = $("#dashboard_chart_period").val();
+        $("#dashboard_chart_period").on('change',function(){
+            var filterVal = $("#dashboard_chart_period").val();
+            var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/paymentchart'); ?>";
+            $("#cvdiv2").empty();
+            $("#cvdiv2").append('<canvas id="popChartPaymentGatewayChart" width="1131" height="565"></canvas>');
+            var popCanvas = document.getElementById("popChartPaymentGatewayChart");
+            var popCanvas = document.getElementById("popChartPaymentGatewayChart").getContext("2d");
+            var filterVal = $("#dashboard_chart_period").val();
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    filterVal: filterVal
+                },
+                success: function(response) {      
+                    var barChart = new Chart(popCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: response[0],
+                        datasets: [{
+                            label: 'Payment Gateway Chart',
+                            data: response[1],
+                            backgroundColor: '#f1d4b3',
+                            borderColor: '#eb5202',
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                $("#export-chart").val(filterVal);
+                }
+            });
+        });
+
+        $("#export-chart").on('click',function(){
+            var filterVal = $(this).val();
+            var activeTab = $(".ui-state-default.ui-corner-top.ui-tabs-active.ui-state-active").attr("aria-controls");
+            console.log(activeTab);
+            if(activeTab == "diagram_tab_paymentchart_content"){
+                var customurl = "<?php echo $this->getUrl('newdashboard/dashboard/paymentchart'); ?>";
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        isExport: filterVal
+                    },
+                    success: function(response) {
+                        var exportLink = '<?php echo $this->getBaseUrl() ?>'+response;
+                        window.location.href = exportLink;
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+
+<div id="cvdiv2">
+<canvas id="popChartPaymentGatewayChart" width="1131" height="565"></canvas>
+</div>

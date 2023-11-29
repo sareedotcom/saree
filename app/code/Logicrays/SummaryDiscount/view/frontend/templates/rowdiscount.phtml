@@ -1,0 +1,25 @@
+<div style="background-color: #f1d4b385;text-align: center; display:none" class="discount-section">
+    <div style="display: flex;align-items: center;align-self: auto;padding:10px;justify-content: center;">
+        <span class="gift-box" style="margin-right: 5px;min-width: 18px;"></span>
+        <span style="font-size: smaller;"><b>Congrats! you saved total <span style="color:#c22025c9;font-size: medium;" class="discount-amount"></span> on this order.</b></span>
+    </div>
+</div>
+
+<script>
+    require([
+        'jquery',
+    ],  
+    function ($) {
+        price = 0;
+        var data = window.checkoutConfig.quoteItemData;
+        $(data).each( function( index, element ){
+            if(element.rowDiscount != undefined){
+                price = price + element.rowDiscount;
+            }
+        });
+        if(price){
+            $(".discount-amount").text((window.checkoutConfig.priceFormat.pattern.replace(/\%s/gi, ''))+price);
+            $(".discount-section").show();
+        }
+    });
+</script>

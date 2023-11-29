@@ -1,0 +1,153 @@
+<?php
+/**
+ * @var $block \StackExchange\MagentoTest\Block\Adminhtml\Order\ModalBox
+ */
+$paymentReminderData = $block->getPaymentReminderData();
+$paymentlinkUrl = $block->getBackendUrl();
+// $currancy = $paymentReminderData["currency"];
+
+?>
+<div id="popup-modal" style="display: none">
+    <form action="<?= $block->escapeUrl($block->getFormUrl())?>" method="post"
+          id="payment-reminder-form">
+        <table>
+            <tr>
+                <td style="padding:10px">Order Total:</td>
+                <td style="padding:10px">
+                    <?= $block->escapeUrl(number_format($paymentReminderData['grandTotal']),2); ?>
+                    <input name="grandTotal" type="hidden" id="grandTotal" value="<?= $block->escapeUrl($paymentReminderData['grandTotal']); ?>">
+                    <input name="currency" type="hidden" id="currency" value="<?= $block->escapeUrl($paymentReminderData['currency']); ?>">
+                    <input name="orderId" type="hidden" id="orderId" value="<?= $block->escapeUrl($paymentReminderData['orderId']); ?>">
+                    <input name="customerName" type="hidden" id="customerName" value="<?= $block->escapeUrl($paymentReminderData['customerName']); ?>">
+                    <input name="customerEmail" type="hidden" id="customerEmail" value="<?= $block->escapeUrl($paymentReminderData['customerEmail']); ?>">
+                    <input name="currentUrl" type="hidden" id="currentUrl" value="<?= $block->escapeUrl($block->getCurrentUrl()); ?>">
+                    <input name="mobilenumber" type="hidden" id="currentUrl" value="<?= $block->escapeUrl($paymentReminderData['mobilenumber']) ?>">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Due Amount:</td>
+                <td style="padding:10px"><?= $block->escapeUrl($paymentReminderData['totalDue']); ?></td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Minimum Pay:</td>
+                <td style="padding:10px"><input id="minimumPay" name="minimumPay" value="<?= $block->escapeUrl($paymentReminderData['totalDue']); ?>" type="text">
+                    <br><span class="amount-error-message"></span>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="padding:10px">Payment methods:</td>
+                <td style="padding:10px">    
+                    <input type="radio" id="Stripe" name="paymenttype" class="paymenttype" value="Stripe">
+                    <label for="Stripe">Stripe</label><br>
+                    <input type="radio" id="Razorpay" name="paymenttype" class="paymenttype" value="Razorpay">
+                    <label for="Razorpay">Razorpay</label>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px"></td>
+                <td style="padding:10px">    
+                    <button type="button" id="createPaymentlink" title="Create Payment Link">Create Payment Link</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Link of Payment</td>
+                <td style="padding:10px">
+                    <input name="paymentlink" type="text" id="paymentlink" disabled size="60">
+                    <input name="paymentlinkhide" type="hidden" id="paymentlinkhide">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">
+                    <button type="submit" id="payment-reminder" disabled>Send Link</button>
+                </td>
+            </tr>
+        </table>
+
+        
+    </form>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+        ],
+        function (
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Payment Reminder',
+                modalClass: 'custom-modal',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                     }
+                }]
+            };
+            $("#createPaymentlink").click(function() {
+                if ($("#Stripe").is(":checked")) {
+                    var paymentType = 'Stripe';
+                }
+                else if($("#Razorpay").is(":checked")){
+                    var paymentType = 'Razorpay';
+                }
+
+                var paymentlinkUrl = "<?= $block->escapeUrl($paymentlinkUrl); ?>";
+                var grandTotal = "<?= $block->escapeUrl($paymentReminderData['grandTotal']) ?>";
+                var totalDue = "<?= $block->escapeUrl($paymentReminderData['totalDue']) ?>";
+                var currency = "<?= $block->escapeUrl($paymentReminderData['currency']) ?>";
+                var orderId = "<?= $block->escapeUrl($paymentReminderData['orderId']) ?>";
+                var customerName = "<?= $block->escapeUrl($paymentReminderData['customerName']) ?>";
+                var customerEmail = "<?= $block->escapeUrl($paymentReminderData['customerEmail']) ?>";
+                var mobilenumber = "<?= $block->escapeUrl($paymentReminderData['mobilenumber']) ?>";
+                var minimumPay = $("#minimumPay").val();
+
+                if(minimumPay > totalDue){
+                    $(".amount-error-message").text("Minimun pay amount should be less or equal of total pay");
+                    return false;
+                }
+                
+                if(paymentType && currency && minimumPay > 0){
+                    $.ajax({
+                        type: "POST",
+                        url: paymentlinkUrl,
+                        data: {'paymentType': paymentType, 'minimumPay': minimumPay, 'currency':currency, 'orderId': orderId, 'customerName':customerName, 'customerEmail':customerEmail, 'mobilenumber':mobilenumber},
+                        cache: false,
+                        showLoader: true,
+                        success: function(data){
+                            jQuery("body").trigger("processStart");
+                            $("#paymentlink").val(data.message);
+                            $("#paymentlinkhide").val(data.message);
+                            $("#payment-reminder").removeAttr('disabled');
+                            jQuery("body").trigger("processStop");
+
+                        }
+                    });
+                }
+            });
+
+            var popup = modal(options, $('#popup-modal'));
+            $("#sendordersms").click(function() {
+                $("#popup-modal").modal('openModal');
+            });
+
+            $('#payment-reminder').click(function () {
+                $('#payment-reminder-form').append($('<input>', {
+                    'name': 'form_key',
+                    'value': window.FORM_KEY,
+                    'type': 'hidden'
+                }));
+                $('#payment-reminder-form').submit();
+            });
+        }
+    );
+    
+</script>

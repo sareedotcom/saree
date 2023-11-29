@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="pits" translate="label" sortOrder="110">
+            <label>PITS Configuration</label>
+        </tab>
+        <section id="pits_gift_wrap" sortOrder="410" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Gift Wrap</label>
+            <tab>pits</tab>
+            <resource>Pits_GiftWrap::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>General Settings</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[Enable/Disable Gift Wrap Module]]>
+                    </comment>
+                </field>
+                <field id="fee" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Gift Wrap Fee</label>
+                    <validate>validate-number required-entry</validate>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <comment>Fee for the Gift Wrap</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

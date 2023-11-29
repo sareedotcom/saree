@@ -151,7 +151,7 @@ class Vendor extends Generic implements TabInterface
             'name' => 'lastname',
             'label' => __('Last Name'),
             'title' => __('Last Name'),
-            'required' => true,
+            'required' => false,
         ]);
 
         $fieldset->addField('email', 'text', [
@@ -166,15 +166,21 @@ class Vendor extends Generic implements TabInterface
             'name' => 'phone',
             'label' => __('Phone'),
             'title' => __('Phone'),
-            'required' => true,
-            'class' => 'validate-number',
+            'required' => false
+        ]);
+
+        $fieldset->addField('telephone', 'text', [
+            'name' => 'telephone',
+            'label' => __('TelePhone'),
+            'title' => __('TelePhone'),
+            'required' => false,
         ]);
 
         $fieldset->addField('company', 'text', [
             'name' => 'company',
             'label' => __('Company'),
             'title' => __('Company'),
-            'required' => false,
+            'required' => false
         ]);
 
         $fieldset->addField('status', 'select', [
@@ -262,13 +268,6 @@ class Vendor extends Generic implements TabInterface
             'name' => 'ifsc_code',
             'label' => __('Ifsc Code'),
             'title' => __('Ifsc Code'),
-            'required' => false,
-        ]);
-
-        $fieldset->addField('gst_no', 'text', [
-            'name' => 'gst_no',
-            'label' => __('GST No'),
-            'title' => __('GST No'),
             'required' => false,
         ]);
 

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="TemplateGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>   
+   <virtualType name="TemplateGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\GiftCard\Model\ResourceModel\Templates\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">TemplateGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+	<virtualType name="Mageants\GiftCard\Model\ResourceModel\Templates\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">gift_templates</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Templates</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageants_giftcertificate_data_source" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Templates\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>	
+	<virtualType name="CodeSetGridFilter" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>   
+    <virtualType name="CodesetProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\GiftCard\Model\ResourceModel\Codeset\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CodeSetGridFilter</argument>
+        </arguments>
+    </virtualType>
+	<virtualType name="Mageants\GiftCard\Model\ResourceModel\Codeset\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">gift_code_set</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Codeset</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageants_codeset_datasource" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Codeset\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>	
+	<virtualType name="AccountGridFilter" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>   
+   <virtualType name="CodesetProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\GiftCard\Model\ResourceModel\Account\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">AccountGridFilter</argument>
+        </arguments>
+    </virtualType>
+	<virtualType name="Mageants\GiftCard\Model\ResourceModel\Account\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">gift_code_account</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Account</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="account_dataset" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Account\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="form_data" xsi:type="string">EntityItemGridCollection</item>
+			</argument>
+		</arguments>
+	</type>
+	<virtualType name="EntityItemGridCollection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">gift_templates</argument>
+			<argument name="resourceModel" xsi:type="string">Mageants\GiftCard\Model\ResourceModel\Templates</argument>
+		</arguments>
+	</virtualType>
+    
+    <preference for="Magento\Catalog\Model\Design" type="Mageants\GiftCard\Model\Design" /> 
+    
+    <preference for="Magento\Checkout\Controller\Cart\Configure" type="Mageants\GiftCard\Controller\Cart\Configure" />   
+     <!-- <type name="Magento\Customer\Api\AccountManagementInterface">
+        <plugin name="check_customer_for_giftcertificate" type="Mageants\GiftCard\Plugin\AccountManagement" />
+    </type> -->
+    <preference for="Magento\Quote\Model\PaymentMethodManagement" type="Mageants\GiftCard\Model\PaymentMethodManagement" /> 
+
+    <preference for="Magento\Sales\Block\Order\Totals" type="Mageants\GiftCard\Block\Giftorder\Totals" />    
+    
+    <preference for="Magento\Sales\Block\Adminhtml\Order\Invoice\Totals" type="Mageants\GiftCard\Block\Adminhtml\Order\Invoice\Totals"/>   
+    
+    <preference for="Mageants\GiftCard\Api\GiftCardManagementInterface" type="Mageants\GiftCard\Model\GiftCardManagement" />
+
+</config>

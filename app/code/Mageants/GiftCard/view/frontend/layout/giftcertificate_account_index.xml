@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle" ifconfig="giftcertificate/general/statusgc">
+                <argument translate="true" name="title" xsi:type="string">My Gift Cards</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Mageants\GiftCard\Block\Account" name="gift_certificate_account" as="top"  template="Mageants_GiftCard::customer/account/account.phtml" ifconfig="giftcertificate/general/statusgc">
+                <arguments>
+                    <argument name="viewModel" xsi:type="object">
+                        Mageants\GiftCard\ViewModel\ViewHelperData
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

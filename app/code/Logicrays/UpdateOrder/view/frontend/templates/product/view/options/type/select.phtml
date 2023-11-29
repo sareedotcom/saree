@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<?php /* @var $block \Magento\Catalog\Block\Product\View\Options\Type\Select */ ?>
+<?php
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+?>
+<div class="field<?= /* @noEscape */ $class ?>">
+    <label class="label" for="select_<?= $block->escapeHtmlAttr($_option->getId()) ?>">
+        <?php if($_option->getTitle() == "Custom Size") :?>
+            <span><?= $block->escapeHtml($_option->getTitle()) ?>
+                <i class="fa fa-info-circle" aria-hidden="true" tooltip='If you have the measurements ready, choose the "Now" option and enter them. 
+                If you don&#39;t have the measurements yet, select the "Later" option. Please note that if you choose "Later"you will receive a link via email to provide your measurements.'></i>
+            </span>
+        <?php else : ?>
+            <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+        <?php endif; ?>
+    </label>
+    <div class="control">
+        <?= $block->getValuesHtml() ?>
+        <?php if ($_option->getIsRequire()) :?>
+            <?php if ($_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_RADIO || $_option->getType() == \Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_TYPE_CHECKBOX) :?>
+                <span id="options-<?= $block->escapeHtmlAttr($_option->getId()) ?>-container"></span>
+            <?php endif; ?>
+        <?php endif;?>
+    </div>
+</div>
+<style>
+@media(max-width:575px) {
+    .product-options-wrapper .tooltip .content{
+        min-width: calc(100% + 100%) !important;
+    }
+}
+</style>

@@ -1,0 +1,17 @@
+<?php
+$helper = $this->helper('Logicrays\UpdateOrder\Helper\Data');
+$optionLists = $helper->getOrderStatus($block->getOrder()->getId());
+
+$_item = $block->getItem();
+$lrItemStatus = $_item->getLrItemStatus();
+$redirectuUrl = "https://www.google.com/";
+?>
+<div class="lr-item-status">
+        <?php
+        foreach ($optionLists as $key => $value) {
+            if($key == $_item->getLrItemStatus()){ ?>
+                <?= $block->escapeHtml(__($value)); ?>
+            <?php break; }
+        }
+        ?>
+</div>

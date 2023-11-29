@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * PIT Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is licenced under Webshop Extensions software license.
+ * Once you have purchased the software with PIT Solutions AG or one of its
+ * authorised resellers and provided that you comply with the conditions of this contract,
+ * PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of
+ * the software in the manner of and for the purposes specified in the documentation according
+ * to the subsequent regulations.
+ *
+ * @category Pits
+ * @package  Pits_GiftWrap
+ * @author   Pit Solutions Pvt. Ltd.
+ * @copyright Copyright (c) 2021 PIT Solutions AG. (www.pitsolutions.ch)
+ * @license https://www.webshopextension.com/en/licence-agreement/
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <column name="gift_wrap_data" class="Pits\GiftWrap\Ui\Component\Listing\Column\GiftWrap">
+            <settings>
+                <filter>select</filter>
+                <options class="Pits\GiftWrap\Ui\Component\Listing\Column\GiftWrap\Options"/>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <dataType>select</dataType>
+                <label translate="true">Gift Wrap</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

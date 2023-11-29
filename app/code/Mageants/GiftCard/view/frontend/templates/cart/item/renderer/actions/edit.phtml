@@ -1,0 +1,16 @@
+<?php
+/**
+ * @category Mageants FreeGift
+ * @package Mageants_FreeGift
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit */
+?>
+<?php
+if ($block->getItem()->getProductType()=='giftcertificate'):
+    if ($block->isProductVisibleInSiteVisibility()):?>
+    
+    <?php endif ?>
+<?php endif ?>

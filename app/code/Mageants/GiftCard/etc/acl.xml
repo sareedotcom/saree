@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Mageants_GiftCard::main" title="Gift Certificates"  sortOrder="10" >
+                        <resource id="Mageants_GiftCard::giftcertificate" title="Gift Certificates"  sortOrder="10" >
+                            <resource id="Mageants_GiftCard::GiftCard" title="GiftCard"  sortOrder="10" />
+                        </resource>
+
+                        <resource id="Mageants_GiftCard::giftcard_codes" title="Gift Certificate Code"  sortOrder="10" />
+                        <resource id="Mageants_GiftCard::giftcard_accounts" title="Gift Certificate Accounts"  sortOrder="10" >
+                            <resource id="Mageants_GiftCard::GiftCardAccount" title="GiftCard"  sortOrder="10" />
+                        </resource>
+                        <resource id="Mageants_GiftCard::giftcard_images" title="Gift Certificate Templates"  sortOrder="10">
+                            <resource id="Mageants_GiftCard::GiftCardImage" title="GiftCard"  sortOrder="10" />
+                        </resource>                
+                        <resource id="Mageants_GiftCard::gcconfig" title="Gift Certificate Setting"  sortOrder="10" >
+                             <resource id="Mageants_GiftCard::mageants_giftcertificate" title="GiftCard"  sortOrder="10" />
+                        </resource>           
+                    </resource>
+                </resource> 
+            </resource>
+        </resource>
+    </resource>
+        </resources>
+    </acl>
+</config>

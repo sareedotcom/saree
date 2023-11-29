@@ -1,0 +1,23 @@
+<!-- <div data-bind="visible: shouldShowMessage">
+	<div>It is Called</div>
+   	<strong><span data-bind="html: getOrderFeeLabel()"></span></strong>
+   	<select id="orderFee" class="shipping-extra-fees" data-bind="
+   		options: getCustomFeeAmount,
+	    optionsText: 'feesname',
+	    optionsValue: 'price',
+	    optionsCaption: 'Select Additional Order',
+	    event:{ change:removePlace} ">
+	</select>
+</div> -->
+<a href="javascript:void(0)" id="gift-code"> Apply Gift Card <i class="fa fa-angle-down" id="gift-code-arrow"></i></a>
+<input type="hidden" id="base-gift-url"></input>
+<div class="gift-code-block">
+	<form id="gift-certificate-form" method="post">
+		<input class="input-text gift-certificate-code" id="gift-certificate-code" name="gift_certificate_code" value="" placeholder="Enter Gift Card Code" type="text" required>
+		<button class="action apply-certificate primary" type="submit" ><span>Apply </span></button>
+		<button class="action apply-certificate primary" type="button" id="check_status"><span>Check Status</span></button>
+		<div class="loading"></div>
+	</form>	
+	<div id="message"> <span class="error-msg">Enter Gift Card</span></div>
+	<div > <span style="color:#f00">Note: Gift Card cannot be used to buy  gift card</span></div>
+</div>

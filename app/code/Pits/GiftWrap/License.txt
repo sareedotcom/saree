@@ -1,0 +1,146 @@
+SOFTWARE LICENSE AGREEMENT
+
+Please read this contract attentively. By copying the software in parts or as a whole, buying, installing or using it, you accept all the conditions of this contract, including and in particular the following exceptions: usage in accordance with clause 3, transferability in accordance with clause 5.4, warranty in accordance with clause 6, liability in accordance with clause 6.3.
+
+
+This contract is enforceable towards the licensee and every other person who has received this software and for whom the software is being used.
+
+All rights for the intellectual property of the software belong to PIT Solutions AG. The software is licensed not sold. PIT Solutions AG merely allows you to copy, download, install, use or in any other way profit from the functionalities and the intellectual property of the software within the terms of contract. The software does not contain parts of GPL software. The following license agreement is valid for the purchased software. The License Agreement is an addition to the General Terms and Conditions accepted by the customer.
+
+1. Recital Clause
+
+The licensor distributes the computer programs mentioned in the annex of this software-license agreement as well as the corresponding user documentation in form of a machine-readable object code. He is entitled to grant rights of use to the software and to the user documentation.
+
+The licensee intends to use the software and to purchase the rights of use in correspondence with the contract.
+
+The licensor and the licensee (together the «parties»), therefore, agree to the following:
+
+2. Definitions
+
+2.1 PIT Solutions AG
+
+"PIT Solutions AG" stands for PIT Solutions AG headquartered in Rapperswil-Jona (Switzerland), hereinafter referred to as licensor.
+
+2.2 Computer
+
+"Computer" stands for a computer device which records information in digital or similar form and can convert a specific result according to an instruction sequence.
+
+2.3 Permitted Number
+
+"Permitted Number" means one (1) live-installation and one (1) staging installation, as long as nothing else has expressly been agreed upon.
+
+2.4 Software
+
+"Software" covers the entire delivered information which can be downloaded in the shop after successful order and payment.
+
+3. Software Licenses
+
+Provided that you have obtained the software with PIT Solutions AG or one of its authorised resellers and provided that you comply with the conditions of this contract, PIT Solutions AG grants you a non-exclusive license, unlimited in time for the usage of the software in the manner of and for the purposes specified in the documentation according to the subsequent regulations.
+
+The rights of use will be specified and substantiated in point 5.
+
+3.1 General Use
+
+You are allowed to install and use a copy of the software on compatible computers up to the permitted number (1 installation, cf. point 2.3.).
+
+3.2 Backup
+
+You are entitled to create a backup for the software under the condition that this backup will not be installed and used on any computer. A transfer of the right to creating a backup is not permitted unless all rights to the software, in accordance with clause 5.4. of this contract, are transferred and the software is no longer being used by the former licensee.
+
+3.3 Test System
+
+You are allowed to operate a copy of the Software for testing purposes on a (1)Test system for a limited time.
+
+3.4 Licence Violation
+
+In the case of serious license violation, the Licensor shall be entitled to terminate the license agreement without prior notice.
+
+4. Right to Intellectual Property
+
+The software and all authorised copies of this software that you make are intellectual property and belong to PIT Solutions AG. The structure, organisation and code of the software represent valuable trade secrets and confidential information of the manufacturer. The software is protected by law above all by the copyright law of the Swiss Federation as well as by international contracts. With exception of the specifications at hand, this contract does not grant the licensee any intellectual ownership of the software. All rights not explicitly granted are expressly reserved for the manufacturer.
+
+5. Restrictions
+
+5.1 Protection Notes
+
+Each permitted copy of the Software that you make must contain the same copyright and other proprietary notices that appear on or in the Software of the original.
+
+5.2 No Alterations
+
+You may not modify, adapt, translate or create derivative works based upon the Software.You may not decompile, disassemble, carry out reverse engineering or try in another manner to determine the source code of the software, except to the extent that you may be expressly permitted to decompile under applicable law for establishing the interoperability of the software.
+
+5.3 No Unbundling
+
+The software may include various applications, utilities and components, may support multiple platforms and languages and may be made available to you on various storage devices and in multiple copies. The software was developed as an individual product and is made available to you as such.
+
+It may be used solely as an individual product and in accordance with clause 3. It is not necessary that you use all the components of the software, however, the software components are not allowed to be unbundled for use on different computers. The unbundling or repackaging of software for distribution, transfer or resale is prohibited.
+
+5.4 Transfer
+
+You may not rent, lease, sublicense, assign or transfer your rights in the Software, or authorise all or any portion of the Software to be copied onto the computer of another user or another legal entity, except in expressly authorised cases.
+
+However, you are allowed to transfer all your rights of use to the software onto another natural or legal person under the conditions that:
+
+You transfer your entire contract and the licenses, including all the copies, upgrades, updates and previous versions
+
+You do not retain any upgrades, updates and copies, including the backup and other copies which might be saved on a computer.
+
+The recipient accepts the conditions of this contract as well as other conditions based on which you have acquired an effective software license.
+
+5.5 Updates
+
+If the software is an upgrade or update of a previous version then you must have a valid license for the previous version in order to be allowed to use the upgrade or update. All upgrades and updates will be placed at your disposal on the basis of a license change. You agree that by using the upgrade or update you voluntarily renounce the right to the usage of the previous version of the software. In exceptional cases you may be allowed to continue using the previous version of the software after receipt of the upgrade or update. However, only in order to facilitate the adjustment to the upgrade or update. This right will be granted only under the condition that the upgrade or the update and the previous version are installed on the same computer.
+
+6. Warranty of Quality
+
+6.1 Scope
+
+For 90 days after receipt of the software PIT Solutions AG grants all licensees, who are first time receivers of a licence for the use of software on computers in accordance with the conditions of this contract, that the software is essentially capable of carrying out the functions specified in the documentation, provided it is used with the recommended operating system and the hardware configuration.
+
+Minor deviations from the descriptions in the documentations do not justify a warranty claim. All warranty claims must be asserted within ninety (90) days according to the contract (cf. clause 6.2). If the software does essentially not fullfill the functions specified in the documentation, there is the possibility to return the product within the warranty period. Reported defects of the software will either be repaired or replaced according to the customers choice. The bypassing or suppression of a defect counts as a permissible repair.
+
+The right of return is limited to the following conditions. The right of return is granted only if the licensor has had the possibility of analyzing the issue per FTP or any other remote-control software on the web-server of the licensee within five working days. Additionally, the refund will only be granted if the problem is not caused by any non-standard third party plugin that is not part of the original software package provided by the shopping cart developer.
+
+6.2 Reproval Obligations
+
+In case of a defect, the licensee must make his complaint to the licensor within 7 calendar days after its detection and in a sufficiently documented and written form.
+
+The licensee is obliged, in accordance with the terms of this contract, to take all necessary and adequate means, in particular to create a backup of the software and your computer data, in order to avoid or minimise a damage.
+
+6.3 Liability Limitations
+
+PIT Solutions AG stipulates all liability claims insofar as legally permitted (OR 99).
+
+PIT Solutions AG, in particular, does not assume liability for loss, damage, claims or costs of any kind, including consequential damage, indirect or accidental damage, lost profit or lost savings, damages resulting from an operation shutdown, personal injury or want of care or claims of third parties.
+
+Further warranty claims of the licensee (including the right to a reduction of the license fee or compensation for damage) are expressly ruled out.
+
+6.4 Saving of the license key and product-specific data
+
+Every product is delivered with an individual license key. For this purpose a non-ambiguous serial number is recorded with your order and reported to us during the installation. With the conclusion of the order you expressly authorise PIT Solutions AGto save this data.
+
+7. Termination
+
+PIT Solutions AG has the right to terminate the License immediately if licensee fails to comply with any of the terms of this Agreement. Upon termination, licensee must immediately destroy the originals and any copies of the Font Software and Documentation
+
+8. Final Clauses
+
+8.1 Severability Clause
+
+If a part of the contract at hand turns out to be invalid or not enforceable, the validity and enforceability of the remaining contract will not be touched by this.
+
+8.2 Written Form
+
+Changes of and additions to this contract must occur in written form.
+
+8.3 Cession/Transfer
+
+This contract or individual rights and duties resulting from this contract can only be ceased or transferred to a third party after the written consent of the other party.
+
+8.4 Applicable Law
+
+These regulations are subject to Swiss law, with exception of the UN-Sales Convention (CISG, "Vienna Sales Convention").
+
+8.5 Place of Jurisdiction
+
+Winterthur is the exclusive place of jurisdiction for all conflicts resulting from or in connection with this contract.

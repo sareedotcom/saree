@@ -1,0 +1,193 @@
+<?php
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+?>
+<?php
+/**
+ * @var \MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\Form\Shipping\Method $block
+ */
+$taxHelper = $block->getTaxHelper();
+?>
+<?php $_shippingRateGroups = $block->getShippingRates(); ?>
+<?php if ($_shippingRateGroups) : ?>
+    <div id="order-shipping-method-choose">
+        <dl class="admin__order-shipment-methods">
+        <?php foreach ($_shippingRateGroups as $code => $rates) : ?>
+            <dt class="admin__order-shipment-methods-title"><?= $block->escapeHtml($block->getCarrierName($code)) ?></dt>
+            <dd class="admin__order-shipment-methods-options">
+                <ul class="admin__order-shipment-methods-options-list">
+                <?php foreach ($rates as $rate) : ?>
+                    <?php $_radioProperty = 'name="order[shipping_method]" type="radio"' ?>
+                    <?php $_code = $rate->getCode() ?>
+                    <?php $_price = $rate->getPrice() ?>
+
+                    <li class="admin__field-option">
+                       <?php if ($rate->getErrorMessage()) : ?>
+                           <div class="messages">
+                               <div class="message message-error error">
+                                   <div><?= $block->escapeHtml($rate->getErrorMessage()) ?></div>
+                               </div>
+                           </div>
+                        <?php else : ?>
+                            <?php $checked = $block->isMethodActive($_code) ? 'checked="checked"' : '' ?>
+                            <input <?= /* @noEscape */ $_radioProperty ?> value="<?= $block->escapeHtmlAttr($_code) ?>"
+                                                                 id="s_method_<?= $block->escapeHtmlAttr($_code) ?>"
+                                                                 <?= /* @noEscape */ $checked ?>
+                                                                 class="admin__control-radio"/>
+                            <label class="admin__field-label" for="s_method_<?= $block->escapeHtmlAttr($_code) ?>">
+                                <?php $methodTitle = $rate->getMethodTitle() ? $rate->getMethodTitle() : $rate->getMethodDescription() ?>
+                                <?= $block->escapeHtml($methodTitle) ?> -
+                                <strong>
+                                    <?php
+                                    if ($block->isMethodActive($_code)) {
+                                        $shippingPriceExclTaxFormatted = $block->getShippingPrice(
+                                            (float)$block->getOrder()->getShippingAmount(),
+                                            $taxHelper->displayShippingPriceIncludingTax(),
+                                            false
+                                        );
+                                        $shippingPriceInclTaxFormatted = $block->getShippingPrice(
+                                            (float)$block->getOrder()->getShippingInclTax(),
+                                            $taxHelper->displayShippingPriceIncludingTax(),
+                                            false
+                                        );
+                                    } else {
+                                        $shippingPriceExclTaxFormatted = $block->getShippingPrice(
+                                            $rate->getPrice(),
+                                            $taxHelper->displayShippingPriceIncludingTax()
+                                        );
+                                        $shippingPriceInclTaxFormatted = $block->getShippingPrice($rate->getPrice(), true);
+                                    }
+                                    ?>
+
+                                    <?= /* @noEscape */ $shippingPriceExclTaxFormatted; ?>
+                                    <?php if ($taxHelper->displayShippingBothPrices() && $shippingPriceInclTaxFormatted != $shippingPriceExclTaxFormatted) : ?>
+                                        (<?= $block->escapeHtml(__('Incl. Tax')); ?> <?= /* @noEscape */ $shippingPriceInclTaxFormatted; ?>)
+                                    <?php endif; ?>
+                                </strong>
+
+                                <?php
+                                if ($block->isMethodActive($_code)) {
+                                    $priceExcl = (float)$block->getOrder()->getShippingAmount();
+                                    $priceIncl = (float)$block->getOrder()->getShippingInclTax();
+                                } else {
+                                    $priceExcl = $block->getShippingPriceFloat(
+                                        $rate->getPrice(),
+                                        $taxHelper->displayShippingPriceIncludingTax()
+                                    );
+                                    $priceIncl = $block->getShippingPriceFloat(
+                                        $rate->getPrice(),
+                                        true
+                                    );
+                                }
+                                $discountAmount = $block->getOrder()->getShippingDiscountAmount();
+                                $tax            = $priceIncl - $priceExcl;
+                                if ($priceExcl) {
+                                    $pricePercent = $block->getAppliedShippingTaxPercent();
+                                } else {
+                                    $pricePercent = 0;
+                                }
+
+                                ?>
+                                <div class="edit_price_form"
+                                     id="edit_price_form_<?= $block->escapeHtmlAttr($_code) ?>"
+                                     <?php if (!$block->isMethodActive($_code)) : ?>style="display:none"<?php endif; ?>
+                                >
+                                    <label class="price_excl_tax">
+                                        <?= $block->escapeHtml(__('Excl. Tax')) ?>
+                                        <input type="text"
+                                               name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][price_excl_tax]"
+                                               value="<?= $block->escapeHtmlAttr(number_format($priceExcl, 2, '.', '')); ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Price Excl. Tax')) ?>" />
+                                    </label>
+                                    <label class="tax_percent">
+                                        + <?= $block->escapeHtml(__('Tax')) ?>
+                                        <input type="text"
+                                               name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][tax_percent]"
+                                               value="<?= $block->escapeHtmlAttr(number_format($pricePercent, 2, '.', '')); ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Tax Percent')) ?>"
+                                               readonly="readonly"
+                                               class="disabled" />%
+                                    </label>
+                                    <label class="price_incl_tax">
+                                        <?= $block->escapeHtml(__('Incl. Tax')) ?>
+                                        <input type="text"
+                                               name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][price_incl_tax]"
+                                               value="<?= $block->escapeHtmlAttr(number_format($priceIncl, 2, '.', '')); ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Price Incl. Tax')) ?>" />
+                                    </label>
+                                    <label class="discount_amount">
+                                        <?= $block->escapeHtml(__('Shipping Discount Amount')) ?>
+                                        <input type="text"
+                                               name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][discount_amount]"
+                                               value="<?= $block->escapeHtmlAttr(number_format($discountAmount, 2, '.', '')); ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Shipping Discount Amount')) ?>" />
+                                    </label>
+                                    <br/>
+                                    <label class="tax_rates">
+                                        <?= $block->escapeHtml(__('Tax Rates')); ?>
+                                        <div class="order-shipping-applied-rates-container"
+                                             id="order-shipping-applied-rates-container-<?= $block->escapeHtml($_code); ?>">
+                                            <?php
+                                            $activeRates = $block->getShippingActiveRates();
+                                            if (!empty($activeRates)) :
+                                                foreach ($activeRates as $activeRate) {
+                                                    ?>
+                                                    <label for="tax-applied-rates-<?= $block->escapeHtmlAttr($_code); ?>-<?= $block->escapeHtmlAttr($activeRate->getCode()); ?>">
+                                                        <b><?= $block->escapeHtml($activeRate->getCode()); ?></b>
+                                                        <input name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][tax_applied_rates][<?= $block->escapeHtmlAttr($activeRate->getCode()) ?>]"
+                                                               id="tax-applied-rates-<?= $block->escapeHtmlAttr($_code); ?>-<?= $block->escapeHtmlAttr($activeRate->getCode()); ?>"
+                                                               title="<?= $block->escapeHtmlAttr($activeRate->getCode() . ' (' . $activeRate->getPercent() . '%)'); ?>"
+                                                               class="mw-order-editor-order-shipping tax-applied-rate-code"
+                                                               type="text"
+                                                               value="<?= $block->escapeHtmlAttr(round($activeRate->getPercent(), 2)); ?>"
+                                                        />
+                                                    </label>
+                                                    <?php
+                                                }
+                                            else :
+                                                echo $block->escapeHtml(__('No Tax Rate'));
+                                            endif;
+                                            ?>
+                                        </div>
+                                        <div class="order-shipping-available-rates-container"
+                                             id="order-shipping-available-rates-container-<?= $block->escapeHtmlAttr($_code); ?>">
+                                            <label for="tax-rates-<?= $block->escapeHtmlAttr($_code); ?>">
+                                                <b><?= $block->escapeHtml(__('Select Rates:')); ?></b>
+                                                <select name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][tax_rates][]"
+                                                        id="tax-rates-<?= $block->escapeHtmlAttr($_code); ?>"
+                                                        title="<?= $block->escapeHtmlAttr(__("Tax Rates")) ?>"
+                                                        class="mw-order-editor-order-shipping"
+                                                        multiple="multiple">
+                                                    <?= /* @noEscape */ $block->renderTaxRatesOptions(); ?>
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </label>
+                                    <input type="hidden"
+                                           name="shipping_method[<?= $block->escapeHtmlAttr($_code) ?>][description]"
+                                           value="<?= $block->escapeHtmlAttr($block->getCarrierName($code)) ?> - <?= $block->escapeHtmlAttr($methodTitle) ?>"/>
+                                </div>
+                            </label>
+                        <?php endif ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </dd>
+        <?php endforeach; ?>
+        </dl>
+    </div>
+<?php else : ?>
+    <div class="order-shipping-method-summary">
+        <strong class="order-shipping-method-not-available">
+            <?= $block->escapeHtml(__('Sorry, no quotes are available for this order.')) ?>
+        </strong>
+    </div>
+<?php endif; ?>
+
+<?php if ($block->getQuote()->isVirtual()) : ?>
+    <div id="shipping-method-overlay" class="order-methods-overlay">
+        <span><?= $block->escapeHtml(__('You do not need to select a shipping method.')) ?></span>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,37 @@
+.lightpink-estimate {
+    background: #ffb6c18c;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.red-estimate{
+    background: #f30000a8;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.white-estimate{
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.red-estimate-row{
+    background: #f30000a8!important;
+}
+.lightpink-estimate-row{
+    background: #ffb6c18c!important;
+}

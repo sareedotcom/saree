@@ -1,0 +1,11 @@
+<a href="javascript:void(0)" id="gift-code" data-bind="click: giftcodetoggle"> Apply Gift Card <i class="fa fa-angle-down" id="gift-code-arrow"></i></a>
+<div class="gift-code-block">
+	<form id="gift-certificate-form" method="post">
+		<input class="input-text gift-certificate-code" id="gift-certificate-code" name="gift_certificate_code" value="" placeholder="Enter Gift Card Code" type="text" data-bind="attr: { readonly: readonlyValue, value: giftCode }" >
+		<button class="action apply-certificate primary applycode" id="applycode" type="submit" data-bind="click: applycode"><span data-bind="text: buttonText">Apply</span></button>
+		<button class="action apply-certificate primary check_status" type="button" id="check_status" data-bind="click: checkstatus"><span>Check Status</span></button>
+		<div class="loading"></div>
+	</form>	
+	<div id="message"> <span class="error-msg">Enter Gift Card</span></div>
+	<div > <span style="color:#f00">Note: Gift Card cannot be used to buy  gift card</span></div>
+</div>
