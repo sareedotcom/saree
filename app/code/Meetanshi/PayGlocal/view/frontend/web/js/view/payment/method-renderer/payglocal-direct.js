@@ -26,7 +26,7 @@ define(
               checkoutData) {
         'use strict';
 
-        var payglocalResponce, intervalId;
+        var payglocalResponce, intervalId, statusUrl;
         payglocalResponce = {};
         payglocalResponce ["status"] = "no";
         return Component.extend({
@@ -49,7 +49,7 @@ define(
                 var self = this;
                 self._super();
                 var pMethod = quote.paymentMethod() ? quote.paymentMethod().method : null;
-                if(pMethod=="payglocal"){
+                if (pMethod == "payglocal") {
                     self.selectPaymentMethod();
                 }
                 return self;
@@ -124,13 +124,40 @@ define(
                 );
             },
             payResponce: function (data) {
+                var self = this;
                 payglocalResponce = data;
-                if (payglocalResponce.status == "SENT_FOR_CAPTURE") {
-                    this.isPlaceOrderActionAllowed(false);
-                    this.realPlaceOrder();
-                }else{
-                    this.isPlaceOrderActionAllowed(true);
-                }
+                var statusUrls = statusUrl;
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        form_key: $("input[name='form_key']").val(),
+                        status: statusUrls
+                    },
+                    url: urlBuilder.build("payglocal/index/status"),
+                    dataType: "json",
+                    showLoader: true,
+                    success: function (response) {
+                        if (response.success == true) {
+                            self.isPlaceOrderActionAllowed(false);
+                            self.realPlaceOrder();
+                        } else {
+                            messageContainer.addErrorMessage({
+                                message: response.message
+                            });
+                            self.isPlaceOrderActionAllowed(true);
+                        }
+                    },
+                    error: function (err) {
+                        self.isPlaceOrderActionAllowed(true);
+                    }
+                });
+
+                // if (payglocalResponce.status == "SENT_FOR_CAPTURE") {
+                //     this.isPlaceOrderActionAllowed(false);
+                //     this.realPlaceOrder();
+                // } else {
+                //     this.isPlaceOrderActionAllowed(true);
+                // }
             },
             displayPaymentPage: function () {
                 var self = this;
@@ -148,6 +175,7 @@ define(
                                 message: response.message
                             });
                         } else {
+                            statusUrl = response.statusUrl;
                             window.PGPay.launchPayment({redirectUrl: response.redirectUrl}, self.payResponce.bind(self));
                         }
                         fullScreenLoader.stopLoader(true);
@@ -173,7 +201,7 @@ define(
                 ) {
                     if (window.checkoutConfig.payglocal_mode == "inline") {
                         window.PGPay.handlePayNow(event);
-                    }else{
+                    } else {
                         self.displayPaymentPage();
                     }
                 }

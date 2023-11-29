@@ -21,7 +21,7 @@ class ExcludeFilesFromMinification
         if ($contentType != 'js') {
             return $result;
         }
-        $result[] = 'https://codedrop.uat.payglocal.in/simple.js';
+        $result[] = 'https://codedrop.payglocal.in/simple.js';
 
         return $result;
     }

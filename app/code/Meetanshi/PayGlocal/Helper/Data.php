@@ -28,7 +28,7 @@ class Data extends AbstractHelper
     const CONFIG_PAYGLOCAL_DEBUG = 'payment/payglocal/debug';
     const CONFIG_PAYGLOCAL_DISPLAY_MODE = 'payment/payglocal/display_mode';
 
-    const CONFIG_SCRIPT_URL = 'https://codedrop.uat.payglocal.in/simple.js';
+    const CONFIG_SCRIPT_URL = 'https://codedrop.payglocal.in/simple.js';
 
     const CONFIG_PAYGLOCAL_SANDBOX_API_KEY = 'payment/payglocal/sandbox_api_key';
     const CONFIG_PAYGLOCAL_LIVE_API_KEY = 'payment/payglocal/live_api_key';
