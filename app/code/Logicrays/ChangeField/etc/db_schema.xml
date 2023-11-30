@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="swissup_checkoutfields_values" resource="default" engine="innodb" comment="Checkout Field Values">
+    <column xsi:type="varchar" name="value" length="1022" nullable="true" comment="Field Value"/>
+  </table>
+</schema>

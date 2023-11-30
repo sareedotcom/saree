@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="email_order_set_template_vars_before">
+        <observer instance="Logicrays\PaymentLink\Observer\Email\OrderSetTemplateVarsBefore" name="set_payment_link_on_cod_order_place"/>
+    </event>
+</config>

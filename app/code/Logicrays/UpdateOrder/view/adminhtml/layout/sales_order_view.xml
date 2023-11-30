@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.actions.toolbar">
+            <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\DeleteOrderButton" as="delete_order_button" />
+        </referenceBlock>
+        <referenceBlock name="content">
+            <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\Wrapper"
+                   template="MageWorx_OrderEditor::wrapper.phtml"
+                   name="mageworx_ordereditor_wrapper"
+            />
+        </referenceBlock>
+         <referenceBlock name="order_items">
+            <arguments>
+                <argument name="columns" xsi:type="array">
+                    <item name="lr-item-status" xsi:type="string" translate="true">LR Item Status</item>
+                </argument>
+            </arguments>
+            <referenceBlock name="default_order_items_renderer">
+                <arguments>
+                    <argument name="columns" xsi:type="array">
+                        <item name="lr-item-status" xsi:type="string" translate="true">col-lr-item-status</item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+            <block class="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn"
+                   name="column_lr-item-status"
+                   template="Logicrays_UpdateOrder::items/column/lrItemStatus.phtml" group="column">
+            </block>
+        </referenceBlock>
+    </body>
+</page>

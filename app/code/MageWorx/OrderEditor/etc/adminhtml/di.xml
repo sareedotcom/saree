@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Plugins -->
+    <!-- Disable stock validation when edit an order -->
+    <type name="Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface">
+        <plugin name="mageworx_ordereditor_disable_msi"
+                type="MageWorx\OrderEditor\Plugin\DisableMSI" />
+    </type>
+    <type name="Magento\InventorySalesApi\Api\IsProductSalableInterface">
+        <plugin name="mageworx_ordereditor_disable_inventory_detection"
+                type="MageWorx\OrderEditor\Plugin\DisableInventoryDetectionPlugin" />
+    </type>
+    <!-- Disabling qty validation -->
+    <type name="Magento\InventorySales\Plugin\StockState\CheckQuoteItemQtyPlugin">
+        <plugin name="mageworx_ordereditor_disable_qty_validation"
+                type="MageWorx\OrderEditor\Plugin\DisableQtyValidationPlugin" />
+    </type>
+    <!-- Disable backorder validation (MSI) -->
+    <type name="Magento\CatalogInventory\Observer\QuantityValidatorObserver">
+        <plugin name="mageworx_ordereditor_disable_qty_validation_for_backorders"
+                type="MageWorx\OrderEditor\Plugin\DisableBackordersQtyValidationPlugin" />
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Info">
+        <plugin name="addDeviceInfoToCustomerAccountBlock" type="MageWorx\OrderEditor\Plugin\Block\Sales\Adminhtml\Order\View\Info"/>
+    </type>
+
+    <!-- Edit order-->
+    <type name="Magento\GiftCardAccount\Model\Plugin\TotalsCollector">
+        <plugin name="mageworx_ordereditor_totalscollect"
+                type="MageWorx\OrderEditor\Plugin\BeforeCollectTotalsPlugin"/>
+    </type>
+
+    <!-- store credit -->
+    <type name="Magento\CustomerBalance\Model\Total\Quote\Customerbalance">
+        <plugin name="mageworx_ordereditor_storecredit"
+                type="MageWorx\OrderEditor\Plugin\CollectCustomerBalancePlugin"/>
+    </type>
+
+    <!-- Authorize.net Capture actual amount -->
+    <type name="Magento\Payment\Model\Method\Adapter">
+        <plugin name="mageworx_ordereditor_authorizenet_capture_actual_amount_correct_amount"
+                type="MageWorx\OrderEditor\Plugin\AuthorizeNet\SetActualAmountBeforeCapturePlugin"/>
+    </type>
+    <type name="Magento\AuthorizenetAcceptjs\Gateway\Request\CaptureDataBuilder">
+        <plugin name="mageworx_ordereditor_authorizenet_capture_actual_amount_add_amount"
+                type="MageWorx\OrderEditor\Plugin\AuthorizeNet\CaptureActualAmountPlugin"/>
+    </type>
+
+    <!-- Ignore Cart Rules-->
+    <type name="Magento\SalesRule\Model\Validator\Pool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="discount" xsi:type="array">
+                    <item name="order_editor_validator" xsi:type="object">MageWorx\OrderEditor\Model\CartRulesValidator\Discount</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="MageWorx\OrderEditor\Block\Payment">
+        <arguments>
+            <argument name="config" xsi:type="object">MageWorx\OrderEditor\Model\Ui\ConfigProvider</argument>
+        </arguments>
+    </type>
+    <type name="MageWorx\OrderEditor\Block\Info">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

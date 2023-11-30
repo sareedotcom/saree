@@ -1,7 +1,11 @@
 <?php $_product = $block->getCurrentProduct();?>
 <?php if($_product->getSpecialPrice()):
 $mrp = $_product->getPrice() - $_product->getSpecialPrice();
-$per = ($mrp / $_product->getPrice()) * 100;
+$price = 1;
+if($_product->getPrice()){
+    $price = $_product->getPrice();
+}
+$per = ($mrp / $price) * 100;
 ?>
 <div class="product-discount">
 <?php echo round($per)."% <span>Off</span>";?>

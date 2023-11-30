@@ -9,6 +9,7 @@ use Magento\SalesRule\Model\RuleFactory;
 use Magento\Checkout\Model\Cart;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Model\Product;
 
 class Customization extends Template
 {
@@ -34,6 +35,7 @@ class Customization extends Template
         Cart $cart,
         StoreManagerInterface $storeManager,
         ProductRepository $productRepository,
+        Product $product,
         array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
@@ -42,6 +44,7 @@ class Customization extends Template
         $this->cart = $cart;
         $this->storeManager = $storeManager;
         $this->_productRepository = $productRepository;
+        $this->product = $product;
         parent::__construct($context, $data);
     }
 
@@ -161,23 +164,27 @@ class Customization extends Template
                 $rulesByPercentnew = $this->ruleFactory->create()->getCollection()->addFieldToSelect('discount_amount')->addIsActiveFilter()->addFieldToFilter('rule_coupons.code', ['null' => true]);
                 $rulesByPercentnew->addFieldToFilter('rule_id', ['eq' => array_search(min($merrageArray), $merrageArray)]);
                 $data = $rulesByPercentnew->getData();
-                return 'Spend more <span class="save-price">'.$this->getCurrentCurrencySymbol().$discountedAmount.'</span> to get Extra <span <span class="save-price">'.round($data[0]['discount_amount']).'%<span> off.';
+                return 'Spent more <span class="save-price">'.$this->getCurrentCurrencySymbol().$discountedAmount.'</span> to get Extra <span <span class="save-price">'.round($data[0]['discount_amount']).'%<span> off.';
             }
             else if(isset($freeShipping[array_search(min($merrageArray), $merrageArray)])){
                 $discountedAmount = $freeShipping[array_search(min($merrageArray), $merrageArray)];
                 $discountedAmount = $discountedAmount - $subTotal;
                 $discountedAmount = ($discountedAmount * $rateToBase);
-                return 'Spend more '.$this->getCurrentCurrencySymbol().$discountedAmount.' to get free shipping.';
+                return 'Spent more '.$this->getCurrentCurrencySymbol().$discountedAmount.' to get free shipping.';
             }
         }
         return "";
     }
 
     public function getProductPrices($sku){
-        $product = $this->_productRepository->get($sku);
+        // $product = $this->_productRepository->get($sku);
         $price = [];
-        $price['currentPrice'] = $product->getPrice();
-        $price['currentSpecialPrice'] = $product->getSpecialPrice();
+        $product_id = $sku; //Product ID
+        $_product = $this->product->load($product_id);
+         
+        $price['currentPrice'] = $_product->getPrice();
+        $price['currentSpecialPrice'] = $_product->getSpecialPrice();
+        
         return $price;
     }
 }

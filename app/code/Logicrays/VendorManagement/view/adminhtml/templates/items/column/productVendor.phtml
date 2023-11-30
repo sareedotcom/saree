@@ -1,8 +1,132 @@
 <?php
-$_item = $block->getItem();
+$_item = $block->getItem(); 
+
+$option = $_item->getProductOptions();
+
 $itemVendor = $_item->getOrderItemVendor();
-$redirectuUrl = "https://www.google.com/";
+
 ?>
+<input type="hidden" value="<?= $block->getBaseUrl().$this->helper('Magento\Backend\Helper\Data')->getAreaFrontName() ?>" id="adminFrontName">
 <div class="item-vendor">
-    <a href="<?= /* @noEscape */ $redirectuUrl ?>"><?= /* @noEscape */ $itemVendor;?></a>
+    <a id="vendorpopup" class="<?= /* @noEscape */ $_item->getProductId(); ?> vendorpopup" itemId="<?= /* @noEscape */ $_item->getItemId(); ?>"><?= /* @noEscape */ $itemVendor;?></a>
 </div>
+<div id="vendor-popup-modal" class="vendor-popup-modal_<?= /* @noEscape */ $_item->getItemId(); ?>" style="display: none">
+    <form name="itemdata" method="post" id="vendor-form" formItemId="<?= /* @noEscape */ $_item->getItemId(); ?>" action="<?= $block->getBaseUrl().$this->helper('Magento\Backend\Helper\Data')->getAreaFrontName() ?>/vendor/manage/vendordata">
+        <table class="<?php echo $_item->getItemId(); ?>">
+            <tr>
+                <td style="padding:10px">PO number :</td>
+                <td style="padding:10px"><input type="text" name="ponumber" id="ponumber_<?= $_item->getItemId() ?>"> </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Vendor Name :</td>
+                <td style="padding:10px"><input type="text" name="vendor_name" id="vendor_name_<?= $_item->getItemId() ?>" value="<?= /* @noEscape */ $itemVendor;?>"> 
+                <input type="hidden" name="vendorEmail" id="vendorEmail_<?= $_item->getItemId() ?>"  value="">
+                <input type="hidden" name="vendorPhone" id="vendorPhone_<?= $_item->getItemId() ?>" value="">
+                <input type="hidden" name="orderIncrementId" id="orderIncrementId" value="<?= $_item->getOrder()->getIncrementId() ?>">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Vendor code :</td>
+                <td style="padding:10px"><input type="text" name="vendor_code" id ="vendor_code_<?= $_item->getItemId() ?>"> </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Quantity :</td>
+                <td style="padding:10px"><input type="text" name="qty" value="<?= /* @noEscape */ $_item->getQtyOrdered() ?>" id="qty_<?= $_item->getItemId() ?>"> </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">Size :</td>
+                <td style="padding:10px">
+                    <?php
+                    if(isset($option['options'])){
+                        foreach($option['options'] AS $val){ ?>
+                            <span><?= $val['label'];?> : <?= $val['print_value'];?></span></br>
+                            <input type="hidden" name="optoin[]" value="<?= $val['label']."__".$val['print_value'] ?>" id="option_<?= $_item->getItemId() ?>[]">
+                        <?php } 
+                    } ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">comment box :</td>
+                <td style="padding:10px"><textarea name="comment_box" id="comment_box_<?= $_item->getItemId() ?>"></textarea> </td>
+            </tr>
+            <tr>
+                <td style="padding:10px">
+                    <button type="submit" id="send-to-vendor">Submit</button>
+                </td>
+            </tr>
+        </table>
+
+        
+    </form>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Vendor Detail',
+                modalClass: 'custom-modal',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                     }
+                }]
+            };
+
+            var popup = modal(options, $('#vendor-popup-modal'));
+            $(".vendorpopup").click(function() {
+                
+                var url = $("#adminFrontName").val()+"/vendor/manage/vendordata";
+                var id = $(this).attr("class");
+                var itemId = $(this).attr("itemId");
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {'itemId': $(this).attr("class")},
+                    cache: false,
+                    showLoader: true,
+                    success: function(data){
+                        $("#vendorEmail_"+itemId).val();
+                        $("#vendorPhone_"+itemId).val();
+                        $("#vendorEmail_"+itemId).val(data.data.email);
+                        $("#vendorPhone_"+itemId).val(data.data.phone);
+                        $("#vendor_name_"+itemId).val($("#vendor_name_"+itemId).val());
+                    }
+                });
+                $(".vendor-popup-modal_"+itemId).modal('openModal');
+            });
+
+            var frm = $('#vendor-form');
+            var url = $("#adminFrontName").val()+"/vendor/manage/vendordata";
+            frm.submit(function (e) {
+
+                $("body").trigger("processStart");
+                var itemId = $(this).attr("formItemId");
+                e.preventDefault(e);
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    url: url,
+                    data: frm.serialize(),
+                    success: function (data) {
+                        $(".vendor-popup-modal_"+itemId).modal('closeModal');
+                        $("body").trigger("processStop");
+                    }
+            });
+            });
+        }
+    );
+    
+</script>

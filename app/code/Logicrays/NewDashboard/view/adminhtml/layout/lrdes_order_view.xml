@@ -121,17 +121,17 @@
          <referenceBlock name="page.actions.toolbar">
             <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\DeleteOrderButton" as="delete_order_button" />
         </referenceBlock>
-        <!--<referenceBlock name="content">-->
-        <!--    <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\Wrapper"-->
-        <!--           template="wrapper.phtml"-->
-        <!--           name="mageworx_ordereditor_wrapper"-->
-        <!--    />-->
-        <!--</referenceBlock>-->
-        <!--<referenceBlock name="order_items">-->
-        <!--    <action method="setTemplate">-->
-        <!--        <argument name="template" xsi:type="string">MageWorx_OrderEditor::grid/items.phtml</argument>-->
-        <!--    </action>-->
-        <!--    <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Grid\Thumbnail" name="column_thumbnail" template="grid/column/thumbnail.phtml" group="column" />-->
-        <!--</referenceBlock>-->
+        <referenceBlock name="content">
+            <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Edit\Wrapper"
+                   template="wrapper.phtml"
+                   name="mageworx_ordereditor_wrapper"
+            />
+        </referenceBlock>
+        <referenceBlock name="order_items">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">MageWorx_OrderEditor::grid/items.phtml</argument>
+            </action>
+            <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Grid\Thumbnail" name="column_thumbnail" template="grid/column/thumbnail.phtml" group="column" />
+        </referenceBlock>
     </body>
 </page>

@@ -1,0 +1,40 @@
+{{template config_path="design/email/header_template"}}
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+    <td align="center" valign="top" style="padding:20px 0 20px 0">
+        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+            <!-- [ header starts here] -->
+            <tr>
+                <td class="email-heading" style = "background: #e5e5e5; width: 50%;">
+                            <a href="{{store url=""}}"><img style="padding:10px;"  src="{{var logo_url}}"  alt="{{var logo_alt}}"  border="0"/></a>
+                </td>
+            </tr>
+            <!-- [ middle starts here] -->
+            <tr style="background-color:#f9f9f9;">
+                <h1 style="font-size:13px; font-weight:bold; line-height:22px; margin:-2px 0 8px 0;">Hi {{var vendor_name}},</h1>
+                <table>
+                    <tr>
+                        <td>PO number : </td><td>{{var ponumber}}</td>
+                    </tr>
+                    <tr>
+                        <td>Vendor Code : </td><td>{{var vendor_code}}</td>
+                    </tr>
+                    <tr>
+                        <td>Quantity : </td><td>{{var qty}}</td>
+                    </tr>
+                    <tr>
+                        <td>Size : </td><td>{{var size|raw}}</td>
+                    </tr>
+                    <tr>
+                        <td>Comment Box : </td><td>{{var comment_box}}</td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>
+</body>

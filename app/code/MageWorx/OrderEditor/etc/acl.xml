@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageWorx. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="MageWorx_OrderEditor::config_ordereditor" title="Order Editor Section (by MageWorx)" sortOrder="70"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Magento_Sales::sales_order">
+                            <resource id="Magento_Sales::actions">
+                                <resource id="MageWorx_OrderEditor::edit_order" title="Edit Order (MageWorx)" translate="title" sortOrder="12">
+                                    <resource id="MageWorx_OrderEditor::edit_items" title="Edit Items" sortOrder="200"/>
+                                    <resource id="MageWorx_OrderEditor::edit_address" title="Edit Address" sortOrder="210"/>
+                                    <resource id="MageWorx_OrderEditor::edit_shipping" title="Edit Shipping Method" sortOrder="220"/>
+                                    <resource id="MageWorx_OrderEditor::edit_payment" title="Edit Payment Method" sortOrder="230"/>
+                                    <resource id="MageWorx_OrderEditor::edit_account" title="Edit Account Information" sortOrder="240"/>
+                                    <resource id="MageWorx_OrderEditor::edit_info" title="Edit Order Information" sortOrder="250"/>
+                                </resource>
+                                <resource id="MageWorx_OrderEditor::delete_order" title="Delete Order (MageWorx)" translate="title" sortOrder="13"/>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

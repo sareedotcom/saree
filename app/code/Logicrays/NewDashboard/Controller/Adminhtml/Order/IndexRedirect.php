@@ -16,7 +16,7 @@ class IndexRedirect extends \Magento\Sales\Controller\Adminhtml\Order\Index impl
      */
     public function execute()
     {
-        //$this->_redirect('lrdes/order/index/');
+        $this->_redirect('lrdes/order/index/');
         $resultPage = $this->_initAction();
         $resultPage->getConfig()->getTitle()->prepend(__('Orders'));
         return $resultPage;

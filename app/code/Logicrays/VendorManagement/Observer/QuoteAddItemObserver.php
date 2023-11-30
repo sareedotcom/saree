@@ -56,6 +56,7 @@ class QuoteAddItemObserver implements ObserverInterface
                     $vendorAttribute = $product->getResource()->getAttribute('vendor');
                     if ($product->getVendor()) {
                         $item->setOrderItemVendor($vendorAttribute->getFrontend()->getValue($product)->getText());
+                        // $item->save();
                     }
                 }
             }
@@ -68,7 +69,7 @@ class QuoteAddItemObserver implements ObserverInterface
                         $vendorAttribute = $product->getResource()->getAttribute('vendor');
                         if ($product->getVendor()) {
                             $item->setOrderItemVendor($vendorAttribute->getFrontend()->getValue($product)->getText());
-                            $item->save();
+                            // $item->save();
                         }
                     }
                 }

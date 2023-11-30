@@ -35,10 +35,10 @@ class ViewRedirect extends \Magento\Sales\Controller\Adminhtml\Order\View
                 $resultRedirect->setPath('lrdes/order/index/');
                 return $resultRedirect;
             }
-            // $resultRedirect->setPath('lrdes/order/view/order_id/'.$order->getId().'/');
-            // return $resultRedirect;
-            $resultPage->getConfig()->getTitle()->prepend(sprintf("#%s", $order->getIncrementId()));
-            return $resultPage;
+            $resultRedirect->setPath('lrdes/order/view/order_id/'.$order->getId().'/');
+            return $resultRedirect;
+            // $resultPage->getConfig()->getTitle()->prepend(sprintf("#%s", $order->getIncrementId()));
+            // return $resultPage;
         }
         $resultRedirect->setPath('sales/*/');
         // $resultRedirect->setPath('lrdes/order/view/order_id/'.$order->getId().'/');

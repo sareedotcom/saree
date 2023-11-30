@@ -65,9 +65,6 @@
                         </td>
                     </tr>
                 <?php endif ?>
-                <tr style="display: none;">
-                    <td></td>
-                </tr>
                 <?php $estdDispatchDate = $item->getEstdDispatchDate(); ?>
                 <?php if ($estdDispatchDate): ?>
                     <tr>
@@ -75,6 +72,51 @@
                             <dt class="delivery-info"><span>Est Dispatch Date: </span> <?= $block->escapeHtml($estdDispatchDate) ?></dt>
                         </td>
                     </tr>
+                <?php endif; ?>
+                <?php 
+                    $productOption = $item->getProductOptions();
+                    $isUnstitched = 0;
+                    if(isset($productOption['info_buyRequest']['options'])){
+                        foreach($productOption['info_buyRequest']['options'] AS $key => $val){ 
+                                if(is_array($val)){ ?>
+                                    <input type="hidden" class="filledOption <?php echo $key; ?>" value="<?php echo implode(",",$val); ?>">
+                                    
+                                <?php }
+                                else{ ?>
+                                    <input type="hidden" class="filledOption <?php echo $key; ?>" value="<?php echo $val; ?>">
+                                <?php }
+                            ?>
+                        <?php } 
+                        if(isset($productOption['options'])){
+                            foreach($productOption['options'] AS $val){
+                                if($val['value'] == 'Later'){
+                                    $isUnstitched = 1;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                ?>
+                <?php if ($isUnstitched): 
+                    $itemId = $item->getId();
+                    ?>
+                    <?php 
+                    if($block->getOrder()->getStatus() != 'canceled' || $block->getOrder()->getState() == 'processing' || $block->getOrder()->getState() == 'pending'){ ?>
+                    <tr>
+                        <td colspan="5">
+                            <dt class="delivery-infoaaa">
+                                <div class="measurements-options"></div>
+                                <div class="stiticing-options">
+                                <input type="hidden" value="<?php echo $item->getOrderId();?>" id="orderId">
+                                <input type="hidden" value="<?php echo $itemId ?>" id="itemId">
+                                <span class="radio-later-label">Add Measurements: </span><input type="checkbox" class="measurements" value="<?php echo $item->getProduct()->getId(); ?>" id="<?php echo $itemId; ?>">
+                                </div>
+                                <div class="order-option-data" id="order-option-data_<?php echo $itemId; ?>">
+                                </div>
+                            </dt>
+                        </td>
+                    </tr>
+                    <?php } ?>
                 <?php endif; ?>
             </tbody>
         <?php endforeach; ?>
@@ -99,3 +141,245 @@
     }
 </script>
 <?php endif; ?>
+<script type="text/javascript">
+    require(["jquery"],function($) {
+        $(document).on('click','.measurements',function(){
+            if($(this).is(":checked")){
+                $(".orderoption-data").css("display","block");
+                var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+                var valueSelected = this.value;
+                var itemId = $(this).attr("id");
+                $.ajax({
+                    url: customurl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        stiching_selected: valueSelected,
+                        itemId: itemId
+                    },
+                complete: function(response) {
+                    var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+                    var newhtml = "<table><tbody>";
+                    $(".order-option-data").empty();
+
+                    var isBlouseLater = 0;
+                    var isPetticoatLater = 0;
+                    var isBlouseAsShowInImageLater = 0;
+                    var isLehengaStitching = 0;
+                    $.each(response.responseJSON.result, function( keyNew, valueNew ) {
+                        $.each(valueNew, function( keyNewLater, valueNewLater) {
+                            var optionVal = $("."+valueNewLater.option_id).val();
+                            
+                            if(valueNewLater.optiontitle == "Measurements Later For"){
+                                if(valueNewLater.optiontypetitle == "Blouse Stitching" && optionVal.indexOf(valueNewLater.option_type_id) >= 0){
+                                    isBlouseLater =1;
+                                }
+                                else if(valueNewLater.optiontypetitle == "Petticoat Stitching"  && optionVal.indexOf(valueNewLater.option_type_id) >= 0){
+                                    isPetticoatLater = 1;
+                                }
+                                else if(valueNewLater.optiontypetitle == "Blouse as shown in Image"  && optionVal.indexOf(valueNewLater.option_type_id) >= 0){
+                                    isBlouseAsShowInImageLater = 1;
+                                }
+                            }
+                        })
+                    });
+                    var optionTitleForEnable = "";
+                    var customSizeOption = 0;
+                    var lehengaWithStandardBust = 0;
+                    var lehengaWithStandardBustLater = 0;
+                    $.each(response.responseJSON.result, function( key, value ) {
+                        
+                        var selectFieldDisable = 0;
+                        if(response.responseJSON.result[key][0].type == "drop_down"){
+
+                            var optionIdForDisable = response.responseJSON.result[key][0].option_id;
+                            var optionVal = $("."+optionIdForDisable).val();
+                            if(response.responseJSON.result[key][0].title ==  "Blouse as shown in Image")
+                            {
+                                if(isBlouseAsShowInImageLater){
+                                    newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td>";
+                                    newhtml += "<td><select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox'>";
+                                    selectFieldDisable = 1;
+                                }
+                            }
+                            else if((optionTitleForEnable == "Blouse Stitching" && isBlouseLater) || (optionTitleForEnable == "Petticoat Stitching" && isPetticoatLater)){
+                                
+                                newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td>";
+                                newhtml += "<td><select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox'>";
+                                selectFieldDisable = 1;
+                            }
+                            else if(lehengaWithStandardBustLater){
+                                newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td>";
+                                newhtml += "<td><select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox'>";
+                                selectFieldDisable = 1;
+                            }
+                            else if(response.responseJSON.result[key][0].title == "Standard Size (Bust Size)"){
+                                newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td>";
+                                newhtml += "<td><select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox' disabled>";
+                                selectFieldDisable = 1;
+                            }
+                            else if(customSizeOption){
+                                newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td>";
+                                newhtml += "<td><select name='"+response.responseJSON.result[key][0].option_id+"' class='selectBox'>";
+                                selectFieldDisable = 1;
+                            }
+
+                            if(selectFieldDisable)
+                            {
+                                newhtml += "<option value='-- Please Select --'>-- Please Select --</option>";
+                                $.each(response.responseJSON.result[key], function( key1, value1) {
+                                    if(value1.type == "drop_down"){
+                                        var label = value1.optiontitle;
+                                        var optionPrintValue = value1.optiontypetitle;
+                                        var optionId = value1.option_id;
+                                        var optionType = value1.type;
+                                        var optionValue = value1.option_type_id;
+                                        var productId = value1.product_id;
+                                        var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+                                        var optCount = 0;
+                                        if(value1.optiontitle == "Stitching Option" && optionPrintValue == 'Stitched'){
+                                            newhtml += "<option class='"+optionValue+"' value='"+optionValueParam+"' selected='true'>"+optionPrintValue+"</option>";
+                                        }
+                                        else{
+                                            var optionVal = 0; 
+                                            optionVal = $("."+optionId).val();
+                                            if(optionVal == optionValue){
+                                                newhtml += "<option class='"+optionValue+"' disabled value='"+optionValueParam+"' selected='true'>"+optionPrintValue+"</option>";
+
+                                            }
+                                            else{
+                                                newhtml += "<option class='"+optionValue+"' value='"+optionValueParam+"'>"+optionPrintValue+"</option>";
+                                            }
+                                        }
+                                    }
+                                });
+                                newhtml += "</select></td></tr>";
+                            }
+                        }
+                        else if(response.responseJSON.result[key][0].type == "checkbox"){
+                            var isEnable = 0;
+                            $.each(response.responseJSON.result[key], function( key1, value1) {
+                                var label = value1.optiontitle;
+                                var optionPrintValue = value1.optiontypetitle;
+                                var optionId = value1.option_id;
+                                var optionType = value1.type;
+                                var optionValue = value1.option_type_id;
+                                var productId = value1.product_id;
+                                var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+                                if(label != "Measurements Later For"){
+                                    optionVal = $("."+optionId).val();
+                                    if((value1.title == "Blouse Stitching" && isBlouseLater) || (value1.title == "Petticoat Stitching" && isPetticoatLater)){
+                                        newhtml += "<tr><td>"+value1.title+"</td>";
+                                        newhtml += "<td><input class='checkedBox' id='"+optionValueParam+"' checked='true' type='checkbox' disabled>"+optionPrintValue+"</td><tr>";
+                                    }
+                                    else{
+                                        customSizeOption = 0;
+                                        if(lehengaWithStandardBust && label == "Lehenga Stitching"){
+                                            newhtml += "<tr><td>"+value1.title+"</td>";
+                                            newhtml += "<td><input class='checkedBox' id='"+optionValueParam+"' checked='true' type='checkbox' disabled>"+optionPrintValue+"</td><tr>";
+                                            lehengaWithStandardBustLater = 1;
+                                        }
+                                    }
+                                    optionTitleForEnable = value1.title;
+                                }
+                            })
+                        }
+                        else if(response.responseJSON.result[key][0].type == "radio"){
+                            newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td><td>";
+                            var StitchedOptionNameAttr = "";
+                            var StitchedOptionIdAttr = "";
+                            var StitchedOptionOptionValueAttr = "";
+                            $.each(response.responseJSON.result[key], function( key1, value1) {
+                                if(value1.type == "radio"){
+                                    var label = value1.optiontitle;
+                                    var optionPrintValue = value1.optiontypetitle;
+                                    var optionId = value1.option_id;
+                                    var optionType = value1.type;
+                                    var optionValue = value1.option_type_id;
+                                    var productId = value1.product_id;
+                                    var optionValueParam = label+"_"+optionPrintValue+"_"+optionId+"_"+optionType+"_"+optionValue;
+                                    optionVal = $("."+optionId).val();
+                                    if(optionVal == optionValue){
+                                        if(optionPrintValue == "Stitching Later" || optionPrintValue == "Later"){
+                                            if(optionPrintValue == "Later"){
+                                                newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Later</span>";
+                                                if(value1.optiontitle == "Custom Size"){
+                                                    customSizeOption = 1;
+                                                    lehengaWithStandardBust = 1;
+                                                }
+                                            }
+                                            else{
+                                                newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Stitching Now</span>";
+                                            }
+                                        }
+                                        else{
+                                            newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+optionId+"  id='"+optionValueParam+"' value="+optionValue+"  type='radio' checked='true'>"+optionPrintValue+"</span>";
+                                        }
+                                    }
+                                    else{
+                                        if(optionPrintValue == "Now" || optionPrintValue == "Yes"){
+                                            StitchedOptionNameAttr = optionId;
+                                            StitchedOptionIdAttr = optionValueParam;
+                                            StitchedOptionOptionValueAttr = optionValue;
+                                        }
+                                        newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+optionId+" id='"+optionValueParam+"' value="+optionValue+" type='radio' disabled>"+optionPrintValue+"</span>";
+                                    }
+                                }
+                            });
+                            newhtml += "</td></td></tr>";
+                        }
+                    });
+                    newhtml += "<tr><td></td><td style='float:right'><button type='button' title='Submit Measurements' class='action primary add' id='submit' itemId="+response.responseJSON.itemId+">Submit Measurements</button></td></tr>";
+                    $("#order-option-data_"+itemId).append(newhtml);
+                }
+                });
+            }
+            else{
+                $(".order-option-data").empty();
+            }
+        });
+
+        $(document).on('click','#submit',function(){
+            var optionsData = [];
+            $("input:checkbox[class=checkedBox]:checked").each(function(){
+                optionsData.push($(this).attr('id'));
+            });
+
+            var options = $('.selectBox option:selected');
+            var values = $.map(options ,function(option) {
+                if(option.value != "-- Please Select --"){
+                    optionsData.push(option.value);   
+                }
+            });
+
+            $(':radio:checked').each(function(){
+                optionsData.push($(this).attr('id'));
+            });
+
+            var myJsonString = JSON.stringify(optionsData);
+            var itemId = $(this).attr("itemId");
+            var orderId = $(this).attr("orderId");
+            var customurl = "<?php echo $this->getUrl().'updateorder/index/index'?>";
+            $.ajax({
+                url: customurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    measureedoptions: myJsonString,
+                    itemId: itemId,
+                    orderId: orderId
+                },
+                complete: function(response) {
+                    location.reload();
+                    
+                }
+            });
+        });
+        return false;
+    });
+</script>
+<style>
+.radio-later-label{
+    margin-right:25px;
+}
+</style>

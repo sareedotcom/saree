@@ -82,7 +82,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                    $discount = 0;
                    $discountAmount = 0;
                    $product_id =$block->getProduct()->getId();
-                    $ItemPrice = $blockObj->getProductPrices($_item->getProduct()->getSku());
+                    $ItemPrice = $blockObj->getProductPrices($product_id);
                     if(isset($ItemPrice['currentSpecialPrice'])){
 
                         $discount = $blockObj->getRowItemDiscount($ItemPrice['currentSpecialPrice'],$ItemPrice['currentPrice'],$_item->getStore());
@@ -218,7 +218,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                 <?= /* @noEscape */ $block->getActions($_item) ?>
             </div>
         </div>
-        <div class="estimated-deliverydate" style="border-top: 2px solid #f2f5f7;padding-top: 10px;font-size: 14px !important">
+        <div class="estimated-deliverydate" style="border-top: 2px solid #f2f5f7;padding-top: 10px;">
             <?php 
             $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
             <?= $block->escapeHtml($_option['label']) ?>
@@ -230,4 +230,3 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         </div> 
     </div>
 </li>
-
