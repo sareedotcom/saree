@@ -12,6 +12,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Quote\Model\QuoteRepository;
 use Magento\Framework\Serialize\SerializerInterface;
+use Logicrays\OrderDeliveryEstimation\Helper\Data;
 
 class Index extends Action
 {
@@ -49,6 +50,7 @@ class Index extends Action
      * @param ManagerInterface $messageManager
      * @param QuoteRepository $quoteRepository
      * @param SerializerInterface $serializerInterface
+     * @param Data $helper
      */
     public function __construct(
         Context $context,
@@ -58,7 +60,8 @@ class Index extends Action
         JsonFactory $jsonResultFactory,
         ManagerInterface $messageManager,
         QuoteRepository $quoteRepository,
-        SerializerInterface $serializerInterface
+        SerializerInterface $serializerInterface,
+        Data $helper
     ) {
         parent::__construct(
             $context
@@ -70,6 +73,7 @@ class Index extends Action
         $this->messageManager = $messageManager;
         $this->quoteRepository = $quoteRepository;
         $this->serializerInterface = $serializerInterface;
+        $this->helper = $helper;
     }
 
     /**
@@ -94,6 +98,7 @@ class Index extends Action
 
             $optionList = [];
             $optionList1 = [];
+            $days = 0;
             foreach($finalOption AS $val){
                 if($val[0][3] == "radio"){
                     $option[$val[0][2]] = $val[0][4];
@@ -117,6 +122,14 @@ class Index extends Action
                     $optionList['custom_view'] = false;
                 }
                 else if($val[0][3] == "drop" && $val[0][4] == "down"){
+
+                    if(strripos($val[0][1],'Days') > -1 && $days == 0){
+                        $str = strtolower($val[0][1]);
+                        $arr = explode(" ",$str);
+                        $toIndex = array_search("to",$arr);
+                        $days = $arr[$toIndex+1];
+                    }
+
                     $option[$val[0][2]] = $val[0][5];
 
                     $optionList['label'] = $val[0][0];
@@ -130,6 +143,8 @@ class Index extends Action
                 $optionList1[] = $optionList;
             }
             $itemCollection = $this->orderItemRepository->get($itemId);
+            $currentProduct = $itemCollection->getProduct();
+
             $options = $itemCollection->getProductOptions();
             $optionsnew = $options['info_buyRequest']['options'];
             foreach($options AS $key => $optionVal){
@@ -140,7 +155,6 @@ class Index extends Action
                     $options[$key]['options'] = $option;
                 }
             }
-
             foreach ($optionsnew as $key => $value) {
                 if(!isset($options["info_buyRequest"]["options"][$key])){
                     $options["info_buyRequest"]["options"][$key] = "";
@@ -206,6 +220,23 @@ class Index extends Action
                     }
                 }
             }
+
+            if ($days) {
+                $updCateEstimationDate = $this->helper->getOptionDeliveryDay($currentProduct, $days);
+            } else {
+                $extraWorkingDays = 0;
+                $updCateEstimationDate = $this->helper->getDeliveryEstimationDate($currentProduct, $extraWorkingDays);
+            }
+            
+            $estData = ["estd_dispatch_date"=>$updCateEstimationDate];
+            $estWhere = ['item_id = ?' => $itemCollection->getQuoteItemId()];
+            $qiTableName = $connection->getTableName("quote_item");
+            $updatedRows = $connection->update($qiTableName, $estData, $estWhere);
+
+            $soiestWhere = ['quote_item_id = ?' => $itemCollection->getQuoteItemId()];
+            $soiTableName = $connection->getTableName("sales_order_item");
+            $updatedRows = $connection->update($soiTableName, $estData, $soiestWhere);
+
 
             if(!$changeToProcessing){
                 $order->setState("processing")->setStatus("processing");

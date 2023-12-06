@@ -19,6 +19,27 @@
     <?= $block->getItemsHtml() ?>
 </section>
 
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Order Total')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Notes for this Order')) ?></span>
+            </div>
+            <?= $block->getChildHtml('order_history') ?>
+        </div>
+
+        <div class="admin__page-section-item order-totals">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Order Totals')) ?></span>
+            </div>
+            <?= $block->getChildHtml('order_totals') ?>
+        </div>
+    </div>
+</section>
+
 <?= $block->getChildHtml('order_info') ?>
 <input type="hidden" name="order_id" value="<?= (int) $_order->getId() ?>"/>
 
@@ -51,27 +72,6 @@
 <?= $block->getChildHtml('order_additional_info') ?>
 
 <?= $block->getGiftOptionsHtml() ?>
-
-<section class="admin__page-section">
-    <div class="admin__page-section-title">
-        <span class="title"><?= $block->escapeHtml(__('Order Total')) ?></span>
-    </div>
-    <div class="admin__page-section-content">
-        <div class="admin__page-section-item order-comments-history">
-            <div class="admin__page-section-item-title">
-                <span class="title"><?= $block->escapeHtml(__('Notes for this Order')) ?></span>
-            </div>
-            <?= $block->getChildHtml('order_history') ?>
-        </div>
-
-        <div class="admin__page-section-item order-totals">
-            <div class="admin__page-section-item-title">
-                <span class="title"><?= $block->escapeHtml(__('Order Totals')) ?></span>
-            </div>
-            <?= $block->getChildHtml('order_totals') ?>
-        </div>
-    </div>
-</section>
 
 <?= $block->getChildHtml('popup_window') ?>
 

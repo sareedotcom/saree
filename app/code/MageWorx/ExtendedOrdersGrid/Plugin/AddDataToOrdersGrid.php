@@ -50,13 +50,13 @@ class AddDataToOrdersGrid
                     ['so.entity_id']
                 );
 
-                $collection->getSelect()->joinLeft(
-                    ['soi' => 'sales_order_item'],
-                    'soi.order_id = so.entity_id',
-                    ['min_date' => new \Zend_Db_Expr('MIN(STR_TO_DATE(soi.estd_dispatch_date, "%W, %d %M %Y"))')]
-                );
-                $collection->getSelect()->group('soi.order_id');
-                $collection->setOrder('min_date','ASC');
+                // $collection->getSelect()->joinLeft(
+                //     ['soi' => 'sales_order_item'],
+                //     'soi.order_id = so.entity_id',
+                //     ['min_date' => new \Zend_Db_Expr('MIN(STR_TO_DATE(soi.estd_dispatch_date, "%W, %d %M %Y"))')]
+                // );
+                // $collection->getSelect()->group('soi.order_id');
+                // $collection->setOrder('min_date','ASC');
 
             } catch (\Zend_Db_Select_Exception $selectException) {
 

@@ -46,8 +46,11 @@ class NearEstdDispatch extends Column
                         )
                         ->where(
                             "main.estd_dispatch_date != ''"
+                        )
+                        ->where(
+                            "main.product_type != :productType"
                         );
-                    $bind = ['quote_item_id'=> $data->getQuoteItemId()];
+                    $bind = ['quote_item_id'=> $data->getQuoteItemId(), 'productType' => 'configurable'];
                     $result = $connection->fetchOne($select, $bind);
                     if($result){
                         $dateForInd = date_format(date_create($result),"Y/m/d");
@@ -61,14 +64,14 @@ class NearEstdDispatch extends Column
                         }
                     }
 
-                   if($dateForDisplay && count($dateArr) > 1){
+                    if($dateForDisplay && count($dateArr) > 1){
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0) {
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0 && $item['status'] != 'canceled' && $item['status'] != 'closed') {
                             $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
                             $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
                         }
                         else{
@@ -80,10 +83,10 @@ class NearEstdDispatch extends Column
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0){
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
                             $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<span>";
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
                             $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<span>";
                         }
                         else{

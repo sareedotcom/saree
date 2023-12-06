@@ -285,7 +285,12 @@
                             })
                         }
                         else if(response.responseJSON.result[key][0].type == "radio"){
-                            newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td><td>";
+                            if(response.responseJSON.result[key][0].title == 'Custom Size'){
+                                // newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td><td>";
+                            }
+                            else{
+                                newhtml += "<tr><td>"+response.responseJSON.result[key][0].title+"</td><td>";
+                            }
                             var StitchedOptionNameAttr = "";
                             var StitchedOptionIdAttr = "";
                             var StitchedOptionOptionValueAttr = "";
@@ -302,18 +307,18 @@
                                     if(optionVal == optionValue){
                                         if(optionPrintValue == "Stitching Later" || optionPrintValue == "Later"){
                                             if(optionPrintValue == "Later"){
-                                                newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Later</span>";
+                                                newhtml += "<span class='radio-later-label' style='display:none'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true' style='display:none'>Later</span>";
                                                 if(value1.optiontitle == "Custom Size"){
                                                     customSizeOption = 1;
                                                     lehengaWithStandardBust = 1;
                                                 }
                                             }
                                             else{
-                                                newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true'>Stitching Now</span>";
+                                                newhtml += "<span class='radio-later-label' style='display:none'><input class='radiobutton' name="+StitchedOptionNameAttr+"  id='"+StitchedOptionIdAttr+"' value="+StitchedOptionOptionValueAttr+"  type='radio' checked='true' style='display:none'>Stitching Now</span>";
                                             }
                                         }
                                         else{
-                                            newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+optionId+"  id='"+optionValueParam+"' value="+optionValue+"  type='radio' checked='true'>"+optionPrintValue+"</span>";
+                                            newhtml += "<span class='radio-later-label' style='display:none'><input class='radiobutton' name="+optionId+"  id='"+optionValueParam+"' value="+optionValue+"  type='radio' checked='true' style='display:none'>"+optionPrintValue+"</span>";
                                         }
                                     }
                                     else{
@@ -322,7 +327,7 @@
                                             StitchedOptionIdAttr = optionValueParam;
                                             StitchedOptionOptionValueAttr = optionValue;
                                         }
-                                        newhtml += "<span class='radio-later-label'><input class='radiobutton' name="+optionId+" id='"+optionValueParam+"' value="+optionValue+" type='radio' disabled>"+optionPrintValue+"</span>";
+                                        newhtml += "<span class='radio-later-label' style='display:none'><input class='radiobutton' name="+optionId+" id='"+optionValueParam+"' value="+optionValue+" type='radio' disabled style='display:none'>"+optionPrintValue+"</span>";
                                     }
                                 }
                             });
@@ -382,4 +387,11 @@
 .radio-later-label{
     margin-right:25px;
 }
+@media (max-width:767px){
+  .return-status,
+  .order-status {
+    margin-top: 50px;
+  }
+}
+
 </style>

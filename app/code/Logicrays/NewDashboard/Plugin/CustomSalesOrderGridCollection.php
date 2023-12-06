@@ -33,6 +33,10 @@
                     $applyedFilters = $filters['filters'];
                     if(count($applyedFilters) > 1 || $filters['search']){
                         // Nothing to do anything if other filter is applyed
+                        if(!isset($sorting["sorting"])){
+                            $this->collection->getSelect()->order('created_at DESC');
+                            return $this->collection;
+                        }
                     }
                     else{
                         if ($result instanceof $this->collection) {
