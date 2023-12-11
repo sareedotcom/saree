@@ -12,6 +12,7 @@
         <link src="Magento_Sales::js/bootstrap/order-post-action.js"/>
         <css src="MageWorx_OrderEditor::css/ordereditor.css" />
         <css src="Logicrays_NewDashboard::css/nearest-est.css" />
+        <css src="Swissup_CheckoutFields::css/checkout-fields.css"/>
     </head>
     
     <update handle="sales_order_item_price"/>
@@ -21,6 +22,23 @@
         <referenceContainer name="content">
             <block class="Magento\Sales\Block\Adminhtml\Order\View" name="sales_order_edit"/>
         </referenceContainer>
+        
+        <referenceContainer name="content">
+            <referenceBlock name="gift_options">
+                <block class="Mageants\GiftCard\Block\Adminhtml\Order\View\Custom" name="sales_order_view_adte" template="Custom.phtml">
+                    <arguments>
+                        <argument name="viewModel" xsi:type="object">
+                            Mageants\GiftCard\ViewModel\ViewHelperData
+                        </argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceContainer>
+    
+        <referenceContainer name="order_totals">
+            <block class="Mageants\GiftCard\Block\Sales\Order\Gift" name="giftcertificate"/>
+        </referenceContainer>
+        
         <referenceContainer name="left">
             <block class="Magento\Sales\Block\Adminhtml\Order\View\Tabs" name="sales_order_tabs">
                 <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="Logicrays_NewDashboard::order/view/tab/info.phtml">
@@ -133,5 +151,24 @@
             </action>
             <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Grid\Thumbnail" name="column_thumbnail" template="grid/column/thumbnail.phtml" group="column" />
         </referenceBlock>
+        
+        <referenceContainer name="content">
+            <block class="Swissup\CheckoutFields\Block\Adminhtml\Order\View\Fields" name="sales_order_view_fields" template="order/view/fields.phtml">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="swissup-checkout-fields" xsi:type="array">
+                                <item name="component" xsi:type="string">Swissup_CheckoutFields/js/order-fields</item>
+                                <item name="provider" xsi:type="string">swissupCheckoutFields</item>
+                                <item name="children" xsi:type="array"></item>
+                            </item>
+                            <item name="swissupCheckoutFields" xsi:type="array">
+                                <item name="component" xsi:type="string">uiComponent</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
     </body>
 </page>

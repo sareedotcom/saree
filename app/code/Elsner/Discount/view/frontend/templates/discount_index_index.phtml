@@ -6,8 +6,10 @@ if($_product->getPrice()){
     $price = $_product->getPrice();
 }
 $per = ($mrp / $price) * 100;
+if($per >= 1){
 ?>
-<div class="product-discount">
-<?php echo round($per)."% <span>Off</span>";?>
-</div>
+    <div class="product-discount">
+    <?php echo round($per)."% <span>Off</span>";?>
+    </div>
+<?php } ?>
 <?php endif;?>

@@ -10,7 +10,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
      $pro_price = floatval(str_replace(",","",$pro_price));
   	 $pro_sprcialprice = $product->getSpecialPrice();
      $pro_sprcialprice = floatval(str_replace(",","",$pro_sprcialprice));
-  	 if(!empty($pro_sprcialprice)){
+  	 if(!empty($pro_sprcialprice) && $pro_price > 0){
       $newprice = (($pro_price - $pro_sprcialprice) * 100) / $pro_price;
   	 	$product->setMjDiscount($newprice);
   	 }

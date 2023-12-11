@@ -68,10 +68,10 @@ class NearEstdDispatch extends Column
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0 && $item['status'] != 'canceled' && $item['status'] != 'closed') {
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0 && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered') {
                             $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
                             $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
                         }
                         else{
@@ -83,10 +83,10 @@ class NearEstdDispatch extends Column
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
                             $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<span>";
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed'){
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
                             $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<span>";
                         }
                         else{

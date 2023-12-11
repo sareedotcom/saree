@@ -193,5 +193,24 @@
             </action>
             <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Grid\Thumbnail" name="column_thumbnail" template="MageWorx_OrderEditor::grid/column/thumbnail.phtml" group="column" />
         </referenceBlock>
+        
+         <referenceBlock name="order_items">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Logicrays_UpdateOrder::grid/items.phtml</argument>
+            </action>
+            <block class="MageWorx\OrderEditor\Block\Adminhtml\Sales\Order\Grid\Thumbnail" name="column_thumbnail" template="MageWorx_OrderEditor::grid/column/thumbnail.phtml" group="column" />
+        </referenceBlock>
+        
+        <referenceBlock name="order_additional_info">
+            <block class="Pits\GiftWrap\Block\Adminhtml\Sales\Order\View\OrderGiftMessage" name="order_gift_wrap_message"
+                   template="Pits_GiftWrap::sales/order/view/order_gift_message.phtml" ifconfig="pits_gift_wrap/general/enable"/>
+        </referenceBlock>
+        <referenceBlock name="order_item_extra_info">
+            <block class="Pits\GiftWrap\Block\Adminhtml\Sales\Order\View\GiftOptions" name="gift_options_item"
+                   template="Pits_GiftWrap::sales/order/view/gift_options.phtml" ifconfig="pits_gift_wrap/general/enable"/>
+        </referenceBlock>
+        <referenceContainer name="order_totals">
+            <block class="Pits\GiftWrap\Block\Adminhtml\Sales\Order\GiftWrapTotals" name="giftwrap_fee" ifconfig="pits_gift_wrap/general/enable"/>
+        </referenceContainer>
     </body>
 </page>
