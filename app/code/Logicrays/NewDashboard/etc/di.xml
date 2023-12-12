@@ -16,31 +16,23 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
+                <item name="lrdes_order_listing_data_source" xsi:type="string">Magento\Sales\Model\ResourceModel\Order\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
                 <item name="lrdes_order_listing_data_source" xsi:type="string">Pits\GiftWrap\Model\ResourceModel\Order\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
 
-    <!--<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">-->
-    <!--    <plugin name="sales_order_pending2" type="Logicrays\NewDashboard\Plugin\CustomSalesOrderGridCollection" sortOrder="100" />-->
-    <!--</type>-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <plugin name="sales_order_pending2" type="Logicrays\NewDashboard\Plugin\CustomSalesOrderGridCollection" sortOrder="100" />
+    </type>
     
-    <!--<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">-->
-    <!--    <arguments>-->
-    <!--        <argument name="collections" xsi:type="array">-->
-    <!--            <item name="lrdes_order_listing_data_source"-->
-    <!--                  xsi:type="string">Pits\GiftWrap\Model\ResourceModel\Order\Grid\Collection-->
-    <!--            </item>-->
-    <!--        </argument>-->
-    <!--    </arguments>-->
-    <!--</type>-->
-    <!--<type name="Pits\GiftWrap\Model\ResourceModel\Order\Grid\Collection">-->
-    <!--    <arguments>-->
-    <!--        <argument name="mainTable" xsi:type="string">sales_order_grid</argument>-->
-    <!--        <argument name="resourceModel" xsi:type="string">Magento\Sales\Model\ResourceModel\Order</argument>-->
-    <!--    </arguments>-->
-    <!--</type>-->
-
 </config>
 
 
