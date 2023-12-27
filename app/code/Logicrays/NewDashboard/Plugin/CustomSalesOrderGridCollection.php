@@ -34,23 +34,23 @@
                     if(count($applyedFilters) > 1 || $filters['search']){
                         // Nothing to do anything if other filter is applyed
                         if(!isset($sorting["sorting"])){
-                            $this->collection->getSelect()->order('created_at DESC');
-                            return $this->collection;
+                            $result->getSelect()->order('created_at DESC');
+                            return $result;
                         }
                     }
                     else{
                         // if ($result instanceof $this->collection) {
                             // $this->collection->addFieldToFilter('main_table.state', array('in' => array('processing')));
-                            $this->collection->getSelect()->joinLeft(
+                            $result->getSelect()->joinLeft(
                                 ['so' => 'sales_order'],
                                 'main_table.increment_id = so.increment_id',
                                 ['state','gift_wrap_data']
                             )->where("so.status IN('processing','cod_prepaid','cod_processing','under_procurement','alternate_option','pre_qc','exchange','under_smoothing','post_qc','dispatched','partial_dispatched')");
                             
                             if(!isset($sorting["sorting"])){
-                                $this->collection->getSelect()->order('created_at DESC');
+                                $result->getSelect()->order('created_at DESC');
                             }
-                            return $this->collection;
+                            return $result;
                         // }
                     }
                 }

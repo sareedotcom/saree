@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="vendor" translate="label" class="vendor" sortOrder="100">
+            <label>Logicrays</label>
+        </tab>
+        <section id="cod_disable" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>COD Disable Configuration</label>
+            <tab>vendor</tab>
+            <resource>Logicrays_CodDisable::config_cod_disable</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable COD for Selected Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enabled_categories" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled Categories</label>
+                    <source_model>Logicrays\CodDisable\Model\Config\Source\CategoryList</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

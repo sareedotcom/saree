@@ -6,6 +6,7 @@ $moduleEnable = $helper->isEnable();
 ?>
 <?php if ($moduleEnable == 1): ?>
 <div id="custom_measurement_message" style="display: none;">Cash on delivery is not available for customized outfits</div>
+<div id="stitching-yes-selection" style="display: none; color:red">Need to select at least one option If you are selecting <b>Custom Size: Yes</b></div>
 <div class="delivery-info">
     <span>Est Dispatch Date: </span>
     <strong><label id="delivery-estimation-date"><?= $block->escapeHtml($block->getDeliveryDay()); ?></label></strong>
@@ -70,11 +71,28 @@ $moduleEnable = $helper->isEnable();
                 }
             });*/
 
-            jQuery(".radio.admin__control-radio.required.product-custom-option").change(function(){
+            var test = undefined;
+
+            jQuery(".radio.admin__control-radio.required.product-custom-option").on("change", (function(){
+                
                 var checkboxLabel = jQuery(this).next("label").children("span").text();
                 productDeliveryEstimationDate();
                 if(checkboxLabel.trim() == "Later" || checkboxLabel.trim() == "Yes"){
                     $('#custom_measurement_message').show();
+                    if(checkboxLabel.trim() == "Yes"){
+                        $('#stitching-yes-selection').show();
+                    }
+                    else{
+                        $('#stitching-yes-selection').hide();
+                    }
+                    if(checkboxLabel.trim() == "Yes"){
+                        jQuery('div[class=field] [type="checkbox"]').each(function(i) {
+                            if(this.checked) {
+                                test = this;
+                            }
+                            jQuery(this).trigger('click');
+                        });
+                    }
                 }
                 else{
                     var deliveryEstimationDate = "<?= $block->escapeHtml($block->getDeliveryDay()); ?>";
@@ -82,8 +100,28 @@ $moduleEnable = $helper->isEnable();
                     $('#delivery-estimation-date').text(deliveryEstimationDate);
                     $('#custom_measurement_message').hide();
                 }
-            });
+            }));
 
+            $('.product-options-wrapper .checkbox.admin__control-checkbox.product-custom-option[type="checkbox"]').click(function() {
+                var ck_box = $('input[type="checkbox"]:checked').length;
+                var count = 0;
+                jQuery("input:checkbox:checked").each(function(i){
+                    if(jQuery(this).val() != 'on'){
+                        count = 1;
+                    }
+                });
+                if(count == 0){
+                    jQuery(this).trigger('click');
+                    $('#stitching-yes-selection').show();
+                    jQuery('.product-options-wrapper .checkbox.admin__control-checkbox.product-custom-option[type="checkbox"]').each(function(i){
+                        if(jQuery(this).val() != 'on'){
+                            count = 1;
+                        }
+                    });
+                    jQuery(".radio.admin__control-radio.required.product-custom-option").last().trigger("click");
+                    jQuery(".radio.admin__control-radio.required.product-custom-option").first().trigger("click");
+                }
+            });
         });
     });
 </script>

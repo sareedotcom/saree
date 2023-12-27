@@ -3,4 +3,5 @@
     <type name="\Magento\Catalog\Pricing\Render\FinalPriceBox">
         <plugin name="logicrays_you_save_label" type="Logicrays\Customization\Plugin\FinalPricePlugin" />
     </type>
+     <preference for="Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Save" type="Logicrays\Customization\Controller\Adminhtml\Order\Creditmemo\Save" />
 </config>
