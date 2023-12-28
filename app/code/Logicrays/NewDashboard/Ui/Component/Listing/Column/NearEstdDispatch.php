@@ -32,7 +32,13 @@ class NearEstdDispatch extends Column
       	if (isset($dataSource['data']['items'])) {
         	foreach ($dataSource['data']['items'] as & $item) {
             	$order  = $this->_orderRepository->get($item["entity_id"]);
-
+                
+                $name = $this->getData('name');
+                if (isset($item['entity_id'])) {
+                    $orderItems = $this->getOrderItemData($item['entity_id']);
+                    $item[$name . '_orderItems'] = $orderItems;
+                }
+                
                 $allItems = $order->getItemsCollection();
                 $dateArr = [];
                 foreach($allItems AS $data){
@@ -101,4 +107,31 @@ class NearEstdDispatch extends Column
     	}
     	return $dataSource;
 	}
+	/**
+     * Get ordered item data.
+     *
+     * @param int $orderId
+     * @return array
+     */
+    public function getOrderItemData($orderId)
+    {
+        $orderItem = [];
+        $order = $this->_orderRepository->get($orderId)->getAllVisibleItems();
+        if (!$order) {
+            return [];
+        }
+        foreach ($order as $item) {
+            $orderItem[] = [
+                'sku' => $item->getSku(),
+                'name' => $item->getName(),
+                'qty' => $item->getQtyOrdered(),
+                'price' => $item->getPrice(),
+                'lrstatus' => $item->getLrItemStatus(),
+                'estimated' => $item->getEstdDispatchDate(),
+                'vendor' => $item->getOrderItemVendor(),
+                'status' => $item->getStatus(),
+            ];
+        }
+        return $orderItem;
+    }
 }

@@ -1,0 +1,48 @@
+<% if (orderItems.length) { %>
+<div class="order-sales-view">
+    <table>
+        <thead>
+            <tr>
+                <th class="order-item-sku">Sku</th>
+                <th class="order-item-name">Name</th>
+                <th class="order-item-qty">Qty</th>
+                <th class="order-item-price">Price</th>
+                <th class="order-item-lrstatus">Lr Status</th>
+                <th class="order-item-estimated">Est Dispatch Date</th>
+                <th class="order-item-vendor">Item Vendor</th>
+                <th class="order-item-status">Item Status</th>
+            </tr>
+        </thead>
+            <tbody class="cart item">
+                <% _.each(orderItems, function(item){ %>
+                    <tr class="item-info">
+                        <td>
+                            <span class="item-sku"><%- item.sku %></span>
+                        </td>
+                        <td>
+                            <span class="item-name"><%- item.name %></span>
+                        </td>
+                        <td>
+                            <span class="item-qty"><%- item.qty %></span>
+                        </td>
+                        <td>
+                            <span class="item-price"><%- item.price %></span>
+                        </td>
+                        <td>
+                            <span class="item-lrstatus"><%- item.lrstatus %></span>
+                        </td>
+                        <td>
+                            <span class="item-estimated"><%- item.estimated %></span>
+                        </td>
+                        <td>
+                            <span class="item-vendor"><%- item.vendor %></span>
+                        </td>
+                        <td>
+                            <span class="item-status"><%- item.status %></span>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+    </table>
+</div>
+<% } %>

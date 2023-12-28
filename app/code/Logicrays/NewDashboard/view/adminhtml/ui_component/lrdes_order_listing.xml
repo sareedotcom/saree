@@ -270,7 +270,7 @@
                 <visible>false</visible>
             </settings>
         </column>
-        <column name="nearestdispatch" class="Logicrays\NewDashboard\Ui\Component\Listing\Column\NearEstdDispatch">
+        <column name="nearestdispatch" class="Logicrays\NewDashboard\Ui\Component\Listing\Column\NearEstdDispatch" component="Logicrays_SalesClickView/js/order-click-handler">
         	<argument name="data" xsi:type="array">
             	<item name="config" xsi:type="array">
                     <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>

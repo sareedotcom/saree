@@ -40,9 +40,9 @@ class LRChangeOrderState implements ObserverInterface
                     throw new AuthorizationException(__('You don\'t have authorization to change status'));
                 }
             }
-            else if(!$this->authorization->isAllowed('Logicrays_UpdateOrder::'.$order1->getState())){
-                throw new AuthorizationException(__('You don\'t have authorization to change status'));
-            }   
+            // else if(!$this->authorization->isAllowed('Logicrays_UpdateOrder::'.$order1->getState())){
+            //     throw new AuthorizationException(__('You don\'t have authorization to change status'));
+            // }   
         }
 
         return;
