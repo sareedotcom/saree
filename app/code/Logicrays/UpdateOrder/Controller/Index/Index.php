@@ -13,6 +13,7 @@ use Magento\Framework\Message\ManagerInterface;
 use Magento\Quote\Model\QuoteRepository;
 use Magento\Framework\Serialize\SerializerInterface;
 use Logicrays\OrderDeliveryEstimation\Helper\Data;
+use Magento\Sales\Model\ResourceModel\Order\Item\CollectionFactory;
 
 class Index extends Action
 {
@@ -51,6 +52,7 @@ class Index extends Action
      * @param QuoteRepository $quoteRepository
      * @param SerializerInterface $serializerInterface
      * @param Data $helper
+     * @param CollectionFactory $itemCollectionFactory
      */
     public function __construct(
         Context $context,
@@ -61,7 +63,8 @@ class Index extends Action
         ManagerInterface $messageManager,
         QuoteRepository $quoteRepository,
         SerializerInterface $serializerInterface,
-        Data $helper
+        Data $helper,
+        CollectionFactory $itemCollectionFactory
     ) {
         parent::__construct(
             $context
@@ -74,6 +77,7 @@ class Index extends Action
         $this->quoteRepository = $quoteRepository;
         $this->serializerInterface = $serializerInterface;
         $this->helper = $helper;
+        $this->itemCollectionFactory = $itemCollectionFactory;
     }
 
     /**
@@ -164,6 +168,11 @@ class Index extends Action
             $itemCollection->setProductOptions($options);
             $itemCollection->save();
             $order = $itemCollection->getOrder();
+            
+            $orderItem = $this->itemCollectionFactory->create()->addFieldToFilter( 'item_id', $itemId)->getFirstItem();
+            $orderItem->setLrItemStatus('measurement_submitted');
+            $orderItem->save();
+            
             $order->addStatusHistoryComment('sku:'.$itemCollection->getSku().' stitching option is added by customer');
             $order->save();
             

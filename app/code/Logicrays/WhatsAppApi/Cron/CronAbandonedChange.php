@@ -45,11 +45,12 @@ class CronAbandonedChange
             $storeId = $store->getId();
             $rows = $this->collection->prepareForAbandonedReport([$storeId])->load();
             $abandonedData = [];
-            foreach ($rows as $abandonedCollectionData) {
+            foreach ($rows->getData() as $abandonedCollectionData) {
+                
                 $abandonedData = [];
-                $abandonedData['checkout_id'] = $abandonedCollectionData->getEntityId();
+                $abandonedData['checkout_id'] = $abandonedCollectionData['entity_id'];
                 $abandonedData['cart_recovery_url'] = $store->getBaseUrl().'checkout/cart';
-                $customerId = $abandonedCollectionData->getCustomerId();
+                $customerId = $abandonedCollectionData['customer_id'];
                 $quote = $this->cartRepositoryInterface->getForCustomer($customerId, [$storeId]);
                 $items = $quote->getAllVisibleItems();
                 foreach ($items as $item) {
@@ -91,10 +92,10 @@ class CronAbandonedChange
                     'phone' => $mobileNumber,
                 ];
                 $abandonedData['order_details'] = [
-                    'total_price' => $abandonedCollectionData->getGrandTotal(),
+                    'total_price' => $abandonedCollectionData['grand_total'],
                     'total_tax' => $totalTax,
                     'total_discount' => $totalDiscount,
-                    'currency' => $abandonedCollectionData->getBaseCurrencyCode(),
+                    'currency' => $abandonedCollectionData['base_currency_code'],
                 ];
                 
                 $billingStreet = $billingAddress->getStreet();
@@ -149,7 +150,7 @@ class CronAbandonedChange
                     ],
                 ];
                 $abandonedData['phone'] = $mobileNumber;
-                $abandonedData['created_at'] = $abandonedCollectionData->getCreatedAt();
+                $abandonedData['created_at'] = $abandonedCollectionData['created_at'];
             }
             $this->helperData->businessOnBotCurl('POST', $url, $abandonedData);
         }

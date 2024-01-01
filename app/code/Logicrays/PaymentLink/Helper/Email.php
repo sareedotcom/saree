@@ -75,7 +75,7 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
             
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            		CURLOPT_URL => 'https://saree.bobot.in/workflow/webhook/2203f5b8-1b34-4d83-a3f0-d9f60e92359b',
+            		CURLOPT_URL => 'https://saree.bobot.in/workflow/webhook/b61bdd39-2f9a-41c3-aa3a-12e6ff995d11',
             		CURLOPT_RETURNTRANSFER => true,
             		CURLOPT_ENCODING => '',
             		CURLOPT_MAXREDIRS => 10,
@@ -87,7 +87,7 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
                 {
                     "platform": "saree",
                     "phone": '.$data['mobilenumber'].',
-                    "variables": {"customername":"aaaa'.$data['customerName'].'","plink":"'.$data['paymentlinkhide'].'"},
+                    "variables": {"customername":"'.$data['customerName'].'","plink":"'.$data['paymentlinkhide'].'"},
                     "noOfVariables": 2
                 }',
             		CURLOPT_HTTPHEADER => array(

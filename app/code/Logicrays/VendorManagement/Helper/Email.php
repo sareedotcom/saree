@@ -66,7 +66,8 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
                     "qty" => $data['qty'],
                     "comment_box" => $data['comment_box'],
                     "size" => $data['size'],
-                    "orderIncrementId" => $data['orderIncrementId']
+                    "orderIncrementId" => $data['orderIncrementId'],
+                    "imageurl" => $data['imageurl'],
                 ])
                 ->setFrom($sender)
                 ->addTo($data['vendorEmail'])

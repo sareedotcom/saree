@@ -66,6 +66,7 @@ class Vendordata extends \Magento\Framework\App\Action\Action
             return $resultJson;
         }
         if(isset($whoteData['vendorEmail'])){
+            
             $size = "<table><tbody>";
             $sizeForWhatsapp = "";
             if(isset($whoteData['optoin'])){
@@ -86,6 +87,7 @@ class Vendordata extends \Magento\Framework\App\Action\Action
             $data['comment_box'] = $whoteData['comment_box'];
             $data['orderIncrementId'] = $whoteData['orderIncrementId'];
             $data['size'] = $size;
+            $data['imageurl'] = $whoteData['ItemImage'];
 
             $this->email->sendEmail($data);
 

@@ -39,9 +39,13 @@ class Data extends AbstractHelper
      */
     public function getOrderStatus($orderId)
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $order = $this->orderRepository->get($orderId);
-        return $order->getConfig()->getStateStatuses($order->getState());
-        // return $this->orderStatusCollection->toOptionArray(); // All Status
+        // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        // $order = $this->orderRepository->get($orderId);
+        $allStatus = $this->orderStatusCollection->toOptionArray(); // All Status
+        $statusList = [];
+        foreach ($allStatus as $key => $value) {
+            $statusList[$value['value']] = $value['label'];
+        }
+        return $statusList;
     }
 }

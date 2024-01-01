@@ -5,6 +5,14 @@ $option = $_item->getProductOptions();
 
 $itemVendor = $_item->getOrderItemVendor();
 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$_product = $objectManager->get('Magento\Catalog\Model\Product')->load($_item->getProductId());
+
+$imageHelper  = $objectManager->get('\Magento\Catalog\Helper\Image');
+
+$image_url = $imageHelper->init($_product, 'product_page_image_small')->setImageFile($_product->getImage())->resize(100, 100)->getUrl();
+
 ?>
 <input type="hidden" value="<?= $block->getBaseUrl().$this->helper('Magento\Backend\Helper\Data')->getAreaFrontName() ?>" id="adminFrontName">
 <div class="item-vendor">
@@ -22,6 +30,7 @@ $itemVendor = $_item->getOrderItemVendor();
                 <td style="padding:10px"><input type="text" name="vendor_name" id="vendor_name_<?= $_item->getItemId() ?>" value="<?= /* @noEscape */ $itemVendor;?>"> 
                 <input type="hidden" name="vendorEmail" id="vendorEmail_<?= $_item->getItemId() ?>"  value="">
                 <input type="hidden" name="vendorPhone" id="vendorPhone_<?= $_item->getItemId() ?>" value="">
+                <input type="hidden" name="ItemImage" id="ItemImage" value="<?= $image_url; ?>">
                 <input type="hidden" name="orderIncrementId" id="orderIncrementId" value="<?= $_item->getOrder()->getIncrementId() ?>">
                 </td>
             </tr>
@@ -91,10 +100,11 @@ $itemVendor = $_item->getOrderItemVendor();
                 var url = $("#adminFrontName").val()+"/vendor/manage/vendordata";
                 var id = $(this).attr("class");
                 var itemId = $(this).attr("itemId");
+                var vendorName = $("#vendor_name_"+itemId).val();
                 $.ajax({
                     type: "POST",
                     url: url,
-                    data: {'itemId': $(this).attr("class")},
+                    data: {'itemId': $(this).attr("class"),'vendorName': vendorName},
                     cache: false,
                     showLoader: true,
                     success: function(data){
