@@ -12,6 +12,8 @@ define([
                 return 'red-estimate-row';
             } else if (row.nearestdispatch.search("lightpink-estimate") >= 0) { 
                 return 'lightpink-estimate-row';
+            } else if (row.nearestdispatch.search("yellow-estimate") >= 0) { 
+                return 'yellow-estimate-row';
             } else if (row.nearestdispatch.search("white-estimate-row") >= 0) { 
                 return 'white-estimate-row';
             } else {
