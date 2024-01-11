@@ -30,22 +30,21 @@ class NearEstdDispatch extends Column
         $connection = $this->_resource->getConnection();
 
       	if (isset($dataSource['data']['items'])) {
+
         	foreach ($dataSource['data']['items'] as & $item) {
             	$order  = $this->_orderRepository->get($item["entity_id"]);
-                
-                $name = $this->getData('name');
-                if (isset($item['entity_id'])) {
-                    $orderItems = $this->getOrderItemData($item['entity_id']);
-                    $item[$name . '_orderItems'] = $orderItems;
-                }
-                
+
                 $allItems = $order->getItemsCollection();
                 $dateArr = [];
+                $isCancelRequest = 0;
+                if($order->getStatus() == 'request_for_cancellation'){
+                    $isCancelRequest = 1;
+                }
                 foreach($allItems AS $data){
                     $select = $connection->select()
                         ->from(
                             ['main' => 'sales_order_item'],
-                            ['estd_dispatch_date']
+                            ['estd_dispatch_date','cancel_request']
                         )
                         ->where(
                             "main.quote_item_id = :quote_item_id"
@@ -57,9 +56,9 @@ class NearEstdDispatch extends Column
                             "main.product_type != :productType"
                         );
                     $bind = ['quote_item_id'=> $data->getQuoteItemId(), 'productType' => 'configurable'];
-                    $result = $connection->fetchOne($select, $bind);
-                    if($result){
-                        $dateForInd = date_format(date_create($result),"Y/m/d");
+                    $result = $connection->fetchRow($select, $bind);
+                    if(isset($result['estd_dispatch_date'])){
+                        $dateForInd = date_format(date_create($result['estd_dispatch_date']),"Y/m/d");
                         $dateArr[] =  $dateForInd;
                     }
                     $dateForDisplay = "";
@@ -69,19 +68,37 @@ class NearEstdDispatch extends Column
                             $dateForDisplay = date_format(date_create($minDate),"l, d F Y");
                         }
                     }
+                    if(isset($result['cancel_request'])){
+                        $isCancelRequest = 1;
+                    }
 
-                    if($dateForDisplay && count($dateArr) > 1){
+                   if($dateForDisplay && count($dateArr) > 1){
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0 && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered') {
-                            $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0) {
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
-                            $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
                         }
                         else{
-                            $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                            }
                         }
                     }
                     else if($dateForDisplay)
@@ -89,49 +106,38 @@ class NearEstdDispatch extends Column
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
-                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
-                            $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<span>";
+                        if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0){
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<span>";
+                            }
                         }
-                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0  && $item['status'] != 'canceled' && $item['status'] != 'closed' && $item['status'] != 'complete' && $item['status'] != 'delivered'){
-                            $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<span>";
+                        else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<span>";
+                            }
                         }
                         else{
-                            $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<span>";
+                            if($isCancelRequest){
+                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                            }
+                            else{
+                                $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<span>";
+                            }
                         }
                     }
                     else{
                         $item[$this->getData('name')] = '';
                     }
                 }
+                
         	}
     	}
     	return $dataSource;
 	}
-	/**
-     * Get ordered item data.
-     *
-     * @param int $orderId
-     * @return array
-     */
-    public function getOrderItemData($orderId)
-    {
-        $orderItem = [];
-        $order = $this->_orderRepository->get($orderId)->getAllVisibleItems();
-        if (!$order) {
-            return [];
-        }
-        foreach ($order as $item) {
-            $orderItem[] = [
-                'sku' => $item->getSku(),
-                'name' => $item->getName(),
-                'qty' => $item->getQtyOrdered(),
-                'price' => $item->getPrice(),
-                'lrstatus' => $item->getLrItemStatus(),
-                'estimated' => $item->getEstdDispatchDate(),
-                'vendor' => $item->getOrderItemVendor(),
-                'status' => $item->getStatus(),
-            ];
-        }
-        return $orderItem;
-    }
 }

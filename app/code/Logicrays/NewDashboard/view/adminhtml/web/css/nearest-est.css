@@ -35,3 +35,17 @@
 .lightpink-estimate-row{
     background: #ffb6c18c!important;
 }
+.yellow-estimate-row{
+    background: #f5d02da8!important;
+}
+.yellow-estimate{
+    background: #f5d02da8;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
