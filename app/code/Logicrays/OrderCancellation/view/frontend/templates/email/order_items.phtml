@@ -1,41 +1,50 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+
 /** @var $block \Magento\Sales\Block\Order\Email\Items */
 ?>
 <?php
-    $_order = $block->getOrder();
-    $viewModel = $block->getData('view_model');
-    $oid = $this->getRequest()->getParam('order_id');
-    $reason = $viewModel->getCancellationReason($oid);
-    $comment = ucwords(str_replace('_', ' ', $reason));
+$_order = $block->getOrder();
+$oid = $this->getRequest()->getParam('order_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+$orders = $objectManager->create('Magento\Sales\Model\Order')->load($oid);
+$comment = ucwords(str_replace('_', ' ',$orders->getOrderCancellationReason()));
+
 ?>
-<?php if ($_order): ?>
+<?php if ($_order) : ?>
     <?php $_items = $_order->getAllItems(); ?>
     <table class="email-items" border='1'>
         <thead>
             <tr>
-                <th class="item-info" style="text-align:center;">
+                <th class="item-info">
                     <?= $block->escapeHtml(__('Items')) ?>
                 </th>
-                <th class="item-qty" style="text-align:center;">
+                <th class="item-qty">
                     <?= $block->escapeHtml(__('Qty')) ?>
                 </th>
-                <th class="item-price" style="text-align:center;">
+                <th class="item-price">
                     <?= $block->escapeHtml(__('Price')) ?>
                 </th>
             </tr>
         </thead>
-        <?php foreach ($_items as $_item): ?>
-            <?php if (!$_item->getParentItem()): ?>
+        <?php foreach ($_items as $_item) : ?>
+            <?php if (!$_item->getParentItem()) : ?>
                 <tbody>
                     <tr>
                         <td>
                             <?= $_item->getName(); ?>
                         </td>
                         <td>
-                            <?= round($_item->getQtyOrdered(), 0); ?>
+                            <?= round($_item->getQtyOrdered(),0); ?>
                         </td>
                         <td>
-                            <?= $viewModel->getPriceFormat($_item->getPrice()); ?>
+                            <?= $priceHelper->currency($_item->getPrice(),true,false); ?>
                         </td>
                     </tr>
                 </tbody>
@@ -54,10 +63,10 @@
     <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)
             ->isMessagesAllowed('order', $_order, $_order->getStore())
         && $_order->getGiftMessageId()
-    ): ?>
-                   <?php $_giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)
-                    ->getGiftMessage($_order->getGiftMessageId()); ?>
-                   <?php if ($_giftMessage): ?>
+    ) : ?>
+        <?php $_giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)
+            ->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage) : ?>
             <br />
             <table class="message-gift">
                 <tr>

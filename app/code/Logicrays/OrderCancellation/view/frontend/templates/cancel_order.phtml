@@ -1,27 +1,31 @@
 <?php
 /**
- * @var Logicrays\OrderCancellation\Block\CancelOrder $block
+ *@var Logicrays\OrderCancellation\Block\CancelOrder $block
  **/
     $orderId = $block->getOrderNumber();
     $order_status = $block->getOrderStatus();
 ?>
 <?php
-  $day = $block->getDateForComplete();
-  $date_diff = 0;
   $modEnable = $block->modEnable();
-if (!empty($day) && $order_status == 'complete') {
-    $order_date = strtok($day, ' ');
-    $now = time();
-    $updated_order_date = strtotime($order_date);
-    $datediff = $now - $updated_order_date;
-    $date_diff = $datediff / (60 * 60 * 24);
-}
-if ($order_status != 'canceled' && $order_status != 'request_for_cancellation' && $date_diff < 7 && $modEnable == 1) {
+  $day = $block->getDateForComplete();
+  $hours = $block->getHourDiffAfterPlace();
+  $date_diff = "no_date";
+  if(!empty($day)){
+      $o_date = $day[0]['created_at'];
+      $order_date = strtok($o_date, ' ');
+      $now = time();
+      $updated_order_date = strtotime($order_date);
+      $datediff = $now - $updated_order_date;
+      $date_diff = $datediff / (60 * 60 * 24);
+  }
+  if($order_status == "request_for_cancellation"){?>
+    <b> <?php echo "Your cancellation request has been successfully submitted. Please allow 48 hours for it to be processed and approved."; ?></b>
+  <?php }
+  if($order_status != 'canceled' && $order_status != 'request_for_cancellation' && ($date_diff != 'no_date' || $hours) && $date_diff < 2 && $modEnable == 1){
 ?>
-    <a href = "<?= $block->getUrl('cancelorder/index/index/order_id/'.$orderId); ?>" class="my-order-cancel-btn">
-    <?=  $block->getLinkText();
-?>
+<a href = "<?= $block->getUrl('cancelorder/customer/index/order_id/'.$orderId); ?>" class="action primary add">
+    <?php
+        echo $block->getLinkText();
+    }
+    ?>
 </a>
-<?php
-}
-?>

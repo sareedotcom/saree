@@ -5,7 +5,7 @@
             title="Order"
             module="Logicrays_NewDashboard"
             sortOrder="20"
-            parent="Magento_Sales::sales"
+            parent="Logicrays_VendorManagement::grid"
             action="lrdes/order/index"
             resource="Logicrays_NewDashboard::ordergrid"/>
     </menu>

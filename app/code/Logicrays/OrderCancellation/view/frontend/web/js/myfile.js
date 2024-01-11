@@ -62,46 +62,5 @@ define(['jquery'], function($){
                 $('.select_cancellation_reason').css("display", "block");
             }
         });
-
-        $( document ).ready(function() {
-            var date = new Date();
-            var year = date.toLocaleString("default", { year: "numeric" });
-            var month = date.toLocaleString("default", { month: "2-digit" });
-            var day = date.toLocaleString("default", { day: "2-digit" });
-            var formattedDate = year + "-" + month + "-" + day;
-            const orderdate = document.getElementById('order_date').value;
-            const orderTimeHours = document.getElementById('order_time').value;
-            var d = new Date();
-            d.getHours();
-            if (formattedDate != orderdate) {
-                var dropdownOption = document.getElementById("order_cancellation_reason");
-                dropdownOption.remove(1);
-                var i;
-                var itemDropDown = document.getElementsByClassName("item_cancellation_reason");
-                for (i = 0; i < itemDropDown.length; i++) {
-                    $($(itemDropDown[i]).children()).each( function(i, item) {
-                        if(i == 1) {
-                            $(item).remove();
-                        }
-                    })
-                }
-            }
-            if (formattedDate == orderdate) {
-                var time_diff = d.getHours() - orderTimeHours;
-                if (time_diff > 2) {
-                    var dropdownOption = document.getElementById("order_cancellation_reason");
-                    dropdownOption.remove(1);
-                    var i;
-                    var itemDropDown = document.getElementsByClassName("item_cancellation_reason");
-                    for (i = 0; i < itemDropDown.length; i++) {
-                        $($(itemDropDown[i]).children()).each( function(i, item) {
-                            if(i == 1) {
-                                $(item).remove();
-                            }
-                        })
-                    }
-                }
-            }
-        });
     }
 });

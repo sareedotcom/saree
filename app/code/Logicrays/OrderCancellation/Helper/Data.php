@@ -1,6 +1,5 @@
 <?php
 namespace Logicrays\OrderCancellation\Helper;
-
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -10,60 +9,14 @@ use Magento\Sales\Model\Order;
 
 class Data extends AbstractHelper
 {
-    /**
-     *
-     * @var TransportBuilder
-     */
     protected $transportBuilder;
-
-    /**
-     *
-     * @var StoreManagerInterface
-     */
     protected $storeManager;
-
-    /**
-     *
-     * @var StateInterface
-     */
     protected $inlineTranslation;
-
-    /**
-     *
-     * @var Session
-     */
     protected $customer;
-
-    /**
-     *
-     * @var OrderRepositoryInterface
-     */
     protected $orderRepository;
-
-    /**
-     *
-     * @var ScopeConfigInterface
-     */
     public $scopeConfig;
-
-    /**
-     *
-     * @var Order
-     */
     protected $order;
 
-    /**
-     *
-     * @param Context $context
-     * @param TransportBuilder $transportBuilder
-     * @param StoreManagerInterface $storeManager
-     * @param StateInterface $state
-     * @param \Magento\Customer\Model\Session $customer
-     * @param \Magento\Customer\Model\Customer $customers
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param Order $order
-     */
     public function __construct(
         Context $context,
         TransportBuilder $transportBuilder,
@@ -74,7 +27,8 @@ class Data extends AbstractHelper
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Order $order
-    ) {
+    )
+    {
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->inlineTranslation = $state;
@@ -86,10 +40,6 @@ class Data extends AbstractHelper
         parent::__construct($context);
     }
 
-    /**
-     *
-     * Checking extension is enable or not
-     */
     public function modEnable()
     {
         return $this->scopeConfig->getValue(
@@ -98,11 +48,7 @@ class Data extends AbstractHelper
         );
     }
 
-    /**
-     *
-     * Sending mail
-     */
-    public function sendEmail($orderId, $selected_option)
+    public function sendEmail($orderId, $selected_option, $attachedImages)
     {
         $order = $this->orderRepository->get($orderId);
         $orderIncrementId = $order->getIncrementId();
@@ -123,30 +69,51 @@ class Data extends AbstractHelper
             'order/cancellation/sender_mail_id',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
         );
-        if ($selected_option == 'cancel_entire_order') {
+        if($selected_option == 'cancel_entire_order') {
             $templateId = $this->scopeConfig->getValue(
                 'order/cancellation/email_template',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             );
-        } else {
+        }
+        else {
             $templateId = 'order_item_cancellation_email_template';
         }
         $toEmails = [$customerEmail, $adminEmail];
 
         try {
-            if ($selected_option == 'cancel_entire_order') {
-                $templateVars = [
-                    'increment_id' => $orderIncrementId,
-                    'customer_name' => $customerName,
-                    'order_id' => $orderId
-                ];
-            } else {
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            $logger->info($attachedImages);
+
+            if($selected_option == 'cancel_entire_order') {
                 $templateVars = [
                     'increment_id' => $orderIncrementId,
                     'customer_name' => $customerName,
                     'order_id' => $orderId
                 ];
             }
+            else {
+                $templateVars = [
+                    'increment_id' => $orderIncrementId,
+                    'customer_name' => $customerName,
+                    'order_id' => $orderId
+                ];
+            }
+
+            if(count($attachedImages)){
+                $templateVars['img1'] = "";
+                $templateVars['img2'] = "";
+                if(isset($attachedImages['img1'])){
+                    $templateVars['img1'] = $attachedImages['img1'];
+                }
+                if(isset($attachedImages['img2'])){
+                    $templateVars['img2'] = $attachedImages['img2'];
+                }
+                
+            }
+
+            $logger->info($templateVars);
 
             $storeId = $this->storeManager->getStore()->getId();
 

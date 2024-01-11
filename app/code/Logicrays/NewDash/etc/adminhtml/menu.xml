@@ -5,7 +5,7 @@
             title="Dashboard"
             module="Logicrays_NewDash"
             sortOrder="20"
-            parent="Magento_Sales::sales"
+            parent="Logicrays_VendorManagement::grid"
             action="newdashboard/dashboard/index"
             resource="Logicrays_NewDash::dashboard"/>
     </menu>

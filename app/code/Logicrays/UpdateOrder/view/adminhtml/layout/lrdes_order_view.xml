@@ -167,6 +167,10 @@
                    template="Logicrays_VendorManagement::items/column/productVendor.phtml" group="column">
             </block>
         </referenceBlock>
+        
+        <referenceBlock name="order_items">
+            <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty" name="column_qty" template="Logicrays_OrderCancellation::qty.phtml" group="column" />
+        </referenceBlock>
 
         <referenceBlock name="order_items">
             <arguments>
