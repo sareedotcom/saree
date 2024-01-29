@@ -49,32 +49,31 @@ class Sendmesermentlink implements ObserverInterface
             $order->save();
             $items = $order->getItems();
             $isMailSend = 0;
-            $connection = $this->_resource->getConnection();
             foreach ($items as $item) {
+
                 $options = $item->getProductOptions();        
-                if (isset($options['options']) && !empty($options['options'])) {   
+                if (isset($options['options']) && !empty($options['options'])) {        
                     foreach ($options['options'] as $option) {
                         if($option['print_value'] == "Later"){
-                    
+
                             $data['order_id'] = $order->getId();
                             $data['customerEmail'] = $order->getCustomerEmail();
                             $data['customerName'] = $order->getCustomerName();
                             $data['incrementId'] = $order->getIncrementId();
                             $isMailSend = 1;
-                            $query = "UPDATE `sales_order_item` SET `lr_item_status` = 'pending_measurement' WHERE `sales_order_item`.`item_id` = ".$item->getId();
-                            $updatedRows=$connection->query($query);
+                            $orderItem = $this->itemCollectionFactory->create()->addFieldToFilter( 'item_id', $item->getId())->getFirstItem();
+                            $orderItem->setLrItemStatus('pending_measurement');
+                            $orderItem->save();
                         }
                         else if($option['print_value'] == "Yes"){
-                            $query = "UPDATE `sales_order_item` SET `lr_item_status` = 'measurement_submitted' WHERE `sales_order_item`.`item_id` = ".$item->getId();
-                            $updatedRows=$connection->query($query);
+                            $orderItem = $this->itemCollectionFactory->create()->addFieldToFilter( 'item_id', $item->getId())->getFirstItem();
+                            $orderItem->setLrItemStatus('measurement_submitted');
+                            $orderItem->save();
                         }
                         else if($option['print_value'] == "No"){
-                            $query = "UPDATE `sales_order_item` SET `lr_item_status` = 'measurement_not_required' WHERE `sales_order_item`.`item_id` = ".$item->getId();
-                            $updatedRows=$connection->query($query);
-                        }
-                        else {
-                            $query = "UPDATE `sales_order_item` SET `lr_item_status` = 'processing' WHERE `sales_order_item`.`item_id` = ".$item->getId();
-                            $updatedRows=$connection->query($query);
+                            $orderItem = $this->itemCollectionFactory->create()->addFieldToFilter( 'item_id', $item->getId())->getFirstItem();
+                            $orderItem->setLrItemStatus('measurement_not_required');
+                            $orderItem->save();
                         }
                     }
                 }

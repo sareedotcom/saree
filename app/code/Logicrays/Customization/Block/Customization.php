@@ -164,13 +164,13 @@ class Customization extends Template
                 $rulesByPercentnew = $this->ruleFactory->create()->getCollection()->addFieldToSelect('discount_amount')->addIsActiveFilter()->addFieldToFilter('rule_coupons.code', ['null' => true]);
                 $rulesByPercentnew->addFieldToFilter('rule_id', ['eq' => array_search(min($merrageArray), $merrageArray)]);
                 $data = $rulesByPercentnew->getData();
-                return 'Spent more <span class="save-price">'.$this->getCurrentCurrencySymbol().$discountedAmount.'</span> to get Extra <span <span class="save-price">'.round($data[0]['discount_amount']).'%<span> off.';
+                return 'Spent more <span class="save-price">'.$this->getCurrentCurrencySymbol().round($discountedAmount).'</span> to get Extra <span <span class="save-price">'.round($data[0]['discount_amount']).'%<span> off.';
             }
             else if(isset($freeShipping[array_search(min($merrageArray), $merrageArray)])){
                 $discountedAmount = $freeShipping[array_search(min($merrageArray), $merrageArray)];
                 $discountedAmount = $discountedAmount - $subTotal;
                 $discountedAmount = ($discountedAmount * $rateToBase);
-                return 'Spent more '.$this->getCurrentCurrencySymbol().$discountedAmount.' to get free shipping.';
+                return 'Spent more '.$this->getCurrentCurrencySymbol().round($discountedAmount).' to get free shipping.';
             }
         }
         return "";

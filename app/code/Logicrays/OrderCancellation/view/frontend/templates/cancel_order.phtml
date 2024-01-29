@@ -21,11 +21,12 @@
   if($order_status == "request_for_cancellation"){?>
     <b> <?php echo "Your cancellation request has been successfully submitted. Please allow 48 hours for it to be processed and approved."; ?></b>
   <?php }
+
   if($order_status != 'canceled' && $order_status != 'request_for_cancellation' && ($date_diff != 'no_date' || $hours) && $date_diff < 2 && $modEnable == 1){
 ?>
 <a href = "<?= $block->getUrl('cancelorder/customer/index/order_id/'.$orderId); ?>" class="action primary add">
     <?php
         echo $block->getLinkText();
-    }
     ?>
 </a>
+<?php } ?>

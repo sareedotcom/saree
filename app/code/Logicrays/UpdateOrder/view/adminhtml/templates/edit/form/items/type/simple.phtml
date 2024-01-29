@@ -15,6 +15,13 @@ $canEditItem   = true;
 $canDeleteItem = $block->getCanDeleteItem();
 $helper = $this->helper('Logicrays\UpdateOrder\Helper\Data');
 $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
+$vendors = $helper->getAllVendors();
+
+$disabledState = ['complete', 'closed', 'canceled']; 
+$disabledField = (in_array($block->getOrder()->getstate(), $disabledState, TRUE)) ? "disabled" : "";
+
+$productItem = $helper->getProduct($item->getSku());
+
 ?>
 <tr id="order_item_<?= $block->escapeHtml($itemId); ?>"
     class="type-<?= $block->escapeHtmlAttr($itemType) ?> <?php if ($hasParent) : ?> has-parent has-parent-<?= $block->escapeHtmlAttr($parentItemId) ?><?php endif; ?>"
@@ -48,6 +55,9 @@ $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
         <input type="hidden"
                value="<?= $block->escapeHtmlAttr($item->getId()) ?>"
                name="item[<?= $block->escapeHtmlAttr($itemId) ?>][item_id]"/>
+        <input type="hidden"
+               value="<?= $block->escapeHtmlAttr($item->getSku()) ?>"
+               name="item[<?= $block->escapeHtmlAttr($itemId) ?>][item_sku]"/>
         <input type="hidden"
                value="<?= $block->escapeHtmlAttr($itemType) ?>"
                name="item[<?= $block->escapeHtmlAttr($itemId) ?>][item_type]"/>
@@ -90,6 +100,16 @@ $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
                title="<?= $block->escapeHtmlAttr(__("Price incl. tax")) ?>"
                class="mw-order-editor-order-item required-entry validate-number"
                value="<?= $block->escapeHtmlAttr($block->getPrice('price_incl_tax')); ?>"/>
+    </td>
+
+    <!-- Cost -->
+    <td class="col-cost">
+        <input type="text" name="item[<?= $block->escapeHtmlAttr($itemId) ?>][cost]"
+                           class="mw-order-editor-order-item cost_input
+                           <?= $disabledField ?>
+                           data-item-id="<?= $block->escapeHtmlAttr($itemId) ?>"
+                           <?= $disabledField ?>
+                           value="<?= $block->escapeHtmlAttr(number_format($productItem->getCost(), '2', '.', ',')); ?>"/>
     </td>
 
     <!-- Quantity -->
@@ -144,7 +164,7 @@ $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
                            name="item[<?= $block->escapeHtmlAttr($itemId) ?>][qty_item_in_bundle]"/>
                     <input type="hidden" value="<?= $block->escapeHtmlAttr($parentItemId) ?>"
                            name="item[<?= $block->escapeHtmlAttr($itemId) ?>][parent]"/>
-                </td
+                </td>
             </tr>
         <?php endif; ?>
             </tr>
@@ -336,9 +356,31 @@ $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
             </table>
         <?php endif; ?>
     </td>
+
+    <td class="col-lr-item-vendor">
+        <select class="admin__control-select order_item_vendor"
+        <?= $disabledField ?>
+                data-item-id="<?= $block->escapeHtmlAttr($itemId) ?>"
+                <?php if ($hasParent) : ?>data-parent-id="<?= $block->escapeHtmlAttr($parentItemId) ?>"<?php endif; ?>
+                name="item[<?= $block->escapeHtmlAttr($itemId) ?>][order_item_vendor]">
+                <option value=""><?= $block->escapeHtml(__("-- Select --")) ?></option>
+                <?php
+                    foreach ($vendors as $key => $value) {
+                        if(trim($item->getOrderItemVendor()) == trim($value)){ ?>
+                            <option selected value="<?php echo $key ?>"><?= $block->escapeHtml(__($value)) ?></option>
+                        <?php }
+                        else{ ?>
+                            <option value="<?php echo $key ?>"><?= $block->escapeHtml(__($value)) ?></option>
+                        <?php }
+                        ?>
+                    <?php }
+                ?>
+        </select>
+    </td>
+
     <td class="col-lr-item-status">
-        <label><b><?= /* @noEscape */ $block->getLrItemStatusHtml() ?></b></label><br/>
         <select class="admin__control-select remove_quote_item"
+        <?= $disabledField ?>
                 data-item-id="<?= $block->escapeHtmlAttr($itemId) ?>"
                 <?php if ($hasParent) : ?>data-parent-id="<?= $block->escapeHtmlAttr($parentItemId) ?>"<?php endif; ?>
                 name="item[<?= $block->escapeHtmlAttr($itemId) ?>][lr_item_status]">
@@ -361,6 +403,7 @@ $optionLists = $helper->getOrderStatus($block->getOrder()->getId());
                 <td><?= $block->escapeHtml(__("Update Item Status")) ?></td>
                 <td>
                     <input type="checkbox"
+                    <?= $disabledField ?>
                             class="regular-checkbox is_status_update"
                             id="item-<?= $block->escapeHtmlAttr($itemId); ?>-is_status_update"
                             name="item[<?= $block->escapeHtmlAttr($itemId) ?>][is_status_update]"

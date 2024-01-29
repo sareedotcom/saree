@@ -115,7 +115,7 @@ script;
                         
         </dl>
         <?php if($count >= 3){ ?>
-                            <dt><dd><b><span class="read_more" style="cursor: pointer;" onclick="AddReadMore(<?= (int) $_item->getId() ?>)" id="<?= (int) $_item->getId() ?>">Read more</span></b></dd></dt>
+                            <dt><dd><b><span class="read_more" onclick="AddReadMore(<?= (int) $_item->getId() ?>)" id="<?= (int) $_item->getId() ?>">Read more</span></b></dd></dt>
                             <?php }
                         ?>
     <?php endif; ?>

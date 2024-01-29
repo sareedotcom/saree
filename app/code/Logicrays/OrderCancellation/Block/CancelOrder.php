@@ -79,7 +79,7 @@ class CancelOrder extends Template
         $diffDate = (int) $interval->days;
         $hoursDiff = (int) $interval->h;
 
-        if($diffDate <= 0 && $hoursDiff <= 2){
+        if($diffDate <= 0 && $hoursDiff < 2){
             return true;
         }
         return false;

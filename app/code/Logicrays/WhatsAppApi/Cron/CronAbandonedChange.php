@@ -46,7 +46,6 @@ class CronAbandonedChange
             $rows = $this->collection->prepareForAbandonedReport([$storeId])->load();
             $abandonedData = [];
             foreach ($rows->getData() as $abandonedCollectionData) {
-                
                 $abandonedData = [];
                 $abandonedData['checkout_id'] = $abandonedCollectionData['entity_id'];
                 $abandonedData['cart_recovery_url'] = $store->getBaseUrl().'checkout/cart';
@@ -151,8 +150,8 @@ class CronAbandonedChange
                 ];
                 $abandonedData['phone'] = $mobileNumber;
                 $abandonedData['created_at'] = $abandonedCollectionData['created_at'];
+                $this->helperData->businessOnBotCurl('POST', $url, $abandonedData);
             }
-            $this->helperData->businessOnBotCurl('POST', $url, $abandonedData);
         }
     }
 }

@@ -11,7 +11,7 @@
             </action> 
         </referenceBlock>
         <referenceContainer name="content">
-            <block class="Logicrays\OrderCancellation\Block\Index" name="cancelorder_index_index" template="Logicrays_OrderCancellation::index.phtml" />
+            <block class="Logicrays\OrderCancellation\Block\Index" name="cancelorder_index_index" template="Logicrays_OrderCancellation::index.phtml" cacheable="false"/>
         </referenceContainer>
     </body> 
 </page>

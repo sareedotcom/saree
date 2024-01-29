@@ -8,4 +8,8 @@
     <table name="sales_order_item">
         <column xsi:type="varchar" name="estd_dispatch_date" nullable="true" length="255" comment="Order Delivery Estimation"/>
     </table>
+    
+    <table name="sales_order_grid">
+        <column xsi:type="timestamp" name="nearestdispatchnew"  nullable="true"  comment="Nearest Dispatch Date For Filter"/>
+    </table>
 </schema>

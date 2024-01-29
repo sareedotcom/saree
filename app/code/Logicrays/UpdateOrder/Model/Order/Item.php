@@ -44,6 +44,7 @@ use MageWorx\OrderEditor\Helper\Data as Helper;
 use MageWorx\OrderEditor\Model\Edit\QuoteFactory as OrderEditorQuoteFactory;
 use MageWorx\OrderEditor\Model\Invoice as OrderEditorInvoice;
 use Magento\Backend\Model\Auth\Session;
+use Logicrays\UpdateOrder\Helper\Data as UpdateHelper;
 
 /**
  * Class Item
@@ -181,6 +182,11 @@ class Item extends \MageWorx\OrderEditor\Model\Order\Item
     private $authSession;
 
     /**
+     * @var updateHelper
+     */
+    protected $updateHelper;
+
+    /**
      * Item constructor.
      *
      * @param Context $context
@@ -212,6 +218,7 @@ class Item extends \MageWorx\OrderEditor\Model\Order\Item
      * @param AbstractDb|null $resourceCollection
      * @param array $data
      * @param Session $authSession
+     * @param UpdateHelper $updateHelper
      */
     public function __construct(
         Context $context,
@@ -242,7 +249,8 @@ class Item extends \MageWorx\OrderEditor\Model\Order\Item
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = [],
-        Session $authSession
+        Session $authSession,
+        UpdateHelper $updateHelper
     ) {
         parent::__construct(
             $context,
@@ -294,6 +302,7 @@ class Item extends \MageWorx\OrderEditor\Model\Order\Item
         $this->oeOrderItemRepository               = $oeOrderItemRepository;
         $this->searchCriteriaBuilderFactory        = $searchCriteriaBuilderFactory;
         $this->authSession                         = $authSession;
+        $this->updateHelper                        = $updateHelper;
     }
 
     /**
@@ -1248,6 +1257,17 @@ class Item extends \MageWorx\OrderEditor\Model\Order\Item
 
             $this->setBaseRowTotalInclTax($roundBaseCurrencySubtotalInclTax)
                  ->setRowTotalInclTax($subtotalInclTax);
+        }
+
+        // Lr set product cost
+        if (isset($this->newParams['cost'])) {
+            $this->updateHelper->saveProductCost($this->newParams['item_sku'], $this->newParams['cost']);
+        }
+
+        // Lr set item vendor
+        if (isset($this->newParams['order_item_vendor'])) {
+            $vendor = $this->updateHelper->getVendor($this->newParams['order_item_vendor']);
+            $this->setOrderItemVendor(trim(__($vendor['firstname'].' '.$vendor['lastname'])));
         }
 
         // Lr item status

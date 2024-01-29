@@ -33,17 +33,17 @@
             </tr>
         </thead>
         <?php foreach ($_items as $_item) : ?>
-            <?php if (!$_item->getParentItem() && $_item->getCancelRequest() == '1.0000') : ?>
+            <?php if (!$_item->getParentItem() && $_item->getCancelRequest() >= '1.0000') : ?>
                 <tbody>
                     <tr>
                         <td>
                             <?= $_item->getName(); ?>
                         </td>
                         <td>
-                            <?= round($_item->getQtyOrdered(),0); ?>
+                            <?= round($_item->getCancelRequest(),0); ?>
                         </td>
                         <td>
-                            <?= $priceHelper->currency($_item->getPrice(),true,false); ?>
+                            <?= $priceHelper->currency(($_item->getPrice() * $_item->getCancelRequest()),true,false); ?>
                         </td>
                         <td>
                             <?= ucwords(str_replace('_', ' ',$_item->getOrderCancellationReason())); ?>

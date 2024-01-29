@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <preference for="MageWorx\OrderEditor\Model\Order\Item" type="Logicrays\UpdateOrder\Model\Order\Item" />
+    <preference for="MageWorx\OrderEditor\Controller\Adminhtml\Edit\Payment" type="Logicrays\UpdateOrder\Controller\Adminhtml\Edit\Payment" />
 </config>

@@ -65,13 +65,15 @@ class CancelOrderProcess extends \Magento\Framework\App\Action\Action
         
         $file1 = $this->getRequest()->getFiles($cancelItemReqImage1);
         if($file1['name']){
-            $fileName = ($file1 && array_key_exists('name', $file1)) ? $file1['name'] : null;
+            $ext = pathinfo($file1['name'], PATHINFO_EXTENSION);
+            $fileName = ($file1 && array_key_exists('name', $file1)) ? time().$params['order_id']."_File1.".$ext : null;
             $target = $this->mediaDirectory->getAbsolutePath($CancelRequestItemImages); 
             $uploader = $this->fileUploader->create(['fileId' => $cancelItemReqImage1]);
             $uploader->setAllowedExtensions(['jpg', 'png']);
             $uploader->setAllowCreateFolders(true);
             $uploader->setAllowRenameFiles(true); 
-            $uploader->save($target);
+            // $uploader->save($target);
+            $uploader->save($target, time().$params['order_id']."_File1.".$ext);
             $currentStore = $this->_storeManager->getStore();
             $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
             $img1 = $mediaUrl.'CancelRequestItemImages/'.$fileName;
@@ -80,13 +82,15 @@ class CancelOrderProcess extends \Magento\Framework\App\Action\Action
 
         $file2 = $this->getRequest()->getFiles($cancelItemReqImage2);
         if($file2['name']){
-            $fileName2 = ($file2 && array_key_exists('name', $file2)) ? $file2['name'] : null;
+            $ext = pathinfo($file2['name'], PATHINFO_EXTENSION);
+            $fileName2 = ($file2 && array_key_exists('name', $file2)) ? time().$params['order_id']."_File2.".$ext : null;
             $target = $this->mediaDirectory->getAbsolutePath($CancelRequestItemImages); 
             $uploader = $this->fileUploader->create(['fileId' => $cancelItemReqImage2]);
             $uploader->setAllowedExtensions(['jpg', 'png']);
             $uploader->setAllowCreateFolders(true);
             $uploader->setAllowRenameFiles(true); 
-            $uploader->save($target);
+            // $uploader->save($target);
+            $uploader->save($target, time().$params['order_id']."_File2.".$ext);
             $currentStore = $this->_storeManager->getStore();
             $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
             $img2 = $mediaUrl.'CancelRequestItemImages/'.$fileName2;
@@ -176,7 +180,7 @@ class CancelOrderProcess extends \Magento\Framework\App\Action\Action
                     }
                     $value->save();
                 }
-                if($value['cancel_request'] == '1.0000'){
+                if($value['cancel_request'] >= '1.0000'){
                     $flag ++;
                 }
                 $tot_items = count($orderItems);
