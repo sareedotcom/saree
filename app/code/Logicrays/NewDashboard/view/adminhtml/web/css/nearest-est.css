@@ -9,6 +9,17 @@
     text-align: center;
     text-transform: uppercase;
 }
+.lightpink-estimate-book-a-call {
+    background: green !important;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
 .red-estimate{
     background: #f30000a8;
     border: 1px solid #ffffff;
@@ -48,4 +59,114 @@
     padding: 0 3px;
     text-align: center;
     text-transform: uppercase;
+}
+.yellow-estimate-new{
+    background: green;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.lightpink-estimate {
+    background: #ffb6c18c;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.red-estimate{
+    background: #f30000a8;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.white-estimate{
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.red-estimate-row{
+    background: #f30000a8!important;
+}
+.lightpink-estimate-row{
+    background: #ffb6c18c!important;
+}
+
+.yellow-estimate-row{
+    background: #f5d02da8!important;
+}
+.yellow-estimate{
+    background: #f5d02da8;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.yellow-estimate-v-call{
+    background: #96e296;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.white-estimate-v-call{
+    background: #96e296;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.red-estimate-v-call{
+    background: #96e296;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.v-call{
+    background: #96e296;
+    border: 1px solid #ffffff;
+    color: black;
+    display: block;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.v-call-row{
+    background: #96e296 !important;
 }

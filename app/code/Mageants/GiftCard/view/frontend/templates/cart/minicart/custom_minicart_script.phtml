@@ -1,0 +1,22 @@
+<script>
+    require(['jquery', 'jquery/ui'], function($) {
+        $(document).ready(function() {
+
+            const interval = setInterval(myGreeting, 2000);
+            setTimeout(function() {
+                clearInterval(interval);
+            }, 14000);
+
+            function myGreeting() {
+                var quantityInputs = $('#minicart-content-wrapper').find('.block-content').find('.minicart-items-wrapper').find('.product-item').find('.details-qty').find('.cart-item-qty');
+                quantityInputs.each(function() {
+                    var isGiftProduct = $(this).closest('.product-item').data('product-type') === 'giftcertificate';
+                    // alert($(this).closest('.product-item').css('color'));//data('product-type'));
+                    // if (isGiftProduct) {
+                        $(this).attr('disabled', 'disabled');
+                    // }
+                });
+            }
+        });
+    });
+</script>

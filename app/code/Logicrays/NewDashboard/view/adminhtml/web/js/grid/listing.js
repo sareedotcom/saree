@@ -16,7 +16,9 @@ define([
                 return 'yellow-estimate-row';
             } else if (row.nearestdispatch.search("white-estimate-row") >= 0) { 
                 return 'white-estimate-row';
-            } else {
+            }else if (row.nearestdispatch.search("v-call") >= 0) { 
+                return 'v-call-row';
+            }else {
                 return 'default-color';
             }
         }

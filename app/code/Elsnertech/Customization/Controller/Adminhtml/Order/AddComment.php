@@ -10,6 +10,7 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 use Psr\Log\LoggerInterface;
+use Elsnertech\Customization\Helper\Email;
 
 class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -50,9 +51,11 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
         OrderManagementInterface $orderManagement,
         OrderRepositoryInterface $orderRepository,
         LoggerInterface $logger,
-        \Magento\Backend\Model\Auth\Session $authSession
+        \Magento\Backend\Model\Auth\Session $authSession,
+        Email $helperEmail
     ) {
         $this->authSession = $authSession;
+        $this->helperEmail = $helperEmail;
         parent::__construct($context, $coreRegistry,$fileFactory,$translateInline,$resultPageFactory,$resultJsonFactory,$resultLayoutFactory,$resultRawFactory,$orderManagement,$orderRepository,$logger);
     }
 
@@ -61,7 +64,12 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
         $order = $this->_initOrder();
         if ($order) {
             try {
+                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+                $logger = new \Zend\Log\Logger();
+                $logger->addWriter($writer);
+                $logger->info('Your hiiiiii');
                 $data = $this->getRequest()->getPost('history');
+                $adminUser = $this->getRequest()->getPost('adminUser');
                 if (empty($data['comment']) && $data['status'] == $order->getDataByKey('status')) {
                     throw new \Magento\Framework\Exception\LocalizedException(__('Please enter a comment.'));
                 }
@@ -85,6 +93,12 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
                     ->create(\Magento\Sales\Model\Order\Email\Sender\OrderCommentSender::class);
 
                 $orderCommentSender->send($order, $notify, $comment);
+
+                if(isset($adminUser)){
+                    foreach ($adminUser AS $value) {
+                        $this->helperEmail->sendEmail($data['comment'], $username, $order->getIncrementId(), $value);
+                    }
+                }
 
                 return $this->resultPageFactory->create();
             } catch (\Magento\Framework\Exception\LocalizedException $e) {

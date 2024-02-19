@@ -1,0 +1,163 @@
+<!--@subject Congrats! You got gift card @-->
+<!--@vars
+   {
+   "store url=\"\"":"Store Url",
+   "var template_styles|raw":"Template CSS",
+   "var data.recipient_name":"Recipient Name",
+"var data.forecolor" : "Fore Color",
+"var data.template" : "Set Template",
+"var data.bgcolor" : "Background color",
+"var data.color" : "Color",
+"var data.message" : "Set message",
+"var data.sender_name" : "Sender Name",
+"var data.code" : "Code",
+"var data.current_balance" : "Current Balance",
+"var data.date_delivery" : "Delivery Date",
+"var data.validity" : "Validity",
+"var data.category_name" : "Category name",
+"var store.getFrontendName()" : "Frontend Name",
+   "var logo_url":"Email Logo Image Url",
+   "var logo_alt":"Email Logo Image Alt",
+   "var data.custom_variable":"Custom variable",
+    "var logo_height":"Email Logo Image Height",
+   "var logo_width":"Email Logo Image Width",
+   "var store.getFrontendName()":"Store Name",
+   "var logo_url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image"
+   } @--> 
+<!--@styles 
+   .template {color: green; width:150px; height:100px;}
+   #codeset{color:green;}
+    .draggable {
+                  width: 250px;
+                  height: 100px;
+                  line-height: 100px;
+                  text-align: center;
+                  background: #f00;
+                  border-radius: 3px;
+                  color: #fff;
+                  position:absolute;
+               }
+   @-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="viewport" content="initial-scale=1.0, width=device-width">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <style type="text/css">
+         {{var template_styles|raw}}
+         {{css file="css/email.css"}}
+      </style>
+   </head>
+   <table class="main" align="center">
+                <tr>
+                    <td class="main-content">
+   <body bgcolor="#FFFFFF" style="margin:0px;">
+     <div class="content" style="display: block;  margin: 0 auto;  max-width: 600px;  padding: 15px;">
+      <table style="width:100%;">
+        <tr>
+          <td>
+            
+            <h3>{{trans "Welcome "}}{{trans "%myVar" myVar=$data.recipient_name}} {{trans '%myVar' myVar=$data.forecolor}} </h3>
+            <p class="lead">{{trans "HERE IS YOUR GIFT CARD ENJOY SHOPPING...." }}</p>
+            
+            
+            
+            <div class="tmp-banners" style="position: relative;">
+              <div class="tmpbanner-pic" style="width: 100%">
+              <img src="{{trans '%myVar' myVar=$data.template}}" style="width: 100%;" />
+              </div>
+              <div class="tmpbanner-desc" style="position: absolute;  bottom: 0px;  width: 100%;  text-align: center;  background: {{trans '%myVar' myVar=$data.bgcolor}};  font-weight: bold;  font-size: 20px;">
+                <p style="color: {{trans '%myVar' myVar=$data.color}}">{{trans "%myVar" myVar=$data.message}}</p>
+              </div>
+            </div>
+            <!-- Callout Panel -->
+            <p class="callout">
+              {{trans "%myVar" myVar=$data.sender_name}} {{trans "sent you" }}  {{trans "%myVar" myVar=$data.code}} {{trans "which you can use in shopping." }} <a href="{{store url=''}}">Do it Now! &raquo;</a>
+            </p><!-- /Callout Panel -->
+                        
+            <!-- social & contact -->
+            <table class="social" width="100%">
+              <tr>
+                <td>
+                  
+                  <!--- column 1 -->
+                  <table align="left" class="column" style="width:180px; padding:0px 5px;">
+                    <tr>
+                      <td>
+                        <strong>{{trans "Current Balance:"}}</strong> 
+                        <p> {{trans "Gift Card Code"}}</p>
+                      </td>
+                    </tr>
+                  </table><!-- /column 1 -->  
+                  
+                  <!--- column 2 -->
+                  <table align="left" class="column middls" style="border-left:2px solid #f3f3f3; border-right:2px solid #f3f3f3;">
+                    <tr>
+                      <td>              
+                        <h5 class="prices" style="font-size: 24px; margin: 5px;">{{trans "%myVar" myVar=$data.current_balance}}</h5>                       
+                        <p class="gcode" style="color: #ef5756; font-size: 20px; margin: 0; text-align: center;">
+                        {{trans "%myVar" myVar=$data.code}}</p>
+                      </td>
+                    </tr>
+
+                  </table><!-- /column 2 -->
+                 
+                  <span class="clear"></span> 
+                  
+                </td>
+              </tr>
+            </table><!-- /social & contact -->
+            
+             <table align="left" style="padding-left: 10px;" class="column middls">
+                    <tr>
+                        <P>
+                          <h4>Preview Details: </h4>
+                          <b>Sender Name: </b>{{trans "%myVar" myVar=$data.sender_name}}<br>
+                          <!-- <b>Recipient Name: </b>{{trans "%myVar" myVar=$data.recipient_name}}<br> -->
+                          <b>Message: </b>{{trans "%myVar" myVar=$data.message}}<br>
+                          <b>Card Value: </b>{{trans "%myVar" myVar=$data.current_balance}}<br>
+                          <!-- <b>Date Of Delivery: </b>{{trans "%myVar" myVar=$data.date_delivery}}<br> -->
+                          <b>Code: </b>{{trans "%myVar" myVar=$data.code}}<br>
+                        </P>
+                    </tr>
+                  </table>
+          
+          </td>
+        </tr>
+      </table>
+      </div>
+      <table class="footer-wrap" style="width: 100%">
+        <tr>
+          <td></td>
+          <td class="email-cnt" style="clear: both; display: block; margin: 0 auto; max-width: 600px; border: 2px solid #f3f3f3;">
+            
+              <!-- content -->
+              <div class="content" style="display: block;  margin: 0 auto;  max-width: 600px;  padding: 15px;">
+              <table>
+              <tr>
+                <td align="center">
+                  <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;"><strong>Valid Till :</strong> {{trans "%myVar" myVar=$data.validity}}</p>
+                </td>
+                <td align="center">
+                  <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;"><strong>Applicable Categories are :</strong> 
+                  {{trans "%myVar" myVar=$data.category_name}}</p>
+                </td>
+              </tr>
+            </table>
+              </div><!-- /content -->
+              
+          </td>
+          <td></td>
+        </tr>
+     </table>
+            <tr>
+              <td class="footer">
+                <p class="closing" style="text-align: center;">{{trans "Thank you, %store_name" store_name=$store.getFrontendName()}}!</p>
+              </td>
+            </tr>
+        </td>
+        </tr>
+      </table>
+   </body>
+   

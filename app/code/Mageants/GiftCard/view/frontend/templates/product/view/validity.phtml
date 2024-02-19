@@ -1,0 +1,20 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+<?php
+$productGiftCardValidity = $block->getGiftCardValidityByProduct();
+?>
+<?php if ($productGiftCardValidity):?>
+<div class="product-info-stock-validity" style="float: inline-end;">
+    <div class="product attribute validity" style="margin-left: 15px;">
+        <strong class="type"> <?= /* @noEscape */ __('Expires') ?></strong>
+        <div class="value" itemprop="validity">
+            <?= /* @noEscape */ $productGiftCardValidity;?>  <?= /* @noEscape */ __('day(s)') ?></div>
+    </div>
+</div>
+<?php endif;?>    

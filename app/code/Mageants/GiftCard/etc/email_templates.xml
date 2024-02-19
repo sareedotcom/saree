@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd"> 
+	<template id="giftcertificate_email_gifttemplate" label="Default Email template" file="gifttemplate.html" type="html" module="Mageants_GiftCard" area="frontend"/>
+	<template id="giftcertificate_email_confirmationmail" label="Sender Confirmation Email Template" file="confirmation.html" type="html" module="Mageants_GiftCard" area="frontend"/>
+	<template id="giftcertificate_email_confirm" label="Order Certificate" file="ordercertificate.html" type="html" module="Mageants_GiftCard" area="frontend"/>
+	<template id="giftcertificate_email_notify_template" label="Notify on expiration of giftcard" file="notify.html" type="html" module="Mageants_GiftCard" area="frontend"/>
+</config>

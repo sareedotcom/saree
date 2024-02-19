@@ -1,0 +1,72 @@
+<!--@subject Your gift card is going to be expired.... @-->
+<!--@vars
+{
+  "store url=\"\"":"Store Url",
+  "var logo_url":"Email Logo Image Url",
+  "var logo_alt":"Email Logo Image Alt",
+  "var data.custom_variable":"Custom variable",
+  "var data.name" : "Enter Name",
+  "var data.template" : "Set Template",
+  "var data.code" : "Set Code",
+  "var data.sender_name" : "Enter Sender name",
+  "var data.code_value" : "Check Code value",
+  "var data.expire_at" : "Expire value Display",
+  "var data.current_balance" : "Get Current balance",
+  "var store.getFrontendName()" : "Get Frontendname function"
+}
+@-->
+ 
+<!--@styles 
+.template {color: green; width:150px; height:100px;}
+#codeset{color:green;}
+@--> 
+<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+    <div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
+        <table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+            <tr>
+                <td align="center" valign="top" style="padding:20px 0 20px 0">
+                    <span>{{trans "Hi..."}}{{trans "%myVar" myVar=$data.name}}  {{trans "Your gift card is going to be expired...." }}</span>
+                    <table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
+                        <!-- [ Header starts here] -->
+                        <tr>
+                            <td valign="top" style="position:relative">
+                    <a href="{{store url=''}}" 
+                    style="color:#1E7EC8;">
+                    <img src={{trans "%myVar" myVar=$data.template}} alt="{{var logo_alt}}"  class="template"  width="100%" height="70%" border="0"/></a>
+                <span class="codeset" id="codeset"  style="color:#000;position:absolute; left:25%; top:45%;font-weight: bolder; font-size: 3em; ">{{trans "%myVar" myVar=$data.code}}</span>
+                            </td>
+                        </tr>
+                        <!-- [ Header ends here] -->
+                        <!-- [ middle starts here] -->
+                        <tr>
+                            <td valign="top">
+                                 <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">
+
+                                 {{trans "%myVar" myVar=$data.sender_name}} {{trans "Has a sent you gift card of worth"}}
+                                 {{trans "%myVar" myVar=$data.code_value}}
+                                 {{trans "Which is  going to be expired on"}} {{trans "%myVar" myVar=$data.expire_at}}
+                                  </p>
+                                  <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;">
+                                    {{trans "Please use your giftcard before it expires. Your Giftcard code is"}} 
+                                 {{trans "%myVar" myVar=$data.code}}
+                                 {{trans "Current value of giftcard is"}} 
+                                {{trans "%myVar" myVar=$data.current_balance}}
+                                
+                  
+                </p>
+                        
+                  <p style="font-size:12px; line-height:16px; margin:0 0 8px 0;"><strong>Enjoy Your Shopping, Thank you </strong></p>
+                            </td>
+                        </tr>
+                        <!-- [middle ends here]-->
+                        <!-- [Footer content starts here] -->
+                        <tr>
+                            <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you again, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                        </tr>
+                        <!-- [Footer content ends here] -->
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>

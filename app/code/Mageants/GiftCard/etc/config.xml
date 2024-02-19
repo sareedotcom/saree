@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>  
+		<giftcertificate>
+			<email>
+				<gifttemplate>gifttemplate</gifttemplate>
+				<cc>test@giftcertificate.com</cc>
+				<notify_before>1</notify_before>         
+			</email>      
+		</giftcertificate>
+	</default>
+</config>

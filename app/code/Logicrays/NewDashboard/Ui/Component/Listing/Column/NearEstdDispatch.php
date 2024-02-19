@@ -32,7 +32,13 @@ class NearEstdDispatch extends Column
       	if (isset($dataSource['data']['items'])) {
 
         	foreach ($dataSource['data']['items'] as & $item) {
-            	$order  = $this->_orderRepository->get($item["entity_id"]);
+        	    $order  = $this->_orderRepository->get($item["entity_id"]);
+        	    
+        	    $name = $this->getData('name');
+                if (isset($item['entity_id'])) {
+                    $orderItems = $this->getOrderItemData($item['entity_id']);
+                    $item[$name . '_orderItems'] = $orderItems;
+                }
 
                 $allItems = $order->getItemsCollection();
                 $dateArr = [];
@@ -40,7 +46,11 @@ class NearEstdDispatch extends Column
                 if($order->getStatus() == 'request_for_cancellation'){
                     $isCancelRequest = 1;
                 }
+                $isHaveBookACall = "";
                 foreach($allItems AS $data){
+                    if($data->getSku() == 'book-a-call'){
+                        $isHaveBookACall = '-v-call';
+                    }
                     $select = $connection->select()
                         ->from(
                             ['main' => 'sales_order_item'],
@@ -72,32 +82,33 @@ class NearEstdDispatch extends Column
                         $isCancelRequest = 1;
                     }
 
-                   if($dateForDisplay && count($dateArr) > 1){
+                   if(($dateForDisplay && count($dateArr) > 1) || (count($dateArr) >= 1 && $isHaveBookACall)){
                         $nearestDate=date_create($minDate);
                         $todayDate=date_create(date("Y-m-d"));
                         $diff=date_diff($todayDate,$nearestDate);
+                        
                         if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0) {
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall.">".$dateForDisplay."<br>&#x2705;<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='red-estimate".$isHaveBookACall."'>".$dateForDisplay."<br>&#x2705;<span>";
                             }
                         }
                         else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall."'>".$dateForDisplay."<br>&#x2705;<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='lightpink-estimate".$isHaveBookACall."'>".$dateForDisplay."<br>&#x2705;<span>";
                             }
                         }
                         else{
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall."'>".$dateForDisplay."<br>&#x2705;<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<br>&#x2705;<span>";
+                                $item[$this->getData('name')] = "<span class='white-estimate".$isHaveBookACall."'>".$dateForDisplay."<br>&#x2705;<span>";
                             }
                         }
                     }
@@ -108,31 +119,36 @@ class NearEstdDispatch extends Column
                         $diff=date_diff($todayDate,$nearestDate);
                         if($diff->format("%R%a") <= 1 && $diff->format("%R%a") >= 0){
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='red-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='red-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                         }
                         else if($diff->format("%R%a") <= 2 && $diff->format("%R%a") > 0){
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='lightpink-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='lightpink-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                         }
                         else{
                             if($isCancelRequest){
-                                $item[$this->getData('name')] = "<span class='yellow-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='yellow-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                             else{
-                                $item[$this->getData('name')] = "<span class='white-estimate'>".$dateForDisplay."<span>";
+                                $item[$this->getData('name')] = "<span class='white-estimate".$isHaveBookACall."'>".$dateForDisplay."<span>";
                             }
                         }
                     }
                     else{
-                        $item[$this->getData('name')] = '';
+                        if($isHaveBookACall){
+                            $item[$this->getData('name')] = "<span class='v-call'>Video Call<span>";   
+                        }
+                        else{
+                            $item[$this->getData('name')] = '';
+                        }
                     }
                 }
                 
@@ -140,4 +156,32 @@ class NearEstdDispatch extends Column
     	}
     	return $dataSource;
 	}
+	
+	 /**
+     * Get ordered item data.
+     *
+     * @param int $orderId
+     * @return array
+     */
+    public function getOrderItemData($orderId)
+    {
+        $orderItem = [];
+        $order = $this->_orderRepository->get($orderId)->getAllVisibleItems();
+        if (!$order) {
+            return [];
+        }
+        foreach ($order as $item) {
+            $orderItem[] = [
+                'sku' => $item->getSku(),
+                'name' => $item->getName(),
+                'qty' => $item->getQtyOrdered(),
+                'price' => $item->getPrice(),
+                'lrstatus' => $item->getLrItemStatus(),
+                'estimated' => $item->getEstdDispatchDate(),
+                'vendor' => $item->getOrderItemVendor(),
+                'status' => $item->getStatus(),
+            ];
+        }
+        return $orderItem;
+    }
 }

@@ -220,13 +220,15 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         </div>
         <div class="estimated-deliverydate" style="border-top: 2px solid #f2f5f7;padding-top: 10px;">
             <?php 
-            $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
-            <?= $block->escapeHtml($_option['label']) ?>
+            if(isset($_option)){
+                $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                <?= $block->escapeHtml($_option['label']) ?>
                 <?php if (isset($_formatedOptionValue['full_view'])) :?>
                     <?= $block->escapeHtml($_formatedOptionValue['full_view']) ?>
                 <?php else :?>
                     <?= $block->escapeHtml($_formatedOptionValue['value'], ['span', 'a']) ?>
                 <?php endif; ?>
+            <?php } ?>
         </div> 
     </div>
 </li>

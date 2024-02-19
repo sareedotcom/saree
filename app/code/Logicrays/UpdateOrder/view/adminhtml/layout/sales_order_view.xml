@@ -33,6 +33,7 @@
                    name="column_lr-item-status"
                    template="Logicrays_UpdateOrder::items/column/lrItemStatus.phtml" group="column">
             </block>
+            <referenceBlock name="order_history" template="Logicrays_NewDashboard::order/view/history.phtml"/>
         </referenceBlock>
     </body>
 </page>

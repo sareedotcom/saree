@@ -39,7 +39,7 @@ class ChangeStatusForBOB implements ObserverInterface
 
             $order = $observer->getEvent()->getOrder();
             $customerEmail = $order->getCustomerEmail();
-            $shippingAddress = $order->getShippingAddress();
+            $billingAddress = $order->getBillingAddress();
             $store = $this->storeManager->getStore();
             if($order->getStatus() == "complete"){
                 $allItems = $order->getAllItems();
@@ -77,7 +77,7 @@ class ChangeStatusForBOB implements ObserverInterface
                         "orders_count" => $customerOrder->count(),
                         "total_spent" => $totalSpent,
                         "last_order_id" => $lastOrderId,
-                        "phone" => $shippingAddress->getTelephone()
+                        "phone" => $billingAddress->getTelephone()
                     ],
                     "order_details" => [
                         "total_price" => $order->getGrandTotal(),
@@ -91,7 +91,7 @@ class ChangeStatusForBOB implements ObserverInterface
                         "tracking_company_name" => "Not Available",
                         "shipping_status" => $order->getStatus()
                     ],
-                    "phone" => $shippingAddress->getTelephone(),
+                    "phone" => $billingAddress->getTelephone(),
                     "fulfilled_at" => date('Y-m-d')
                 ];
                 $requestPayload["lineItems"][] = $singelItem;
@@ -137,7 +137,7 @@ class ChangeStatusForBOB implements ObserverInterface
                     $singelItem["variantTitle"] = $item->getName();
                     $lineItems[] = $singelItem;
                 }
-                $shippingAddress = $order->getShippingAddress();
+                $shippingAddress = $order->getBillingAddress();
                 $street = $shippingAddress->getStreet();
                 $street1 = $street[0];
                 $street2 = "";

@@ -1,0 +1,68 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+
+$_item = $block->getItem();
+?>
+<input type="hidden" name="<?= /* @noEscape */ $_item->getProduct()->getId(); ?>" class=
+"categoryids" id="categoryids" 
+value='<?php foreach ($_item->getProduct()->getCategoryIds() as $catid) { ?>
+    <?= /* @noEscape */ $catid.","; } ?><?= /* @noEscape */ $_item->getRowTotal();  ?>'/>
+<?php
+
+if ($_item->getProductType()=='giftcertificate'):
+    /*if ($block->getcustomerId() != null) {
+        $giftquote=$block->getGiftQuoteItems($block->getcustomerId())->getData();
+    } else {
+        $giftquote=$block->getNotLoggedInGiftQuoteItems($block->geNotLoggedIntcustomerId())->getData();
+    }*/
+    $giftquote=$block->getNotLoggedInGiftQuoteItems($block->geNotLoggedIntcustomerId())->getData();
+
+    $product = $_item->getProduct(); // Get cart product details
+    $additional_data = $block->getAdditionalData(); // Get cart product additionl details defined in block page
+    $saveQuote=$block->saveQuote($_item->getQuoteId());
+    $count=1;
+    ?>
+<input type="hidden" id="base-gift-url" value="<?= /* @noEscape */ $block->getUrl(); ?>"/>
+
+    <?php
+    foreach ($giftquote as $quote):
+        if ($quote['product_id']==$product->getId()):
+            ?>
+
+<div class="additional-info">
+    <div>
+        <span><?= /* @noEscape */ $additional_data; ?> </span>
+    </div>
+    <div>
+        <span><?= /* @noEscape */ __('Gift Card Value:'); ?>
+            <?= /* @noEscape */ $_item->getCustomPrice();?></span>
+    </div>
+    <div>
+        <span><?= /* @noEscape */ __('Gift Card Sender:'); ?>
+            <?= /* @noEscape */ $quote['sender_name']; ?></span>
+    </div>
+    <div>
+        <input type="hidden" class="quote-id" value=<?= /* @noEscape */ $quote['id']; ?> />
+        <input type="hidden" name="productid" id="productid" value='
+            <?= /* @noEscape */ $_item->getProduct()->getId(); ?>'/>
+        <a href="javascript:void(0)" class="deletequote">Remove</a>
+    </div>
+    <div class="loading-cart"></div>
+</div>    
+<hr/>
+                <?php
+                $count++;
+    endif;
+endforeach;
+endif;
+
+?>
+<script>
+    require(['jquery','giftcertificate'],function($){
+    });
+</script>

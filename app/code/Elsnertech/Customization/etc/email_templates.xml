@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+	<template id="orderupdate_comment_tousertemplate" label="Order Comment Update To Admin User" file="orderupdate_comment_tousertemplate.html" type="html" module="Elsnertech_Customization" area="frontend"/>
+</config>

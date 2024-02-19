@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label" sortOrder="1000">
+            <label>Mageants</label>
+        </tab>
+        <section id="giftcertificate" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Gift Card Configuration</label>
+            <tab>mageants</tab>
+            <resource>Mageants_GiftCard::mageants_giftcertificate</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="statusgc" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Mageants\GiftCard\Model\Config\Source\Custom</source_model>
+                </field>
+		    </group>
+			<group id="gcoption" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				
+                <label>Gift Card Setting</label>
+	
+				<field id="allowselfuse" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allow customers to use gift cards they bought for themselves</label>
+                    <source_model>Mageants\GiftCard\Model\Config\Source\Custom</source_model>
+				</field>
+				<field id="allowdelvdate" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allow customers to choose delivery date for card</label>
+                    <source_model>Mageants\GiftCard\Model\Config\Source\Custom</source_model>
+				</field>
+                <field id="allow_custom_upload" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow customers upload custom template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+			</group>
+			<group id="email" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+				 <label>Show All the Email template</label>
+				 	<field id="gifttemplate" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Email Template for Gift Card</label>
+						<source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+					</field>	
+				<field id="cc" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Send Copy To</label>
+					<comment>(default:test@giftcertificate.com)</comment>
+                </field>
+                <field id="is_timezone" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Allow customer to select timezone</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If You Enabled TimeZone Email Will be Sent After Run Cron Job.</comment>
+                </field>
+                
+                <field id="is_notify" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Notify Customer On Expiry</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="notify_before" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of day before expiration to notify</label>
+                    <validate>validate-number</validate>
+                </field>
+                 <field id="start_date" translate="label comment" sortOrder="4" type="time" showInDefault="1" showInStore="1" >
+                    <label>Notify On Time</label>
+           
+                </field>
+                <field id="notify_template" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Select template to notify</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+			</group> 
+        </section>
+    </system>
+</config>

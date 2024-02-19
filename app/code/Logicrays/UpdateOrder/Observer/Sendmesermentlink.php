@@ -49,8 +49,36 @@ class Sendmesermentlink implements ObserverInterface
             $order->save();
             $items = $order->getItems();
             $isMailSend = 0;
+            $connection = $this->_resource->getConnection();
+            $dateArr = [];
+            $minDate = "";
             foreach ($items as $item) {
-
+                 
+                $select = $connection->select()
+                    ->from(
+                        ['main' => 'sales_order_item'],
+                        ['estd_dispatch_date']
+                    )
+                    ->where(
+                        "main.item_id = :item_id"
+                    )
+                    ->where(
+                        "main.estd_dispatch_date != ''"
+                    );
+                $bind = ['item_id' => $item->getId()];
+                $result = $connection->fetchRow($select, $bind);
+                if(isset($result['estd_dispatch_date'])){
+                    $dateForInd = date_format(date_create($result['estd_dispatch_date']),"Y-m-d");
+                    $dateArr[] =  $dateForInd;
+                }
+                $dateForDisplay = "";
+                if(count($dateArr)){
+                    $minDate = min($dateArr);
+                    if($minDate){
+                        $dateForDisplay = $minDate;
+                    }
+                }
+                
                 $options = $item->getProductOptions();        
                 if (isset($options['options']) && !empty($options['options'])) {        
                     foreach ($options['options'] as $option) {
@@ -77,6 +105,10 @@ class Sendmesermentlink implements ObserverInterface
                         }
                     }
                 }
+            }
+            if($minDate){
+                $sql = "UPDATE `sales_order_grid` SET `nearestdispatchnew` = '".$dateForDisplay. " 00:00:01' WHERE `increment_id` = ".$order->getIncrementId();
+                $connection->query($sql);
             }
             if($isMailSend){
                 $order->setState($order->getState())->setStatus("pending_measurement");

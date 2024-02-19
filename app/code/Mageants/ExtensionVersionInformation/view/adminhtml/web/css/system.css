@@ -1,0 +1,15 @@
+.config-nav .mageants_logo .admin__page-nav-title::before {
+    content: '';
+    background-image: url("../images/mageants.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    height: 140px !important;
+    position: absolute;
+    width: 140px;
+    top: -40px;
+}
+
+.config-nav .mageants_logo .admin__page-nav-title strong{
+    color: transparent;
+}

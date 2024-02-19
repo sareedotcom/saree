@@ -43,7 +43,7 @@ class OrderCreateBOB implements \Magento\Framework\Event\ObserverInterface
             $url = 'https://customstore.getbob.link/saree/orders-create';
             $order = $observer->getEvent()->getOrder();
 
-            $shippingAddress = $order->getShippingAddress();
+            $shippingAddress = $order->getBillingAddress();
             $street = $shippingAddress->getStreet();
             $street1 = $street[0];
             $street2 = "";

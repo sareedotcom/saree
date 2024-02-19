@@ -1,0 +1,521 @@
+<?php
+/**
+ * @category Mageants GiftCard
+ * @package Mageants_GiftCard
+ * @copyright Copyright (c) 2016 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+$viewModel = $block->getData("viewModel");
+$priceCurr = $block->convertPrice();
+
+if($block->storeCurrency()=='INR'){
+    $max_price = $block->getMaxPrice();
+    $min_price = $block->getMinPrice();
+} else {
+    $max_currency = $priceCurr->convertAndFormat($block->getMaxPrice(), false, 0, null, $block->getCurrency());
+    $max_price = $block->modelCurrency()->format($max_currency, ['display'=>\Zend_Currency::NO_SYMBOL], false);
+
+    $min_currency = $priceCurr->convertAndFormat($block->getMinPrice(), false, 0, null, $block->getCurrency());
+    $min_price = $block->modelCurrency()->format($min_currency, ['display'=>\Zend_Currency::NO_SYMBOL], false);
+}
+                        
+if ($block->getProductTypeId()=='giftcertificate'):
+    $prdId=$block->getProduct()->getId();
+    $count=$block->getCartQuoteById($prdId);
+    $url=$block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+    if ($count==0) { ?>
+        <input type="hidden" value=" <?= /* @noEscape */
+        $block->getProduct()->getId(); ?>" id="gift-product" name='giftproductid'/>
+        <input type="hidden" value=" <?= /* @noEscape */
+        $block->getCodeSetId(); ?>" id="codesetid" name='codesetid'/>
+        <input type="hidden" value=" <?= /* @noEscape */
+        $block->getCustomerId(); ?>" id="customerid" name='customerid'/>
+        <input type="hidden" value=" <?= /* @noEscape */
+        $block->getTempCustomerId(); ?>" id="temp_customer_id" name='temp_customer_id'/>
+        <input type="hidden"  id="template_id" name='template_id'/>
+        <div class="giftcard-block">
+            <div class="gift-row" id="gift-price-row">
+                <?php
+                    $attr = $block->getProduct()->getResource()->getAttribute('gifttype');
+                    $optionText = "";
+                if ($attr->usesSource()) {
+                    $optionText = $attr->getSource()->getOptionText($block->getProduct()->getGifttype());
+                }
+                ?>
+                <div clas="gift-label" id="gift-price-label">
+                    <label class="giftcertificate-label" id="tier-prices" for="gift-prices">
+                     <?= /* @noEscape */ __('Gift Card Value In '). $block->getCurrency();?>
+                     </label>
+                </div>
+                <div class="gift-content" id="gift-price-content">
+                    <?php if ($block->getGiftCustomPrice() !== null) { ?> 
+                        <style type="text/css">
+                            select.gift-prices {display: none ;}
+                            input.manual-price{display: inline-block;} 
+                        </style>
+                        <script>
+                        require(["jquery","giftcertificate"], function($) {
+                            jQuery(".switch-prices").text('Buy With System Price');
+                        });
+                        </script>
+                    <?php  } else { ?>
+                         <style type="text/css">
+                            input.manual-price{display: none;}
+                        </style>
+                    <?php } ?>
+
+                     <?= /* @noEscape */ $block->getProductPrice();
+                        ?>
+                    <input type="text" class="required-entry manual-price" id=
+                    "manual-price" placeholder=" <?= /* @noEscape */ 
+                    $priceCurr->convertAndFormat($block->getMinPrice(), false, 0, null, $block->getCurrency()). " - " .
+                    $priceCurr->convertAndFormat($block->getMaxPrice(), false, 0, null, $block->getCurrency());?>" name="manual-giftprices" 
+                    value="<?php if ($block->getGiftCustomPrice() !== null) {  ?>
+                        <?= /* @noEscape */ $block->getGiftCustomPrice(); } ?>"  required />
+                    <a href="javascript:void(0)" class="switch-prices">
+                        <?= /* @noEscape */ __('Buy With Your Price'); ?></a>
+                </div>
+                <?php
+                $gift_type = is_object($block->getGiftType()) ? $block->getGiftType()->
+                getText() : $block->getGiftType();
+                    
+                if ($gift_type =='Combined'): ?>
+                    <div clas="gift-label" id="gift-card-type-label">
+                        <label class="giftcertificate-label" id="card-types-label" for=
+                        "card-types"> <?= /* @noEscape */ __('Select Card Type '); ?></label>
+                    </div>
+                    <div class="gift-content" id="gift-card-type-content">
+                         <?= /* @noEscape */ $block->getGiftTypeOption(); ?>
+                        <span>Note: On Printed/Combined type, You will get delivery of gift
+                        card on your shipping address which youprovide during checkout
+                    </span>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (!empty($block->getGiftTemplates())): ?>
+                    <span style="display: none; color: red;">Amount Should In Given
+                        PriceRange  <?= /* @noEscape */
+                        $priceCurr->convertAndFormat($block->getMinPrice(), false, 0, null, $block->getCurrency())." - ".
+                        $priceCurr->convertAndFormat($block->getMaxPrice(), false, 0, null, $block->getCurrency());?></span>
+
+                    <input type="hidden" name="minprice" id="minprice" class="minprice" 
+                    value=" <?= /* @noEscape */ $min_price; ?>">
+                    <input type="hidden" name="maxprice" id="maxprice" class="maxprice" 
+                    value=" <?= /* @noEscape */ $max_price; ?>">
+                    <!--<div clas="gift-label" id="gift-template-label">
+                        <label class="giftcertificate-label" id="template-label" for=
+                        "template-content"><?= /* @noEscape */ __('Select Template'); ?>
+                        </label>
+                    </div>-->
+                    <div class="gift-content" id="gift-template-content">
+                        <base href=" <?= /* @noEscape */ $block->getUrl() ?>"  class="gifturl"/>
+                        <input type="hidden" name="giftimage" 
+                        value="<?php if ($block->getGiftImage() !== null) { ?>
+                            <?= /* @noEscape */ $block->getGiftImage(); } ?>"
+                            id="giftimage" class="sender-name required-entry"/>
+                        <?= /* @noEscape */ $block->getTemplateImages(); ?>
+                    </div>
+                <?php endif; ?>            
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="sender-label" for=
+                    "sender-name"><?= /* @noEscape */ __('Sender Name'); ?>*</label>
+                </div>
+                <div class="gift-content" id="gift-template-content">
+                    <input type="text" id="sender-name" name="sender-name" class="sender-name required-entry" required
+                    value="<?php if ($block->getGiftSenderName() !== null) { ?>
+                        <?= /* @noEscape */ $block->getGiftSenderName(); } ?>" />
+                </div>
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="sender-email-label" for=
+                    "sender-email "> <?= /* @noEscape */ __('Sender Email'); ?>*</label>
+                </div>
+                <div class="gift-content" id="gift-template-content">
+                    <input type="email" id="sender-email" name="sender-email"
+                    class="sender-email required-entry" required 
+                    value="<?php if ($block->getGiftSenderEmail() !== null) { ?>
+                        <?= /* @noEscape */ $block->getGiftSenderEmail(); } ?>" />
+                </div>
+                <!-- If Selected Gift Type is Printed from frontend Not Display recipient-email & recipient-name-->
+                <script>
+                    require(
+                        [
+                            'jquery',
+                            'giftcertificate'
+                        ],
+                        function($)
+                        {
+                            $(document).ready(function()
+                            {
+                                $("#gift-types").change(function()
+                                {
+                                     var selected_type = $(this).children("option:selected").val();
+                                    // console.log(selected_type);
+                                    if(selected_type == 1)    
+                                    {
+                                        $("#recipient-label-name").css("display","none");
+                                        $("#recipient-name").css("display","none");
+                                        $("#recipient-label-email").css("display","none");
+                                        $("#recipient-email").css("display","none");
+                                        $("div#gift-template-content").css("margin-bottom","-8px");
+                                    }
+                                    else
+                                    {
+                                        $("#recipient-label-name").css("display","block");
+                                        $("#recipient-name").css("display","block");
+                                        $("#recipient-label-email").css("display","block");
+                                        $("#recipient-email").css("display","block");    
+                                    }
+                                });
+                            });    
+                        });
+                </script>    
+                
+                <?php if ($optionText->getText() == "Combined" || $optionText->getText() == "Virtual") {?>    
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="recipient-label-name"
+                    for="recipient-name "> <?= /* @noEscape */
+                        __('Recipient Name'); ?>*</label>
+                </div>
+                <div class="gift-content" id="gift-template-content">
+                    <input type="text" id="recipient-name" name="recipient-name"
+                    class="recipient-name required-entry" required 
+                    value="<?php if ($block->getGiftRecipientName() !== null) { ?>
+                        <?= /* @noEscape */ $block->getGiftRecipientName(); } ?>" />
+                </div>
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="recipient-label-email"
+                    for="recipient-email "> <?= /* @noEscape */
+                        __('Recipient Email'); ?>*</label>
+                </div>
+                <div class="gift-content" id="gift-template-content">
+                    <input type="email" id="recipient-email" name="recipient-email"
+                    class="recipient-email required-entry" required 
+                    value="<?php if ($block->getGiftRecipientEmail() !== null) { ?>
+                        <?= /* @noEscape */ $block->getGiftRecipientEmail(); } ?>" />
+                </div>
+                <?php } ?>
+
+            <?php if ($block->isAllowDeliveryDate()): ?>        
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="del-label" for="del-date ">
+                        <?= /* @noEscape */ __('Date of certificate delivery'); ?>*</label>
+                </div>
+                <div class="gift-content" id="gift-template-content">
+                    <input type="text" class="input-text required-entry"
+                    id="del-date" onBlur="validateDate()" name="del-date"
+                    aria-required="true" value="<?php if ($block->getDateOfDelivery() !==
+                     null) { ?> <?= /* @noEscape */ $block->getDateOfDelivery(); } ?>" >
+                </div>
+                
+                <div class="error">
+                    <span id="dateerror" style="color: #f00"></span>
+                </div>
+            <?php endif; ?>
+            <?php if ($block->isallowGreetings()): ?>        
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="message-label"
+                    for="message-content "> <?= /* @noEscape */ __('Message'); ?></label>
+                </div>
+            
+                <div class="gift-content" id="gift-template-content">
+                    <textarea class="input-text" id="message-content" name="giftmessage" >
+                        <?php if ($block->getMessage() !== null) { ?>
+                        <?= /* @noEscape */ $block->getMessage(); } ?></textarea>
+                </div>
+            <?php endif; ?>        
+            <?php if ($block->isallowtimezone()): ?>                    
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="timezone-label"
+                    for="timezone-list"> <?= /* @noEscape */ __('Timezone'); ?></label>
+                </div>  
+                <div class="gift-content" id="gift-template-content">
+                    <select id="timezone-list" name="timezone">
+                        <option value="">
+                            <?= /* @noEscape */ "-- Select Timezone --"; ?></option>
+                        <?php foreach ($block->getTimeZoneList() as $timezone) { ?>
+                            <option value= <?= /* @noEscape */ $timezone['value']; ?>>
+                                <?= /* @noEscape */ __($timezone['label']); ?></option>
+                        <?php } ?>
+                    </select>
+                    <label class="giftcertificate-label" id="timezone-label" for="timezone-list"> <?= /* @noEscape */
+                    __('If You Select Timezone Email will be Sent After Run Cron Job.'); ?></label>
+                </div>
+            <?php endif; ?>    
+
+            <!-- preview code start-->
+            <!--<button class="action action-preview" type="button" id="click-me"-->
+            <!--style="margin-top: 20px;margin-bottom: 20px;">Preview</button>-->
+            
+            <div class="pre_error" style="display: none;">
+                  <span style="color: #f00"> <?= /* @noEscape */
+                    __("Fill up Rquired Fields"); ?></span>
+            </div>
+            
+            <div id="popup-modal" style="display:none;">
+                <div class="sender_name"></div>
+                <div class="sender_email"></div>
+                <div class="recpt_name"></div>
+                <div class="recpt_email"></div>
+                <div class="g_price"></div>
+                <div class="msg"></div>
+                <!-- <div class="time"></div> -->
+                <div class="code"></div>
+                <div class="code1"></div>
+                <div class="img"></div>
+                <?php
+                    $storeManager = $viewModel->getStoredetail();
+                    $currentStore = $storeManager->getStore();
+                    $template_img = $currentStore->getBaseUrl(
+                        \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
+                    ).'giftcertificate';
+                ?>
+                <script>
+                    require(
+                        [
+                            'jquery',
+                            'Magento_Catalog/js/price-utils',
+                            'giftcertificate'
+                        ],
+                        function($,priceUtils)
+                        {
+                            $("#click-me").click(function(){
+                                var txt = $('#sender-name');  
+                                if (txt.val() != null && txt.val() != '') { 
+                                    var sender_name = $("#sender-name").val();
+                                    var sender_email = $("#sender-email").val();
+                                    var recipient_name = $("#recipient-name").val();
+                                    var recipient_email = $("#recipient-email").val();
+                                    // console.log(recipient_name);
+                                    // console.log(recipient_email);
+                                    var gift_prices = jQuery("span.price-final_price > span.price-wrapper > span.price:first").text();
+
+                                    var msg = $("#message-content").val();
+                                    var img=$('.mt-thumb-switcher.active-selector.mz-thumb-selected.mz-thumb').attr('href');
+                                    // var img=jQuery(".no-sirv-lazy-load").attr('src');
+                                    var template = " <?= /* @noEscape */ $block->isallowimageupload(); ?>";
+                                    var gift_type = " <?= /* @noEscape */ $optionText->getText(); ?>";
+                                    gift_type = gift_type.trim();
+                                    // console.log(gift_type);
+                                    var selected_type = $('#gift-types').find(":selected").text();
+                                    $('.sender_name').html("<b>"+"Sender Name: "+"</b>"
+                                        +sender_name+"<br/>"+"<br/>"+"<br/>");
+                                    
+                                    $('.sender_email').html("<b>"+"Sender Email: "
+                                        +"</b>"+sender_email+"<br/>"+"<br/>"+"<br/>");
+                                    if(gift_type == "Combined")
+                                    {
+                                        if(selected_type == "Both Virtual & Printed" || selected_type == "Virtual")
+                                        {
+                                            $('.recpt_name').html("<b>"+"Recipient Name: "
+                                                +"</b>"+recipient_name+"<br/>"+"<br/>"
+                                                +"<br/>");
+                                            $('.recpt_email').html("<b>"+"Recipient Email: "
+                                                +"</b>"+recipient_email+"<br/>"+"<br/>"+
+                                                "<br/>");
+                                        }
+                                    }
+                                    else if(gift_type == "Virtual")
+                                    {
+                                        $('.recpt_name').html("<b>"+"Recipient Name: "+"</b>"
+                                        +recipient_name+"<br/>"+"<br/>"+"<br/>");
+                                        $('.recpt_email').html("<b>"+"Recipient Email: "
+                                        +"</b>"+recipient_email+"<br/>"+"<br/>"+"<br/>");  
+                                    }
+
+                                    $('.g_price').html("<b>"+"Value: "+"</b>"+gift_prices+"<br/>"+"<br/>"+"<br/>");
+                                    
+                                    if(msg != null){
+                                        $('.msg').html("<b>"+"Message: "+"</b>"+msg+"<br/>"+"<br/>"+"<br/>");
+                                    }
+                                    
+                                        $(".img").html('<img src="' + img + '" />');
+                                }
+                            });
+                        });
+                </script>
+            </div>
+
+            <script>
+                require(
+                    [
+                        'jquery',
+                        'Magento_Ui/js/modal/modal'
+                    ],
+                    function(
+                        $,
+                        modal
+                    ) {
+                        var options = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: 'Your details',
+                            buttons: [{
+                                text: $.mage.__('Ok'),
+                                class: '',
+                                click: function () {
+                                    this.closeModal();
+                                      $(".pre_error").css("display","none");
+                                }
+                            }],
+                        };
+
+                        var popup = modal(options, $('#popup-modal'));
+                        $("#click-me").on('click',function(){
+                            
+                            $(".pre_error").css("display","none"); 
+                            var txt = $('#sender-name');  
+                            
+                            if (txt.val() != null && txt.val() != '') { 
+                                $(".pre_error").css("display","none");
+                                $("#popup-modal").modal("openModal");
+                                $(".pre_error").css("display","none");
+                            }
+                            else
+                            {
+                                $(".pre_error").css("display","block");
+                            }
+                        });
+
+                    }
+                );
+            </script>
+            <!-- preview code end -->
+
+            <?php if ($block->isallowimageupload()): ?>        
+                <div class="gift-label" id="gift-template-label">
+                    <label class="giftcertificate-label" id="custom-upload-label"
+                    for="custom_upload"> <?= /* @noEscape */__('Upload Template'); ?></label>
+                </div>
+            
+                <div class="gift-content" id="gift-template-content">
+                    <input type="file" name="file" id="file" /> 
+                    <div class="upload-wrapper" data-bind="scope: 'uploader'">
+                        
+                    </div>
+                 </div>
+            <?php endif; ?>            
+            </div>
+        </div>
+        <?php if (!$block->availibilityProduct()): ?>    
+            <span class="error-msg"> <?= /* @noEscape */ __("Out Of Stock"); ?> </span>
+            <style>.box-tocart{display:none !important;}</style>
+        <?php endif; ?> 
+    <?php } else { ?>
+        <h2><span class="error-msg" style="display: block !important; ">
+            <?= /* @noEscape */ __("Already Added in Cart."); ?> </span></h2>
+        <style>.box-tocart{display:none !important;}</style>
+    <?php } ?>    
+    <script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "bindSubmit": true,
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+    </script>
+<?php endif; ?>
+<script>
+    require(['jquery','giftcertificate'],function($){
+        jQuery(document).ready(function(){
+            
+            if (jQuery('div').hasClass('giftcard-block')){
+                $('.field.qty').css('display','none');
+            }
+
+            jQuery("input[type=file]").change(function(){
+                    var file_data = jQuery("#file").prop("files")[0];    
+                    var form_data = new FormData();
+                    form_data.append("file", file_data)
+                    form_data.append("user_id", 123)              
+                        $.ajax({
+                        url: " <?= /* @noEscape */ $block->getUrl('giftcertificate/index/upload'); ?>", 
+                        type: "POST",            
+                        data: form_data,
+                        contentType: false,                
+                        processData:false,       
+                        success: function(data)   
+                        {   
+
+                            var path = " <?= /* @noEscape */ $block->getUrl('pub/media/giftcertificate'); ?>";
+                            var img  = path + data['file'];
+                            // console.log(img);
+                            jQuery(".no-sirv-lazy-load").attr('src', img);
+                            jQuery(".fotorama__img--full").attr('src', img);
+                            // jQuery(".img").html('<img src="' + img + '" />');
+                        }
+                    });
+            });
+        });
+    });
+</script>
+<script>
+     require([
+          "jquery",
+          "mage/calendar"
+     ], function($){
+         $("#del-date").calendar({
+              buttonText:" <?= /* @noEscape */ __('Select Date') ?>",
+              minDate: new Date(),
+              dateFormat: 'yy-mm-dd',
+         });
+       });
+
+         var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        } 
+        if(mm<10){
+            mm='0'+mm;
+        } 
+        var today = yyyy+'/'+mm+'/'+dd;
+        function validateDate(){
+            var pickedDate=document.getElementById("del-date").value;
+            if(pickedDate != ''){
+                if( (new Date(pickedDate).getTime() < new Date(today).getTime()))
+                {
+                    document.getElementById("del-date").value='';
+                    document.getElementById("dateerror").innerHTML='You cannot select date from past';
+                    return false;
+                }
+                var timestamp=Date.parse(pickedDate)
+
+                if (isNaN(timestamp)==true)
+                {
+                         document.getElementById("del-date").value='';
+                    document.getElementById("dateerror").innerHTML='Invalid Date';
+                    return;
+
+                }
+                document.getElementById("dateerror").innerHTML='';
+            }
+        }
+</script>
+<script type="text/x-magento-init">
+{
+   ".upload-wrapper": {
+       "Magento_Ui/js/core/app": {
+           "components": {
+               "uploader": {
+                   "component": "Magento_Ui/js/form/element/file-uploader",
+                   "template": "ui/form/element/uploader/uploader",
+                   "inputName": "file",
+                   "isMultipleFiles":false,
+                   "allowedExtensions": "jpg png gif bmp jpeg",
+                   "uploaderConfig": {
+                           "url": " <?= /* @noEscape */ $block->getUrl(
+                               'giftcertificate/index/upload'
+                           ); ?>"
+                   }
+               }
+           }
+       }
+   }
+}
+ 
+</script>

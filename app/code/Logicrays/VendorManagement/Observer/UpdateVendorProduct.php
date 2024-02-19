@@ -40,7 +40,9 @@ class UpdateVendorProduct implements ObserverInterface
             }
 
         } else {
-            $this->helper->updateVendorProduct($product->getId(), $product->getVendor());
+            if($product->getVendor()) {
+                $this->helper->updateVendorProduct($product->getId(), $product->getVendor());
+            }
         }
     }
 }

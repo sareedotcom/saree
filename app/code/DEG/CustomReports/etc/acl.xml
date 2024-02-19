@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="DEG_CustomReports::customreport" title="Manage Custom Reports">
+                    <resource id="DEG_CustomReports::customreport_add_new" title="Add New Report"/>
+                    <resource id="DEG_CustomReports::customreport_edit" title="Edit Report"/>
+                    <resource id="DEG_CustomReports::customreport_save" title="Save Report"/>
+                    <resource id="DEG_CustomReports::customreport_delete" title="Delete Report"/>
+                    <resource id="DEG_CustomReports::customreport_view_report" title="View Report"/>
+                    <resource id="DEG_CustomReports::customreport_export_report" title="Export Report"/>
+                </resource>
+                <resource id="DEG_CustomReports::automatedexport" title="Manage Automated Exports">
+                    <resource id="DEG_CustomReports::automatedexport_add_new" title="Add New Automated Export"/>
+                    <resource id="DEG_CustomReports::automatedexport_edit" title="Edit Automated Export"/>
+                    <resource id="DEG_CustomReports::automatedexport_save" title="Save Automated Export"/>
+                    <resource id="DEG_CustomReports::automatedexport_delete" title="Delete Automated Export"/>
+                    <resource id="DEG_CustomReports::automatedexport_view_automated_export" title="View Automated Export"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

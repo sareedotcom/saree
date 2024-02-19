@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="giftcard_cron_settings"> 
+        <job name="send_giftcard_notification" instance="Mageants\GiftCard\Cron\Notification" method="execute">
+            <schedule>*/1 * * * *</schedule>
+        </job>
+        <job name="send_giftcard_sendgiftcard" instance="Mageants\GiftCard\Cron\Sendgiftcard" method="execute">
+            <schedule>*/1 * * * *</schedule>
+        </job>
+    </group>
+</config>

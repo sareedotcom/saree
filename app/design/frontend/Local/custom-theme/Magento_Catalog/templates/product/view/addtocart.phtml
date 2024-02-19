@@ -7,6 +7,18 @@
 /** @var $block \Magento\Catalog\Block\Product\View */
 ?>
 <?php $_product = $block->getProduct(); ?>
+<?php $aaa = $_product->getCategoryIds();
+$isGiftcard = 0;
+if(isset($aaa[0])){
+    $categoryId = $aaa[0];
+    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $category = $_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
+    if($category->getName() == "Gift Card"){
+        $isGiftcard = $category->getName();
+    }
+}
+
+?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()) :?>
 <div class="box-tocart">
@@ -50,4 +62,21 @@
             "Magento_Catalog/js/validate-product": {}
         }
     }
+</script>
+<script>
+require(['jquery'], function($){
+     <?php if($isGiftcard){ ?>
+        $('body').addClass('categorypath-giftcard');
+    <?php } ?>
+    $(document).ready(function(){
+        if(jQuery("body").hasClass("categorypath-giftcard")){ 
+            jQuery(".codcheck-prod").css('display','none'); 
+            jQuery(".widget.block.block-static-block").css('display','none');
+            jQuery(".product.info.detailed").css('display','none');
+            jQuery(".related_contact_div").css('display','none');
+            jQuery(".action.primary.tocart").text('Buy Now');
+            jQuery(".action.towishlist").css("display","none");
+        }
+    });
+});
 </script>

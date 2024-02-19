@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="gift_code_set" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="code_set_id" padding="10" unsigned="true" nullable="false" identity="true" comment="code_set_id"/>
+    <column xsi:type="varchar" name="code_title" nullable="false" length="255" comment="code_title"/>
+    <column xsi:type="varchar" name="code_pattern" nullable="false" length="255" comment="code_pattern"/>
+    <column xsi:type="varchar" name="code_qty" nullable="false" length="255" comment="status"/>
+    <column xsi:type="varchar" name="unused_code" nullable="false" length="255" comment="code_pattern"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="code_set_id"/>
+    </constraint>
+    <index referenceId="CODE_ID_CODE_TITLE_CODE_PATTERN" indexType="fulltext">
+      <column name="code_title"/>
+      <column name="code_pattern"/>
+    </index>
+  </table>
+  <table name="gift_code_list" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="code_list_id" padding="10" unsigned="true" nullable="false" identity="true" comment="code_list_id"/>
+    <column xsi:type="varchar" name="code" nullable="false" length="255" comment="code"/>
+    <column xsi:type="int" name="allocate" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="allocate"/>
+    <column xsi:type="int" name="code_set_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="code_set_id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="code_list_id"/>
+    </constraint>
+    <index referenceId="CODE_LIST_ID_CODE" indexType="fulltext">
+      <column name="code"/>
+    </index>
+  </table>
+  <table name="gift_code_account" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="false" identity="true" comment="account_id"/>
+    <column xsi:type="varchar" name="order_id" nullable="false" length="255" comment="order_id"/>
+    <column xsi:type="varchar" name="gift_code" nullable="false" length="255" comment="gift_code"/>
+    <column xsi:type="varchar" name="categories" nullable="false" length="255" comment="categories"/>
+    <column xsi:type="int" name="status" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="status"/>
+    <column xsi:type="int" name="website" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="website"/>
+    <column xsi:type="varchar" name="initial_code_value" nullable="false" length="255" comment="initial_code_value"/>
+    <column xsi:type="varchar" name="current_balance" nullable="false" length="255" comment="current_balance"/>
+    <column xsi:type="date" name="expire_at" comment="expire_at"/>
+    <column xsi:type="text" name="comment" nullable="false" comment="comment"/>
+    <column xsi:type="varchar" name="template" nullable="false" length="255" comment="template"/>
+    <column xsi:type="int" name="customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="customer_id"/>
+    <column xsi:type="text" name="discount_type" nullable="false" comment="Discount Type"/>
+    <column xsi:type="int" name="temp_customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="temp_customer_id"/>
+    <column xsi:type="int" name="custom_upload" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="custom_upload"/>
+    <column xsi:type="int" name="notified" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="notified"/>
+    <column xsi:type="int" name="sendtemplate_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="sendtemplate_id"/>
+    <column xsi:type="text" name="order_increment_id" nullable="true" comment="order_increment_id"/>
+    <column xsi:type="int" name="percentage" padding="10" unsigned="false" nullable="true" identity="false" comment="Discount Percentage"/>
+    <column xsi:type="int" name="allow_balance" padding="10" unsigned="false" nullable="true" identity="false" comment="Allow Balance"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="account_id"/>
+    </constraint>
+    <index referenceId="FTI_9A8D7365434E6E185666FFDDD43216E1" indexType="fulltext">
+      <column name="order_id"/>
+      <column name="initial_code_value"/>
+      <column name="current_balance"/>
+      <column name="comment"/>
+      <column name="gift_code"/>
+    </index>
+  </table>
+  <table name="gift_code_customer" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false" identity="true" comment="customer_id"/>
+    <column xsi:type="int" name="temp_customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="temp_customer_id"/>
+    <column xsi:type="varchar" name="code_value" nullable="false" length="255" comment="code_value"/>
+    <column xsi:type="int" name="card_type" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="card_type"/>
+    <column xsi:type="varchar" name="sender_name" nullable="false" length="255" default="0" comment="sender_name"/>
+    <column xsi:type="varchar" name="sender_email" nullable="false" length="255" comment="sender_email"/>
+    <column xsi:type="varchar" name="recipient_name" nullable="false" length="255" comment="recipient_name"/>
+    <column xsi:type="varchar" name="recipient_email" nullable="false" length="255" comment="recipient_email"/>
+    <column xsi:type="date" name="date_of_delivery" comment="date_of_delivery"/>
+    <column xsi:type="varchar" name="time_zone" nullable="false" length="255" comment="time_zone"/>
+    <column xsi:type="text" name="message" nullable="false" comment="message"/>
+    <column xsi:type="varchar" name="order_id" nullable="false" length="255" comment="order_id"/>
+    <column xsi:type="text" name="timezone" nullable="false" comment="timezone"/>
+    <column xsi:type="datetime" name="emailtime" on_update="false" nullable="false" default="NULL" comment="emailtime"/>
+    <column xsi:type="int" name="sentgiftcard" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="sentgiftcard"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="customer_id"/>
+    </constraint>
+    <index referenceId="FTI_682B67688D7EB341BBB6392A2146690D" indexType="fulltext">
+      <column name="code_value"/>
+      <column name="sender_name"/>
+      <column name="sender_email"/>
+      <column name="recipient_name"/>
+      <column name="recipient_email"/>
+      <column name="time_zone"/>
+      <column name="message"/>
+    </index>
+  </table>
+  <table name="gift_quote" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="id"/>
+    <column xsi:type="varchar" name="gift_card_value" nullable="false" length="255" comment="gift_card_value"/>
+    <column xsi:type="int" name="card_types" padding="11" unsigned="false" nullable="false" identity="false" comment="gift_types"/>
+    <column xsi:type="varchar" name="categories" nullable="false" length="255" comment="categories"/>
+    <column xsi:type="varchar" name="template_id" nullable="false" length="255" comment="template_id"/>
+    <column xsi:type="varchar" name="sender_name" nullable="false" length="255" comment="sender_name"/>
+    <column xsi:type="varchar" name="sender_email" nullable="false" length="255" comment="sender_email"/>
+    <column xsi:type="varchar" name="recipient_name" nullable="false" length="255" comment="recipient_name"/>
+    <column xsi:type="varchar" name="recipient_email" nullable="false" length="255" comment="recipient_email"/>
+    <column xsi:type="date" name="date_of_delivery" comment="date_of_delivery"/>
+    <column xsi:type="text" name="message" nullable="false" comment="message"/>
+    <column xsi:type="varchar" name="quote_id" nullable="false" length="255" comment="quote_id"/>
+    <column xsi:type="varchar" name="product_id" nullable="false" length="255" comment="product_id"/>
+    <column xsi:type="varchar" name="codesetid" nullable="false" length="255" comment="codesetid"/>
+    <column xsi:type="int" name="customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="customer_id"/>
+    <column xsi:type="date" name="expiry_date" comment="expiry_date"/>
+    <column xsi:type="int" name="temp_customer_id" padding="11" unsigned="false" nullable="false" identity="false" comment="temp_customer_id"/>
+    <column xsi:type="text" name="timezone" nullable="false" comment="timezone"/>
+    <column xsi:type="int" name="custom_upload" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="custom_upload"/>
+    <column xsi:type="datetime" name="emailtime" on_update="false" nullable="false" default="NULL" comment="emailtime"/>
+    <column xsi:type="int" name="sendtemplate_id" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="sendtemplate_id"/>
+    <column xsi:type="text" name="order_increment_id" nullable="true" comment="order_increment_id"/>
+    <column xsi:type="text" name="code_validity" nullable="true" comment="code_validity"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="gift_templates" resource="default" engine="innodb" comment="Mageants_GiftCard">
+    <column xsi:type="int" name="image_id" padding="10" unsigned="true" nullable="false" identity="true" comment="image_id"/>
+    <column xsi:type="varchar" name="image" nullable="false" length="255" comment="image"/>
+    <column xsi:type="varchar" name="image_title" nullable="false" length="255" default="0" comment="image_title"/>
+    <column xsi:type="varchar" name="status" nullable="false" length="255" default="0" comment="sender_name"/>
+    <column xsi:type="int" name="code_position" padding="11" unsigned="false" nullable="false" identity="false" comment="code_position"/>
+    <column xsi:type="text" name="message" nullable="false" comment="timezone"/>
+    <column xsi:type="text" name="color" nullable="false" comment="color"/>
+    <column xsi:type="text" name="forecolor" nullable="false" comment="forecolor"/>
+    <column xsi:type="int" name="positionleft" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="positionleft"/>
+    <column xsi:type="int" name="positiontop" padding="11" unsigned="false" nullable="false" identity="false" default="0" comment="positiontop"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="image_id"/>
+    </constraint>
+    <index referenceId="IMAGE_ID_IMAGE_IMAGE_TITLE_STATUS" indexType="fulltext">
+      <column name="image"/>
+      <column name="image_title"/>
+      <column name="status"/>
+    </index>
+  </table>
+  <table name="sales_order" resource="sales" engine="innodb" comment="Sales Order">
+        <column xsi:type="decimal" name="order_gift" nullable="true" comment="Note"/>
+  </table>
+</schema>

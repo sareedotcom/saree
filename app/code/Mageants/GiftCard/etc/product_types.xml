@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_types.xsd">
+    <type name="giftcertificate" label="Gift Card" isQty="true" modelInstance="Mageants\GiftCard\Model\Product\Type\Gift" indexPriority="25" sortOrder="25">
+	</type>
+</config>

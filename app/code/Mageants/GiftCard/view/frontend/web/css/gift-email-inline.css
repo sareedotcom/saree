@@ -1,0 +1,29 @@
+/**
+  * Mageants GiftCard Magento2 Extension                           
+*/
+table.head-wrap{width:100%;}
+body{margin:0px;}
+.content table{width:100%;}
+.content a {font-size: 16px;  text-transform: uppercase;}
+.email-cnt{clear: both; display: block; margin: 0 auto; max-width: 600px;}
+.content {display: block;  margin: 0 auto;  max-width: 600px;  padding: 15px;}
+.body-wrap{width:100%;}
+.content h3 {font-size: 22px;  margin-bottom: 0;  margin-top: 0;}
+
+.tmp-banners {position: relative;}
+.tmpbanner-pic img{width:100%;}
+.tmpbanner-desc {position: absolute;  bottom: 0px;  width: 100%;  text-align: center;  background: #ef5756;  font-weight: bold;
+  font-size: 20px;}
+  table.footer-wrap{width:100%;}
+  h5.prices {
+    font-size: 24px;
+    margin: 5px;
+    text-align: center;
+}
+.social .column{width:180px; padding:0px 5px;}
+.social .column img{width:100%;}
+.gcode {color: #ef5756; font-size: 20px; margin: 0; text-align: center;}
+.social .column.middls{border-left:2px solid #f3f3f3; border-right:2px solid #f3f3f3;}
+.footer-wrap .email-cnt {border: 2px solid #f3f3f3;}
+.body-wrap .email-cnt {border-left: 2px solid #f3f3f3;  border-right: 2px solid #f3f3f3;  margin-bottom: -5px;}
+.social img{margin-top:10px;}
