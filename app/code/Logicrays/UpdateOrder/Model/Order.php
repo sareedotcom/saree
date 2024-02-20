@@ -644,23 +644,25 @@ class Order extends \MageWorx\OrderEditor\Model\Order
 
         $giftWrapModel = $this->giftWrapData->getGiftWrapModelByOrder($this);
         $giftWrepPrice = 0;
-        $giftWrapDataArray = $this->json->unserialize($this->getGiftWrapData());
-        if(isset($giftWrapDataArray['whole_cart'])){
-            $giftWrepPrice = $giftWrapModel->getPrice();
-        }
-        else{
-            $connection = $this->resourceConnection->getConnection();
-            $orderItems = $giftWrapDataArray['items'] ?? [];
-            if ($orderItems) {
-                foreach ($orderItems as $itemId => $orderGiftWrapId) {
-                    $select = $connection->select()
-                            ->from(
-                            ['ogw' => 'order_gift_wrap'],
-                            ['price' => 'price']
-                    )->where('ogw.id = ? ',$orderGiftWrapId);
-                    $data = $connection->fetchOne($select);
-                    if($data){
-                        $giftWrepPrice = $giftWrepPrice + $data;
+        if($this->getGiftWrapData()){
+            $giftWrapDataArray = $this->json->unserialize($this->getGiftWrapData());
+            if(isset($giftWrapDataArray['whole_cart'])){
+                $giftWrepPrice = $giftWrapModel->getPrice();
+            }
+            else{
+                $connection = $this->resourceConnection->getConnection();
+                $orderItems = $giftWrapDataArray['items'] ?? [];
+                if ($orderItems) {
+                    foreach ($orderItems as $itemId => $orderGiftWrapId) {
+                        $select = $connection->select()
+                                ->from(
+                                ['ogw' => 'order_gift_wrap'],
+                                ['price' => 'price']
+                        )->where('ogw.id = ? ',$orderGiftWrapId);
+                        $data = $connection->fetchOne($select);
+                        if($data){
+                            $giftWrepPrice = $giftWrepPrice + $data;
+                        }
                     }
                 }
             }
