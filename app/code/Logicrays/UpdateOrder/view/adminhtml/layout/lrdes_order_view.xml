@@ -214,5 +214,11 @@
         <referenceBlock name="order_tab_info">
             <block class="Magento\Sales\Block\Adminhtml\Order\AbstractOrder" name="order_shipping_view" template="Magento_Shipping::order/view/info.phtml"/>
         </referenceBlock>
+        
+        <!--add custom block -->
+        <referenceBlock name="order_additional_info">
+            <block class="Logicrays\TermsAndCondition\Block\Adminhtml\Order\View\View" name="sales_custom_view"
+                   template="Logicrays_TermsAndCondition::order/view/view.phtml"/>
+        </referenceBlock>
     </body>
 </page>

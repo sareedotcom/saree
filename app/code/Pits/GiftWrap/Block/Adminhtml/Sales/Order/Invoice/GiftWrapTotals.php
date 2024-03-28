@@ -74,7 +74,7 @@ class GiftWrapTotals extends AbstractGiftWrapTotals
      */
     public function getModel(): Invoice
     {
-        return $this->getParentBlock()->getInvoice();
+        return $this->getParentBlock()->getParentBlock()->getInvoice();
     }
 
     /**

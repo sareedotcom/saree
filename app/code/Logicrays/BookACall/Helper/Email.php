@@ -45,33 +45,6 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
             $senderName = $this->scopeConfig->getValue(self::BOOKACALL_MAIL_SENDERNAME, $storeScope);
             $sender = $this->scopeConfig->getValue(self::BOOKACALL_MAIL_SENDER, $storeScope);
             $receiver = $this->scopeConfig->getValue(self::BOOKACALL_MAIL_RECEIVER, $storeScope);
-
-            $this->inlineTranslation->suspend();
-            $sender = [
-                'name' => $this->escaper->escapeHtml($senderName),
-                'email' => $this->escaper->escapeHtml($sender),
-            ];
-            $transport = $this->transportBuilder
-                ->setTemplateIdentifier($templateId)
-                ->setTemplateOptions(
-                    [
-                        'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                        'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-                    ]
-                )
-                ->setTemplateVars([
-                    "name" => $data['name'],
-                    "country" => $data['country'],
-                    "orderId" => $data['order_id'],
-                    "number" => $data['number'],
-                    "outfitsandoccasion" => $data['outfitsandoccasion'],
-                    "customerName" => $data['name']
-                ])
-                ->setFrom($sender)
-                ->addTo($receiver)
-                ->getTransport();
-            $transport->sendMessage();
-            $this->inlineTranslation->resume();
             
             $this->inlineTranslation->suspend();
             $sender = [
@@ -92,7 +65,49 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
                     "orderId" => $data['order_id'],
                     "number" => $data['number'],
                     "outfitsandoccasion" => $data['outfitsandoccasion'],
-                    "customerName" => $data['name']
+                    "customerName" => $data['name'],
+                    "imageUrl" => $data['imageUrl'],
+                    "isShowTotal" => $data['isShowTotal'],
+                    "paymentMethodTitle" => $data['paymentMethodTitle'],
+                    "subTotal" => $data['subTotal'],
+                    "grandTotal" => $data['grandTotal'],
+                    "price" => $data['price'],
+                    "increment_id" => $data['increment_id'],
+                    "createdAtFormatted" => $data['createdAtFormatted'],
+                ])
+                ->setFrom($sender)
+                ->addTo($receiver)
+                ->getTransport();
+            $transport->sendMessage();
+            $this->inlineTranslation->resume();
+            $this->inlineTranslation->suspend();
+            $sender = [
+                'name' => $this->escaper->escapeHtml($senderName),
+                'email' => $this->escaper->escapeHtml($sender),
+            ];
+            $transport = $this->transportBuilder
+                ->setTemplateIdentifier($templateId)
+                ->setTemplateOptions(
+                    [
+                        'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+                        'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                    ]
+                )
+                ->setTemplateVars([
+                    "name" => $data['name'],
+                    "country" => $data['country'],
+                    "orderId" => $data['order_id'],
+                    "number" => $data['number'],
+                    "outfitsandoccasion" => $data['outfitsandoccasion'],
+                    "customerName" => $data['name'],
+                    "imageUrl" => $data['imageUrl'],
+                    "isShowTotal" => $data['isShowTotal'],
+                    "paymentMethodTitle" => $data['paymentMethodTitle'],
+                    "subTotal" => $data['subTotal'],
+                    "grandTotal" => $data['grandTotal'],
+                    "price" => $data['price'],
+                    "increment_id" => $data['increment_id'],
+                    "createdAtFormatted" => $data['createdAtFormatted'],
                 ])
                 ->setFrom($sender)
                 ->addTo($data['customerEmail'])
@@ -102,7 +117,7 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
             
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://saree.bobot.in/workflow/webhook/9e61be6f-99fb-4164-9de2-b3c8df189af4',
+                CURLOPT_URL => 'https://saree.bobot.in/workflow/webhook/3ac3b0e6-5fd5-48d0-a25a-e6da77ad6182',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -113,8 +128,8 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
                 CURLOPT_POSTFIELDS =>'{
                     "platform": "saree",
                     "phone": "'.$data['number'].'",
-                    "variables": {"name":"'.$data['name'].'"},
-                    "noOfVariables": 2
+                    "variables": {"name":"'.$data['name'].'","incrementid":"'.$data['incrementId'].'","orderdate":"'.$data['orderDate'].'"},
+                    "noOfVariables": 4
                 }',
                 CURLOPT_HTTPHEADER => array(
                         'Content-Type: application/json'
