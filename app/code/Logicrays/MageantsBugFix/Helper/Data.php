@@ -6,7 +6,7 @@
  * @author Mageants Team <support@mageants.com>
  */
 
-namespace Mageants\GiftCard\Helper;
+namespace Logicrays\MageantsBugFix\Helper;
 
 use \Magento\Store\Model\Website;
 use \Magento\Store\Model\StoreManagerInterface;
@@ -31,7 +31,7 @@ use \Magento\Customer\Model\SessionFactory;
 /**
  * Data class for Helper
  */
-class Data extends \Magento\Framework\App\Helper\AbstractHelper
+class Data extends \Mageants\GiftCard\Helper\Data
 {
     /**
      * @var \Magento\Store\Model\Website

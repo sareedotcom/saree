@@ -1,33 +1,187 @@
-<body style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
-<div style="background:#F6F6F6; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:0; padding:0;">
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-    <td align="center" valign="top" style="padding:20px 0 20px 0">
-        <table bgcolor="#FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
-            <!-- [ header starts here] -->
-            <tr>
-                <td class="email-heading" style = "background: #e5e5e5; width: 50%;">
-                            <a href="{{store url=""}}"><img style="padding:10px;"  src="{{var logo_url}}"  alt="{{var logo_alt}}"  border="0"/></a>
-                </td>
-            </tr>
-            <!-- [ middle starts here] -->
-            <tr style="background-color:#f9f9f9;">
-                <td valign="top" style=" border-bottom: 1px dotted #b8c1d1;">
-                    <h1 style="font-size:13px; font-weight:bold; line-height:22px; margin:-2px 0 8px 0;">Hello You have reveived V-call request with this data,</h1>
-                    <p style="font-size:14px; line-height:24px; margin:0;">
-                        <table>
-                            <tr><td>Name</td><td>{{var name}}</td></tr>
-                            <tr><td>Country</td><td>{{var country}}</td></tr>
-                            <tr><td>What's App Number</td><td>{{var number}}</td></tr>
-                            <tr><td>Outfits & Occasion</td><td>{{var outfitsandoccasion}}</td></tr>
-                        </table>
-                    </p>
-            </tr>
-            <tr>
-            </tr>
-        </table>
-    </td>
-</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        {{var template_styles|raw}}
+
+        {{css file="css/email.css"}}
+    </style>
+</head>
+<body>
+{{inlinecss file="css/email-inline.css"}}
+
+<!-- Begin wrapper table -->
+<table class="wrapper" width="100%">
+    <tr>
+        <td class="wrapper-inner" align="center">
+            <table class="main" align="center">
+                <tr>
+                    <td class="header" style="background: #000000;padding: 55px 70px;border: none;">
+                        <a class="logo" href="{{store url=""}}">
+                            <img
+                                {{if logo_width}}
+                                    width="{{var logo_width}}"
+                                {{else}}
+                                    width="200"
+                                {{/if}}
+
+                                {{if logo_height}}
+                                    height="{{var logo_height}}"
+                                {{/if}}
+
+                                src="{{var logo_url}}"
+                                alt="{{var logo_alt}}"
+                                border="0"
+                            />
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="main-content">
+                    <!-- Begin Content -->
+
+<table width="100%">
+    <tr>
+        <td class="email-intro" valign="top">
+            <p class="greeting">Dear {{var name}},</p>
+            <p>We are pleased to inform you that we have received your video call inquiry.</br>
+                Our dedicated video call assistance team will be reaching out to you promptly via</br>
+                WhatsApp at your provided number.
+                </p>
+            <p>Should you require immediate assistance, <strong>feel free to contact them directly at</strong> <a href="tel:+919313227352">+919313227352</a></p>
+            <p>For your reference, here is a summary of your order <b>#{{var increment_id}}</b></br>
+                placed on <b>{{var createdAtFormatted}}</b></p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="email-order-infomation">
+                <thead>
+                    <tr>
+                        <th colspan="1" width="33.33%">
+                            {{depend formattedBillingAddress}}
+                                Billing Info :
+                            {{/depend}}
+                        </th>
+                        <th colspan="1" width="33.33%">
+                            {{depend formattedShippingAddress}}
+                                Shipping Info :
+                            {{/depend}}
+                            </th>
+                        <th colspan="1" width="33.33%">
+                            {{depend paymentMethodTitle}}
+                                Payment Method :
+                            {{/depend}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td valign="top">
+                            {{var formattedBillingAddress|raw}}
+                        </td>
+                        <td valign="top">
+                            {{var formattedShippingAddress|raw}}
+                        </td>
+                        <td valign="top">
+                            {{var paymentMethodTitle|raw}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="email-items">
+                <thead>
+                    <tr>
+                        <th class="item-image">
+                            Image </th>
+                        <th class="item-info">
+                            Items </th>
+                        <th class="item-qty">
+                            Quantity </th>
+                        <th class="item-price">
+                            Price </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="item-image">
+                            <img src="{{var imageUrl}}" title="Book a call" alt="Book a call">
+                        </td>
+                        <td class="item-info has-extra">
+                            <p class="product-name">SKU : Book a call</p>
+                            <div class="item-options">
+                                <div class="item-option"><strong>Name: {{var name}}</strong></div>
+                                <div class="item-option"><strong>Country: </strong>{{var country}}</div>
+                                <div class="item-option"><strong>What's App Number: </strong>{{var number}}</div>
+                                <div class="item-option"><strong>Outfits & Occasion: </strong>{{var outfitsandoccasion}}</div>
+                            </div>
+                        </td>
+                        <td class="item-qty">1</td>
+                        <td class="item-price">
+                            <span class="price">{{var price}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+                {{depend isShowTotal}}
+
+                <tfoot class="order-totals">
+                    <tr class="subtotal">
+                        <th colspan="3" scope="row">
+                            <span>Subtotal</span>
+                        </th>
+                        <td data-th="Subtotal">
+                            <span class="price">{{var subTotal}}</span>
+                        </td>
+                    </tr>
+                    <tr class="grand_total">
+                        <th colspan="3" scope="row">
+                            <strong>Grand Total</strong>
+                        </th>
+                        <td data-th="Grand Total">
+                            <strong><span class="price">{{var grandTotal}}</span></strong>
+                        </td>
+                    </tr>
+                </tfoot>
+                {{/depend }}
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="email-botton-content">
+            <p>Additionally, please note that during your video call, our assistance team may discuss service</br>
+                charges with you Should you encounter any such requests, we kindly ask for your cooperation</br>
+                in facilitating the payment process.</p>
+            <p><span>Thank you for choosing our services. We look forward to assisting you further.</span></p>
+        </td>
+    </tr>
 </table>
+
+<!-- End Content -->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="footer">
+<div class="footer-media">
+<div style="margin-bottom: 8px;">Follow Us:</div>
+<a href="https://www.facebook.com/sareeethnic"><img width="22" src="{{media url="wysiwyg/email-fb.png"}}" alt="" /></a>
+<a href="https://www.instagram.com/saree.com_by_asopalav"><img width="22" src="{{media url="wysiwyg/email-insta.png"}}" alt="" /></a>
 </div>
+<div class="footer-text">
+For any queries, please reach us at: <a href="mailto:cs@saree.com">cs@saree.com</a>  <strong>{{var store.getFrontendName()}}</strong>
+</div>
+                    </td>
+                </tr>
+<tr>
+                    <td class="copyright">
+                      <center>© 2024 SAREE.COM. ALL RIGHTS RESERVED.</center>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!-- End wrapper table -->
 </body>

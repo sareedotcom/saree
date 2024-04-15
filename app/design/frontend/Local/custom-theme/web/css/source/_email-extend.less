@@ -23,7 +23,7 @@ html {
 }
 body {
   color: #333;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.42857143;
@@ -130,7 +130,7 @@ h4 .small,
 h5 .small,
 h6 .small {
   color: #333;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1;
@@ -228,7 +228,7 @@ blockquote {
   margin: 0 0 20px 40px;
   padding: 0;
   color: #333;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: italic;
   font-weight: 400;
   line-height: 1.42857143;
@@ -271,13 +271,13 @@ cite {
   font-style: normal;
 }
 body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   text-align: left;
 }
 th,
 td {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Verdana", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 a {
   color: #006bb4;
@@ -297,17 +297,61 @@ body {
 .main {
   margin: 0 auto;
   text-align: left;
-  width: 660px;
+  width: 700px;
 }
 .header {
   padding: 25px 25px 0;
 }
+td.header .logo img {
+    max-width: inherit!important;
+}
 .main-content {
   background-color: #fff;
-  padding: 25px;
+  padding: 25px 70px;
 }
 .footer {
-  padding: 0 25px 25px;
+    background-color: #fff;
+    padding: 15px 0 30px;
+    text-align: center;
+    font-size: 12px;
+    color: #707070;
+    font-weight: 400;
+    
+    * {
+        color: #000;
+    }
+    
+    .footer-text {
+        &,
+        &:not(a) {
+            color: #707070;
+        }
+    }
+    
+    .closing {
+        margin-top: 10px;
+        
+        strong {
+            font-weight: 400;
+        }
+    }
+}
+.footer-media {
+    margin-bottom: 10px;
+    a {
+        padding: 0 3px;
+        img {
+            width: 21px;
+        }
+    }
+}
+.copyright {
+    font-size: 11px;
+    color: #838383;
+    font-weight: 400;
+    text-align: center;
+    background: #000;
+    line-height: 27px;
 }
 .button > tr > td {
   padding-bottom: 10px;
@@ -373,14 +417,6 @@ body {
 .message-details td b {
   margin-right: 10px;
 }
-.header {
-  background-color: #f5f5f5;
-  padding: 25px;
-}
-.footer {
-  background-color: #f5f5f5;
-  padding: 25px;
-}
 .footer table {
   width: 100%;
 }
@@ -407,15 +443,12 @@ body {
   border-bottom: 2px solid #e1e1e1;
 }
 td.header {
-  padding: 40px 25px 0;
-  background: #fff;
-}
-td.header .logo img {
-  max-width: 120px;
+  padding: 55px 70px;
+  background: #000;
 }
 .main-content {
-  padding: 30px;
-  font-family: "Open Sans", sans-serif;
+  padding: 45px 70px!important;
+  font-family: "Verdana", sans-serif;
 }
 .acart-link.-checkout {
   display: block;
@@ -825,11 +858,11 @@ td.header .logo img {
   margin-bottom: 0;
 }
 .email-items .product-name {
-  font-weight: 700;
-  margin-bottom: 5px;
+  font-weight: 500!important;
+  margin-bottom: 10px!important;
 }
 .email-items .has-extra .sku {
-  margin-bottom: 10px;
+  margin-bottom: 0!important;
 }
 .email-items .item-info dl {
   margin-bottom: 0;
@@ -868,3 +901,264 @@ td.header .logo img {
 .email-items .order-totals .price {
   white-space: nowrap;
 }
+
+.email-intro .greeting {
+    font-size: 29px;
+    line-height: 28px;
+    color: #000000;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.email-intro p:not(.greeting) {
+    font-size: 12px;
+    color: #676767;
+    font-weight: 400;
+}
+.email-botton-content {
+    padding-top: 35px;
+    * {
+        font-size: 12px;
+        color: #676767;
+        font-weight: 400;
+    }
+    
+    p * {
+        color: #000;
+    }
+}
+.email-intro p * {
+    color: #000;
+    font-weight: 400;
+}
+.email-intro p strong {
+    font-weight: 400;
+}
+.email-intro p .order-with-create {
+    font-size: 16px!important;
+    line-height: 22px!important;
+    color: #000000!important;
+    font-weight: 500!important;
+}
+.email-intro h4 {
+    font-size: 16px;
+    line-height: 22px;
+    color: #000000;
+    font-weight: 500;
+    margin: 22px 0 2px;
+}
+.email-order-infomation {
+    * {
+        font-size: 11px;
+        line-height: 17px;
+        color: #000000;
+        font-weight: 400;
+    }
+    
+    th {
+        padding-bottom: 12px;
+        font-weight: 600;
+        font-size: 11px!important;
+    }
+    td {
+        padding-bottom: 25px;
+    }
+}
+.email-items {
+    thead th {
+        border-top: 2px solid #1f1f1f;
+        border-bottom: 1px solid #1f1f1f;
+        font-size: 14px;
+        line-height: 22px;
+        color: #000000;
+        font-weight: 600;
+        
+        &:first-child {
+            padding-left: 0;
+        }
+        
+        &:last-child {
+            padding-right: 0;
+            text-align: right;
+        }
+    }
+    
+    tbody {
+        border-bottom: 1px solid #1f1f1f;
+        td {
+            border-top: 2px solid #000!important;
+            
+            &:first-child {
+                padding-left: 0;
+            }
+            
+            &:last-child {
+                padding-right: 0;
+                text-align: right!important;
+            }
+            
+            * {
+                font-size: 14px;
+                color: #000000;
+                font-weight: 500;
+                text-align: left;
+            }
+        }
+        
+        .item-image {
+            max-width: 20%;
+            img {
+                padding-right: 25px;
+                width: 85px;
+            }
+        }
+        
+        .item-info {
+            text-align: left;
+            .sku,
+            .item-options * {
+                font-size: 12px;
+                line-height: 17px;
+                color: #000000;
+                font-weight: 400;
+                text-align: left;
+            }
+            
+            .item-options {
+                padding-left: 0;
+            }
+        }
+    }
+    
+    tfoot {
+        &.order-totals {
+            th > * {
+                width: 30%;
+                display: block;
+                margin-left: auto;
+                text-align: left;
+            }
+        }
+    }
+}
+
+.order-totals {
+    tr:first-child > * {
+        padding-top: 10px !important;
+    }
+    * {
+        font-size: 12px!important;
+        line-height: 22px;
+        color: #000000!important;
+        font-weight: 500!important;
+        padding: 0!important;
+    }
+    td {
+        text-align: right;
+    }
+    th {
+        text-align: right;
+        padding-right: 10px!important;
+    }
+}
+
+.email-assistance {
+    background: #f5f6f8;
+    padding: 35px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    h4 {
+        margin: 0;
+        font-size: 14px;
+        line-height: 18px;
+        color: #757575;
+        font-weight: 500;
+    }
+
+    p {
+        &,
+        a {
+            font-size: 14px;
+            line-height: 18px;
+            color: #000;
+            font-weight: 500;
+        }
+    }
+}
+
+.email-button {
+    a {
+        max-width: 100%;
+        width: 50%;
+        border-radius: 0;
+        text-align: center;
+        font-weight: 700;
+        font-size: 14px;
+        background: #000;
+        text-decoration: none;
+        color: #fff;
+        margin-right: 0;
+        line-height: 22px;
+        border: none;
+        padding: 4px 10px;
+    }
+}
+
+.main {
+    border: none;
+}
+.gift-card-info {
+    h3 {
+        font-size: 16px;
+        line-height: 22px;
+        color: #000000;
+        font-weight: bold;
+        margin: 0 0 15px;
+    }
+    
+    p {
+        &.lead {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        &.callout {
+            font-size: 13px;
+            color: #676767;
+            margin: 15px 0;
+            
+            a {
+                text-decoration: underline!important;
+                color: #5353d1!important;
+                font-weight: bold!important;
+            }
+        }
+    }
+    .social {
+        border-bottom: 1px solid #c7c7c7;
+        margin-bottom: 25px;
+        table td {
+            font-size: 12px;
+            line-height: 20px;
+            color: #000000;
+            font-weight: bold;
+            padding-bottom: 15px;
+            
+            .coupan-code {
+                color: #fa3f3f;
+            }
+        }
+    }
+    
+    .column.middls {
+        font-size: 12px;
+        line-height: 32px;
+        color: #000000;
+        
+        b {
+            font-weight: bold;
+        }
+    }
+}
+

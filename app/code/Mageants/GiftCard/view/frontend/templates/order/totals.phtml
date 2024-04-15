@@ -26,7 +26,7 @@ $price =  1000; //Your Price
             <?php if ($_total->getStrong()):?>
             <strong><?= /* @noEscape */ $block->escapeHtml($_total->getLabel());?></strong>
             <?php else:?>
-                <?= /* @noEscape */ $block->escapeHtml($_total->getLabel());?>
+                <strong><?= /* @noEscape */ $block->escapeHtml($_total->getLabel());?></strong>
             <?php endif?>
          
         </th>
@@ -46,7 +46,7 @@ $price =  1000; //Your Price
             <th <?= /* @noEscape */ $block->getLabelProperties()?> scope="row">
              
                 <?php if ($giftValue):?>
-                     <?= /* @noEscape */ __('Gift Card'); ?> 
+                     <strong><?= /* @noEscape */ __('Gift Card'); ?> </strong>
                  <?php endif; ?>   
             </th>
             <td <?= /* @noEscape */ $block->getValueProperties()?> >                

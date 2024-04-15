@@ -13,7 +13,7 @@
             <block class="Magento\Framework\View\Element\RendererList" name="sales.email.order.renderers" as="renderer.list"/>
             <block class="Mageants\GiftCard\Block\Giftorder\Totals" name="order_totals" template="Mageants_GiftCard::order/totals.phtml">
                 <arguments>
-                    <argument name="label_properties" xsi:type="string">colspan="2"</argument>
+                    <argument name="label_properties" xsi:type="string">colspan="3"</argument>
                     <argument name="viewModel" xsi:type="object">Mageants\GiftCard\ViewModel\ViewHelperData</argument>
                 </arguments>
                 <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="Magento_Tax::order/tax.phtml">

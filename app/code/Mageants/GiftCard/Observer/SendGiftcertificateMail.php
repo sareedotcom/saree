@@ -249,7 +249,7 @@ class SendGiftcertificateMail implements ObserverInterface
                                     $emailTemplateVariables['code'] = $applicableCodes;
                                 
                                 if ($gift->getTimezone()==''):
-                                    if ($gift['date_of_delivery'] != ''):
+                                    if ($gift->getDateOfDelivery() != ''):
                                         if (empty(
                                             $emailTemplateVariables['recipient_email']
                                         ) && empty($emailTemplateVariables['recipient_name'])) {
