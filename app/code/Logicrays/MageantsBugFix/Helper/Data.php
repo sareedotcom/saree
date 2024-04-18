@@ -8,6 +8,7 @@
 
 namespace Logicrays\MageantsBugFix\Helper;
 
+use \Magento\Framework\View\Element\Template\Context;
 use \Magento\Store\Model\Website;
 use \Magento\Store\Model\StoreManagerInterface;
 use \Mageants\GiftCard\Model\Templates;
@@ -27,7 +28,7 @@ use \Mageants\GiftCard\Model\Customer;
 use \Magento\Framework\Pricing\Helper\Data as PricingData;
 use \Mageants\GiftCard\Model\Account;
 use \Magento\Customer\Model\SessionFactory;
-
+use \Magento\Framework\Registry;
 /**
  * Data class for Helper
  */
@@ -169,6 +170,8 @@ class Data extends \Mageants\GiftCard\Helper\Data
      * @param \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory
      */
     public function __construct(
+        Context $context,
+        Registry $registry,
         Website $website,
         StoreManagerInterface $storeManager,
         Templates $templates,
@@ -217,6 +220,8 @@ class Data extends \Mageants\GiftCard\Helper\Data
         $this->sessionfactory = $sessionfactory;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
+        $this->_registry = $registry;
+      
     }
 
     /**
@@ -234,6 +239,11 @@ class Data extends \Mageants\GiftCard\Helper\Data
         return $options;
     }
 
+    public function getProduct()
+    {
+        return $this->_registry->registry('product');
+    }
+
     /**
      * Return Price Drop Down
      *
@@ -247,21 +257,29 @@ class Data extends \Mageants\GiftCard\Helper\Data
             $html.="<select name='giftprices' id='gift-prices' class='required gift-prices'>";
             if (!is_array($prices)):
 
-                $html.="<option value=".$this->currencyHelper->currency(
-                    $prices,
-                    false,
-                    false
-                ).">".
-                $this->currencyHelper->currency($prices, true, false)."</option>";
-            else:
-                foreach ($prices as $key => $price):
-                    $html.="<option value=".$this->currencyHelper->currency(
-                        $price['price'],
-                        false,
-                        false
-                    ).">".
-                    $this->currencyHelper->currency($price['price'], false, false)."</option>";
-                endforeach;
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+                $_product = $this->getProduct(); 
+                $giftdropdown = explode(",", $_product->getData("giftcard_price_dropdown"));
+                $giftdropdown[] = $_product->getPrice(); 
+
+                // Convert values to integers
+                $giftdropdown = array_map('intval', $giftdropdown);
+                
+                // Remove duplicate values
+                $giftdropdown = array_unique($giftdropdown);
+                
+                // Sort the array
+                sort($giftdropdown);
+                foreach ($giftdropdown as $price) {
+
+                    $formattedPrice = $this->currencyHelper->currency($price, true, false);
+                    if($price >= $_product->getMinprice() && $price <= $_product->getMaxprice()){
+                        $html .= "<option value=" . $this->currencyHelper->currency($price, false, false) . ">" . $formattedPrice . "</option>";
+                    }
+                }
+                $this->currencyHelper->currency($formattedPrice, true, false)."</option>";
+
             endif;
             $html.="</select>";
             return $html;
