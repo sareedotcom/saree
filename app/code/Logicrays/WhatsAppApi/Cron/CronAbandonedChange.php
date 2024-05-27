@@ -39,7 +39,7 @@ class CronAbandonedChange
      */
     public function execute()
     {
-        if($this->helperData->getConfigValue(Self::BUSINESS_ON_BOT_IS_ENABLE_KEY)){
+        /*if($this->helperData->getConfigValue(Self::BUSINESS_ON_BOT_IS_ENABLE_KEY)){
             $url = 'https://customstore.getbob.link/saree/abancart';
             $store = $this->storeManager->getStore();
             $storeId = $store->getId();
@@ -47,7 +47,7 @@ class CronAbandonedChange
             $abandonedData = [];
             foreach ($rows->getData() as $abandonedCollectionData) {
                 $abandonedData = [];
-                $abandonedData['checkout_id'] = $abandonedCollectionData['entity_id'];
+                $abandonedData['checkout_id'] = $abandonedCollectionData['entity_id']."_".time();
                 $abandonedData['cart_recovery_url'] = $store->getBaseUrl().'checkout/cart';
                 $customerId = $abandonedCollectionData['customer_id'];
                 $quote = $this->cartRepositoryInterface->getForCustomer($customerId, [$storeId]);
@@ -152,6 +152,6 @@ class CronAbandonedChange
                 $abandonedData['created_at'] = $abandonedCollectionData['created_at'];
                 $this->helperData->businessOnBotCurl('POST', $url, $abandonedData);
             }
-        }
+        }*/
     }
 }

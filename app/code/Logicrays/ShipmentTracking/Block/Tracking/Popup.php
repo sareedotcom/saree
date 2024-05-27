@@ -20,6 +20,10 @@ class Popup extends \Magento\Shipping\Block\Tracking\Popup
     const XML_PATH_SHIPMENTTRACKING_CURL = "shipmenttracking/shipmenttracking/curl";
     const XML_PATH_SHIPMENTTRACKING_SITEID = "shipmenttracking/shipmenttracking/siteid";
     const XML_PATH_SHIPMENTTRACKING_PASSWORD = "shipmenttracking/shipmenttracking/password";
+    const XML_PATH_BLUEDARTSHIPMENTTRACKING_ENABLE = "shipmenttracking/bluedartshipmenttracking/enable";
+    const XML_PATH_BLUEDARTSHIPMENTTRACKING_LOGINID = "shipmenttracking/bluedartshipmenttracking/loginid";
+    const XML_PATH_BLUEDARTSHIPMENTTRACKING_LICKEY = "shipmenttracking/bluedartshipmenttracking/lickey";
+    
     /**
      * Core registry
      *
@@ -147,6 +151,60 @@ class Popup extends \Magento\Shipping\Block\Tracking\Popup
         }
         else{
             $trackingData = [];
+        }
+        return $trackingData;
+    }
+    
+    public function getBlueDartTrackingInfo($trackingNumber){
+
+        $trackingData = [];
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        if($this->_scopeConfig->getValue(self::XML_PATH_BLUEDARTSHIPMENTTRACKING_ENABLE, $storeScope)){
+
+            $curl = curl_init();
+
+            $loginID = $this->_scopeConfig->getValue(self::XML_PATH_BLUEDARTSHIPMENTTRACKING_LOGINID, $storeScope);
+            $licKey = $this->_scopeConfig->getValue(self::XML_PATH_BLUEDARTSHIPMENTTRACKING_LICKEY, $storeScope);
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => 'https://api.bluedart.com/servlet/RoutingServlet?handler=tnt&action=custawbquery&scan=1&loginid='.$loginID.'&lickey='.$licKey.'&verno=1.3&awb=awb&format=json&numbers='.$trackingNumber,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_HTTPHEADER => array(
+                'Cookie: BIGipServerpl_api-bluedart.dhl.com_443=!nwyIxCZiZ+FLs5ffR3BsqrvQUUbjCB14iT/ODvYtazpxJPxEtCMC2Kn8aOJx3zQJjOAfRsx6/W8Yy/Q=; JSESSIONID=UQFsd_X4h8wg2Izp1xVDr1TK2hC7c5iHYfiqwztf.mykullspc000960'
+              ),
+            ));
+
+            $response = curl_exec($curl);
+            $response = json_decode($response);
+            curl_close($curl);
+
+            if(!isset($response->ShipmentData->Error)){
+                $trackingData["localTime"] = date('H:i', strtotime($response->ShipmentData->Shipment[0]->PickUpTime));
+                $trackingData["waybillNumber"] = $trackingNumber;
+                $trackingData["formatedDate"] = (string)$response->ShipmentData->Shipment[0]->PickUpDate;
+                $trackingData["OriginServiceArea"] = (string)$response->ShipmentData->Shipment[0]->Origin;
+                $trackingData["DestinationServiceArea"] = (string)$response->ShipmentData->Shipment[0]->Destination;
+                $trackingData["status"] = (string)$response->ShipmentData->Shipment[0]->Status;
+                $trackingData["ExpectedDeliveryDate"] = (string)$response->ShipmentData->Shipment[0]->ExpectedDelivery;
+                $trackingData["Scans"] = $response->ShipmentData->Shipment[0]->Scans;
+
+                if((string)$response->ShipmentData->Shipment[0]->Status == "SHIPMENT DELIVERED"){
+                    $trackingData["EventCode"] = "OK";
+                    $trackingData["ExpectedDeliveryDate"] = (string)$response->ShipmentData->Shipment[0]->StatusDate;
+                    $trackingData["StatusTime"] = (string)$response->ShipmentData->Shipment[0]->StatusTime;
+                    $trackingData["ReceivedBy"] = (string)$response->ShipmentData->Shipment[0]->ReceivedBy;
+                }
+                else{
+                    $trackingData["EventCode"] = (string)$response->ShipmentData->Shipment[0]->Status;
+                }
+                $trackingData["RefNo"] = (string)$response->ShipmentData->Shipment[0]->RefNo;
+            }
         }
         return $trackingData;
     }

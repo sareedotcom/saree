@@ -50,6 +50,37 @@
                 </item>
             </argument>
         </field>
+        <field name="report_type_standered_invoiced" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Select Report Type</label>
+                <dataScope>report_type_standered_invoiced</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">standard</item>
+                                <item name="label" xsi:type="string">Standard</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">invoiced</item>
+                                <item name="label" xsi:type="string">Invoiced</item>
+                            </option>
+                        </options>
+                        <caption translate="true">-- Please Select --</caption>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
         <field name="start_date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

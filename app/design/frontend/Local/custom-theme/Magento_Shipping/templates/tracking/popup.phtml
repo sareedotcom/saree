@@ -29,7 +29,7 @@ $orderStatus = "";
                      <?php
                             $shipmentBlockIdentifier = $shipId . '.' . $counter;
                             if(strtolower($track['carrier']) == 'dhl'){
-                                $DHLTrackingInfo = $block->getDHLTrackingInfo($track['number']); 
+                                $DHLTrackingInfo = $block->getDHLTrackingInfo($track['tracking']); 
                                 ?>
 
 
@@ -176,6 +176,177 @@ $orderStatus = "";
 
                                 <?php
                                 }
+                                
+                            }
+                            else if(strtolower($track['carrier']) == 'fedex'){
+                                $DHLTrackingInfo = $block->getBlueDartTrackingInfo($track['tracking']); ?>
+
+                                <div class="table-wrapper">
+                                    <div class="track-process">
+                                        <h3><?php
+                                        $trackingIsAvailable = 0;
+                                        if(count($DHLTrackingInfo)){
+                                            $trackingIsAvailable = 1;
+                                            if($DHLTrackingInfo['EventCode'] == "OK"){
+                                                $orderStatus = "Delivered";
+                                                echo $block->escapeHtml(__("Delivered"));
+                                            }
+                                            else{
+                                                echo $block->escapeHtml(__("Out For Delivery"));
+                                            }
+                                            $block->escapeHtml(__($DHLTrackingInfo['status'])); ?>
+                                        </h3>
+                                        <p><?php echo $block->escapeHtml(__($DHLTrackingInfo['formatedDate']." ")); echo $block->escapeHtml(__($DHLTrackingInfo['localTime']." Local time")); if($DHLTrackingInfo['DestinationServiceArea']) { echo $block->escapeHtml(__(", Service Area: ".$DHLTrackingInfo['DestinationServiceArea'])); }?></p>
+                                        <h5><?php echo $block->escapeHtml(__("Origin Service Area : ".$DHLTrackingInfo['OriginServiceArea'])); ?></h5>
+
+                                        <div class="horizontal timeline">
+                                            <div class="steps">
+                                                <div class="step filled step-ordered">
+                                                    <span class="text-img">
+                                                        <img src='<?php echo $this->getViewFileUrl('images/11.svg'); ?>' alt="Ordered"/>
+                                                        <?= $block->escapeHtml(__("Ordered")); ?>
+                                                    </span>
+                                                </div>
+                                                <div class="step filled step-dispatched">
+                                                    <span class="text-img">
+                                                        <img src='<?php echo $this->getViewFileUrl('images/12.svg'); ?>' alt="Dispatched"/>
+                                                        <?= $block->escapeHtml(__("Dispatched")); ?></span>
+                                                </div>
+                                                <div class="step current step-out-for-delivery">
+                                                    <span class="text-img">
+                                                        <img src='<?php echo $this->getViewFileUrl('images/13.svg'); ?>' alt="Out For Delivery"/>
+                                                        <?= $block->escapeHtml(__("Out For Delivery")); ?></span>
+                                                </div>
+                                                <div class="step step-delivered">
+                                                    <span class="text-img">
+                                                        <img src='<?php echo $this->getViewFileUrl('images/14.svg'); ?>' alt="Delivered"/>
+                                                        <?= $block->escapeHtml(__("Delivered"));?></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="line out-for-delivery-fill"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="c-tracking-result--section">
+                                        <div class="l-grid-main c-tracking-result--checkpoints-dropdown js--accordion--type-default c-accordion--item js--accordion--item l-grid l-grid--left-s is-open is-latest">
+                                            <div class="l-grid-main c-accordion--hitbox js--accordion--hitbox c-component-accordion--header js--accordion--header js--dropdown-checkpoints-open l-grid ">
+                                                <div id="c-tracking-result--checkpoints-dropdown-button" class=" c-tracking-result--moredetails-dropdown-button js--dropdown-moredetails-toggle-btn js-tracking-result--checkpoints--toggle-btn has-icon more-shipment-details" aria-expanded="true" aria-controls="c-tracking-result--checkpoints-dropdown-menu" style="cursor: pointer;">
+                                                    <label><h3 class="c-tracking-result--detail-label level4"><?= $block->escapeHtml(__("More Shipment Details")); ?></h3></label>
+                                                </div>
+                                            </div>
+                                            <div class="c-tracking-result--checkpoints-dropdown-menu c-accordion--content js--accordion--content more-shipment-details-content" id="c-tracking-result--checkpoints-dropdown-menu" aria-labelledby="c-tracking-result--checkpoints-dropdown-button" style="display: block; height: auto; overflow: hidden auto;">
+                                                <table>
+                                                    <?php 
+                                                    foreach ($DHLTrackingInfo as $key => $value) {
+                                                    
+                                                        $statusArr = ["formatedDate","EventCode","localTime","Scans","OriginServiceArea","DestinationServiceArea","StatusTime"];
+                                                        if(!is_array($key)){
+                                                            if (!in_array($key, $statusArr)){
+                                                                $label = "";
+                                                            ?>
+                                                                <tr>
+                                                                    <?php switch ($key) {
+                                                                        case 'waybillNumber':
+                                                                            $label = "Waybill No";
+                                                                            break;
+                                                                        case 'formatedDate':
+                                                                            $label = "Pickup Date";
+                                                                            break;
+                                                                        case 'OriginServiceArea':
+                                                                            $label = "From";
+                                                                            break;
+                                                                        case 'DestinationServiceArea':
+                                                                            $label = "To";
+                                                                             break;
+                                                                        case 'status':
+                                                                            $label = "Status";
+                                                                            break;
+                                                                        case 'ExpectedDeliveryDate':
+                                                                            $label = "Date of Delivery";
+                                                                            break;
+                                                                        case 'StatusTime':
+                                                                            $label = "Time of Delivery";
+                                                                            break;
+                                                                        case 'ReceivedBy':
+                                                                            $label = "Recipient";
+                                                                            break;
+                                                                        case 'RefNo':
+                                                                            $label = "Reference No";
+                                                                            break;
+                                                                        default:
+                                                                            // echo $key;
+                                                                            break;
+                                                                    } ?>
+                                                                    <td><?= $block->escapeHtml(__($label)); ?></td>
+                                                                    <td><?php echo $value?></td>
+                                                                </tr>
+                                                            <?php }
+                                                        }
+                                                    } ?>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="c-tracking-result--section">
+                                        <div class="l-grid-main c-tracking-result--checkpoints-dropdown js--accordion--type-default c-accordion--item js--accordion--item l-grid l-grid--left-s is-open is-latest">
+                                            <div class="l-grid-main c-accordion--hitbox js--accordion--hitbox c-component-accordion--header js--accordion--header js--dropdown-checkpoints-open l-grid ">
+                                                <div id="c-tracking-result--checkpoints-dropdown-button" class="c-tracking-result--moredetails-dropdown-button js--dropdown-moredetails-toggle-btn js-tracking-result--checkpoints--toggle-btn has-icon" aria-expanded="true" aria-controls="c-tracking-result--checkpoints-dropdown-menu">
+                                                      <section class="accordion">
+                                                        <div class="tab">
+                                                            <input type="checkbox" name="accordion-1" id="cb1" checked>
+                                                            <label for="cb1" class="tab__label all-shipment-updates"><h3 class="c-tracking-result--detail-label level4 all-shipment-updates" style="cursor: pointer;"><?= $block->escapeHtml(__("All Shipment Updates")); ?></h3></label>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="c-tracking-result--checkpoints-dropdown-menu c-accordion--content js--accordion--content all-shipment-updates-content" id="c-tracking-result--checkpoints-dropdown-menu" aria-labelledby="c-tracking-result--checkpoints-dropdown-button" style="display: block; height: auto; overflow: hidden auto;">
+                                            <table>
+                                                <?php
+                                                $currentDate = "";
+                                                $currentDateDiv = "";
+                                                if($DHLTrackingInfo["Scans"]){ 
+                                                    foreach ($DHLTrackingInfo["Scans"] as $key1 => $value1) {
+                                                        ?>
+                                                    <?php if($currentDateDiv != $value1->ScanDetail->ScanDate){ ?>
+                                                        <div class="c-tracking-result--checkpoint l-grid  l-grid--left-s main-date">
+                                                            <?php $currentDateDiv = $value1->ScanDetail->ScanDate; ?>
+                                                    <?php }else{ ?>
+                                                        <div class="c-tracking-result--checkpoint l-grid  l-grid--left-s">
+                                                    <?php } ?>
+                                                        <ul style="padding-top: 0px;margin-top: 0px;margin-bottom: 0px;">
+                                                            <li class="l-grid">
+                                                                <div class="c-tracking-result--checkpoint-left">
+                                                                    <?php if($currentDate != $value1->ScanDetail->ScanDate){
+                                                                        $currentDate = $value1->ScanDetail->ScanDate;
+                                                                        ?>
+                                                                        <span class="c-tracking-result--checkpoint-date level4" dir="ltr"><?= $block->escapeHtml(__(date('d. F Y', strtotime($value1->ScanDetail->ScanDate)))); ?></span>
+                                                                    <?php } ?>
+                                                                    <span class="c-tracking-result--checkpoint-time" dir="ltr">
+                                                                    <?= $block->escapeHtml(__($value1->ScanDetail->ScanTime)); ?> Local IST Time
+                                                                    </span>
+                                                                </div>
+                                                                <div class="c-tracking-result--checkpoint-right has-icon" style="border-left: 2px solid #bababa;">
+                                                                    <span class="c-tracking-result--checkpoint--more">
+                                                                        <?php if(isset($value1->ScanDetail->Scan)):
+                                                                            echo $block->escapeHtml(__($value1->ScanDetail->Scan));
+                                                                        endif; ?>
+                                                                        <br>
+                                                                        <?= $block->escapeHtml(__("Service Area: ".$value1->ScanDetail->ScannedLocation)); ?>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <?php }
+                                                } ?>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
                             }
                             if(!$trackingIsAvailable){
                                 $block->addChild('shipping.tracking.details.' . $shipmentBlockIdentifier, Template::class, [
@@ -644,7 +815,6 @@ script;
 .tab input:not(:checked) + .tab__label:hover::after {
   animation: bounce .5s infinite;
 }
-
 
 
 </style>

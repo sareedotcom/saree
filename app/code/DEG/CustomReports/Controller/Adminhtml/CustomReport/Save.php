@@ -21,6 +21,8 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Sales\Model\ResourceModel\Order\Creditmemo\Collection;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Sales\Model\ResourceModel\Order\Invoice\CollectionFactory as InvoiceCollectionFactory;
+
 
 class Save extends Action
 {
@@ -61,6 +63,7 @@ class Save extends Action
         ScopeConfigInterface $scopeConfig,
         Collection $creditmemoCollection,
         ResourceConnection $resourceConnection,
+        InvoiceCollectionFactory $invoiceCollectionFactory,
         ProductCategoryList $categoryList = null
     ) {
         $this->dataPersistor = $dataPersistor;
@@ -73,6 +76,7 @@ class Save extends Action
         $this->scopeConfig = $scopeConfig;
         $this->creditmemoCollection = $creditmemoCollection;
         $this->resourceConnection = $resourceConnection;
+        $this->invoiceCollectionFactory = $invoiceCollectionFactory;
         $this->productCategoryList = $categoryList ?: ObjectManager::getInstance()->get(ProductCategoryList::class);
         parent::__construct($context);
 
@@ -92,7 +96,22 @@ class Save extends Action
         $main = [];
         $data = $this->getRequest()->getPostValue();
         $startDate = date("Y-m-d",strtotime($data['start_date']));
-        $endDate = date("Y-m-d",strtotime($data['to_date']));
+        //$endDate = date("Y-m-d",strtotime($data['to_date']));
+        $endDate = date("Y-m-d : 23:59:59",strtotime($data['to_date']));
+        
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        // Get the Timezone Interface
+        $timezone = $objectManager->get(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::class);
+        // Convert the provided timestamp to UTC
+        $startDateTimestamp = $data['start_date'];
+        $startDateTime = new \DateTime($startDateTimestamp, new \DateTimeZone($timezone->getConfigTimezone()));
+        $startDateTime->setTimezone(new \DateTimeZone('UTC'));
+        $startDate = $startDateTime->format('Y-m-d H:i:s');
+        
+        $endDateTimestamp = $data['to_date'];
+        $endDateTime = new \DateTime($endDateTimestamp, new \DateTimeZone($timezone->getConfigTimezone()));
+        $endDateTime->setTimezone(new \DateTimeZone('UTC'));
+        //$endDate = $endDateTime->format('Y-m-d H:i:s');
         
         if($data['report_type'] == "refunded"){
             $creditmemoCollection = $this->creditmemoCollection;
@@ -110,8 +129,725 @@ class Save extends Action
             // $collection->setPageSize(1000)->setCurPage(8);  // first page (means limit 0,10)
             $collection->load();
         }
-
+        //print_r($collection->getSelect()->__toString());die;
         if($data['report_type'] == "shipping_country_wise_category" || $data['report_type'] == "billing_country_wise_category"){
+
+            if($data['report_type_standered_invoiced'] == "standard"){
+                $configCat = $this->scopeConfig->getValue(
+                    'report/general/category_id',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                );
+                $categoryIds = explode(',', $configCat);
+                
+                $catNameArr = [];
+                foreach ($categoryIds as $key => $value) {
+                    $category = $this->_categoryFactory->create()->load($value);
+                    $catNameArr[$value] = $category->getName();
+                }
+                foreach ($collection->getItems() as $key => $value) {
+
+                    if($data['report_type'] == "shipping_country_wise_category"){
+                        $address = $value->getShippingAddress();
+                    }
+                    else if($data['report_type'] == "billing_country_wise_category"){
+                        $address = $value->getBillingAddress();
+                    }
+                    
+                    if(isset($address)){
+                        $countryId = $address->getCountryId();
+                        $country = $this->countryFactory->create()->loadByCode($countryId);
+                        $countryId = $country->getName();
+                        $arr = [];
+                        foreach ($value->getAllVisibleItems() as $value1) {
+
+                            $productId = $this->product->getIdBySku($value1->getSku());
+                            $product = $this->product->load($productId);
+
+                            $productCategory = $this->productCategoryList->getCategoryIds($productId);
+                            $productCategory = array_unique($productCategory);
+                            $pid = $product->getId();
+                            if($pid){
+                                if($productCategory){
+                                    if($value1->getQtyOrdered() >= 0 || $value1->getQtyToRefund()){
+                                        $catArr = [];
+                                        $catArr = array_intersect($categoryIds, $productCategory);
+                                        if(!empty($catArr)){
+                                            foreach ($catArr as $pCat) {
+                                                $arr[$value->getId()][] = $product->getSku();
+                                                if(isset($main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'])){
+                                                    if($value->hasInvoices() || $value->hasShipments()){
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
+                                                    }
+                                                    else{
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
+                                                    }
+                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
+                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
+                                                    if(!in_array($product->getSku(), $arr)){
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] + 1;
+                                                    }
+                                                }
+                                                else{
+                                                    if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
+                                                    }
+                                                    else{
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
+                                                    }
+                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
+                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
+                                                    if(!in_array($product->getSku(), $arr)){
+                                                        $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = 1;
+                                                    }
+                                                }
+                                                $main[$countryId][$value->getIncrementId()][$pCat]['sum_of_product_amount_for_avg'][] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'];
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $sumOfAllProduct = 0;
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            $sumOfAllProduct = $sumOfAllProduct + array_sum($value2['sum_of_product_amount_for_avg']);
+                            unset($main[$key][$key1][$key2]['sum_of_product_amount_for_avg']);
+                        }
+                    }
+                }
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                $main[$key][$key1][$key2][$key3]['sum_of_product_amount_avg'] = $value3['sum_of_product_amount']/$sumOfAllProduct*100;
+                            }
+                        }
+                    }
+                }
+                if($data['report_type'] == "shipping_country_wise_category"){
+                    $fieldTitle = 'Shipping Country';
+                }
+                else if($data['report_type'] == "billing_country_wise_category"){
+                    $fieldTitle = 'Billing Country';
+                }
+                $fileName = $fieldTitle." - ".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/'.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = [$fieldTitle, 'Category', 'OrderId', 'SKU','SUM of No of Products','SUM of Product Amount','AVERAGE of Product Amount','SUM of Product Amount','COUNTUNIQUE of Order Number'];
+                $stream->writeCsv($header);
+
+                $total = [];
+                $total[] = "Grand Total";
+                $total[] = "";
+                $total[] = "";
+                $total[] = "";
+                $total['sum_of_product'] = 0;
+                $total['sum_of_product_amount'] = 0;
+                $total['avg_of_product_amount'] = 0;
+                $total['sum_of_product_amount_avg'] = 0;
+                $total['countunique_of_order_number'] = 0;
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                $csvData = [];
+                                $csvData[] = $key;
+                                $csvData[] = $catNameArr[$key2];
+                                $csvData[] = $key1;
+                                $csvData[] = $key3;
+                                $csvData[] = $value3['sum_of_product'];
+                                $csvData[] = number_format($value3['sum_of_product_amount'],2);
+                                $csvData[] = number_format($value3['avg_of_product_amount'],2);
+                                $csvData[] = number_format($value3['sum_of_product_amount_avg'],2);
+                                $csvData[] = number_format($value3['countunique_of_order_number'],2);
+                                $total['sum_of_product'] =  $total['sum_of_product'] + $value3['sum_of_product'];
+                                $total['sum_of_product_amount'] =  $total['sum_of_product_amount'] + $value3['sum_of_product_amount'];
+                                $total['avg_of_product_amount'] =  $total['avg_of_product_amount'] + $value3['avg_of_product_amount'];
+                                $total['sum_of_product_amount_avg'] =  $total['sum_of_product_amount_avg'] + $value3['sum_of_product_amount_avg'];
+                                $total['countunique_of_order_number'] =  $total['countunique_of_order_number'] + $value3['countunique_of_order_number'];
+                                $stream->writeCsv($csvData);
+                            }
+                        }
+                    }
+                }
+                
+                $stream->writeCsv($total);
+
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                
+                return $resultRedirect->setPath('*/*/listing');
+            }
+            else if($data['report_type_standered_invoiced'] == "invoiced"){
+                $configCat = $this->scopeConfig->getValue(
+                    'report/general/category_id',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                );
+                $categoryIds = explode(',', $configCat);
+                
+                $catNameArr = [];
+                foreach ($categoryIds as $key => $value) {
+                    $category = $this->_categoryFactory->create()->load($value);
+                    $catNameArr[$value] = $category->getName();
+                }
+
+                $invoiceCollection = $this->invoiceCollectionFactory->create();
+
+                // Add date filter
+                $dateRange = ['from' => $startDate, 'to' => $endDate];
+                $invoiceCollection->addFieldToFilter('created_at', $dateRange);
+
+                $invoiceCollection->addFieldToFilter('state', \Magento\Sales\Model\Order\Invoice::STATE_PAID);
+                $invoices = $invoiceCollection->load();
+
+                foreach ($invoices as $value) {
+
+                    if($data['report_type'] == "shipping_country_wise_category"){
+                        $address = $value->getOrder()->getShippingAddress();
+                    }
+                    else if($data['report_type'] == "billing_country_wise_category"){
+                        $address = $value->getOrder()->getBillingAddress();
+                    }
+
+                    if(isset($address)){
+                        $countryId = $address->getCountryId();
+                        $country = $this->countryFactory->create()->loadByCode($countryId);
+                        $countryId = $country->getName();
+                        $arr = [];
+                        foreach ($value->getOrder()->getAllVisibleItems() as $value1) {
+                            $productId = $this->product->getIdBySku($value1->getSku());
+                            $product = $this->product->load($productId);
+
+                            $productCategory = $this->productCategoryList->getCategoryIds($productId);
+                            $productCategory = array_unique($productCategory);
+                            $pid = $product->getId();
+                            if($pid){
+                                if($productCategory){
+                                    if($value1->getQtyOrdered() > 0 || $value1->getQtyToRefund()){
+                                        $catArr = [];
+                                        $catArr = array_intersect($categoryIds, $productCategory);
+                                        if(!empty($catArr)){
+                                            foreach ($catArr as $pCat) {
+                                                $arr[$value->getId()][] = $product->getSku();
+                                                if(isset($main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'])){
+                                                    if($value->hasInvoices() || $value->hasShipments()){
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
+                                                    }
+                                                    else{
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
+                                                    }
+                                                    $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
+                                                    $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
+                                                    if(!in_array($product->getSku(), $arr)){
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] + 1;
+                                                    }
+                                                }
+                                                else{
+                                                    if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
+                                                    }
+                                                    else{
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
+                                                    }
+                                                    $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
+                                                    $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
+                                                    if(!in_array($product->getSku(), $arr)){
+                                                        $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = 1;
+                                                    }
+                                                }
+                                                $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat]['sum_of_product_amount_for_avg'][] = $main[$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'];
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $sumOfAllProduct = 0;
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                $sumOfAllProduct = $sumOfAllProduct + array_sum($value3['sum_of_product_amount_for_avg']);
+                                unset($main[$key][$key1][$key3]['sum_of_product_amount_for_avg']);
+                            }
+                        }
+                    }
+                }
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                foreach ($value3 as $key4 => $value4) {
+                                    if(isset($value4['sum_of_product_amount'])){
+                                        $main[$key][$key1][$key2][$key3][$key4]['sum_of_product_amount_avg'] = $value4['sum_of_product_amount']/$sumOfAllProduct*100;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if($data['report_type'] == "shipping_country_wise_category"){
+                    $fieldTitle = 'Shipping Country';
+                }
+                else if($data['report_type'] == "billing_country_wise_category"){
+                    $fieldTitle = 'Billing Country';
+                }
+                $fileName = $fieldTitle." - ".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/'.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = [$fieldTitle, 'Category', 'InvoiceId', 'OrderId', 'SKU','SUM of No of Products','SUM of Product Amount','AVERAGE of Product Amount','SUM of Product Amount','COUNTUNIQUE of Order Number'];
+                $stream->writeCsv($header);
+
+                $total = [];
+                $total[] = "Grand Total";
+                $total[] = "";
+                $total[] = "";
+                $total[] = "";
+                $total[] = "";
+                $total['sum_of_product'] = 0;
+                $total['sum_of_product_amount'] = 0;
+                $total['avg_of_product_amount'] = 0;
+                $total['sum_of_product_amount_avg'] = 0;
+                $total['countunique_of_order_number'] = 0;
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                foreach ($value3 as $key4 => $value4) {
+                                    if(isset($value4['sum_of_product'])){
+                                        $csvData = [];
+                                        $csvData[] = $key;
+                                        $csvData[] = $catNameArr[$key3];
+                                        $csvData[] = $key1;
+                                        $csvData[] = $key2;
+                                        $csvData[] = $key4;
+                                        $csvData[] = $value4['sum_of_product'];
+                                        $csvData[] = number_format($value4['sum_of_product_amount'],2);
+                                        $csvData[] = number_format($value4['avg_of_product_amount'],2);
+                                        $csvData[] = number_format($value4['sum_of_product_amount_avg'],2);
+                                        $csvData[] = number_format($value4['countunique_of_order_number'],2);
+                                        $total['sum_of_product'] =  $total['sum_of_product'] + $value4['sum_of_product'];
+                                        $total['sum_of_product_amount'] =  $total['sum_of_product_amount'] + $value4['sum_of_product_amount'];
+                                        $total['avg_of_product_amount'] =  $total['avg_of_product_amount'] + $value4['avg_of_product_amount'];
+                                        $total['sum_of_product_amount_avg'] =  $total['sum_of_product_amount_avg'] + $value4['sum_of_product_amount_avg'];
+                                        $total['countunique_of_order_number'] =  $total['countunique_of_order_number'] + $value4['countunique_of_order_number'];
+                                        $stream->writeCsv($csvData);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $stream->writeCsv($total);
+
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+            }
+        }
+        else if($data['report_type'] == "payment_gateway"){
+            $main = [];
+
+            if($data['report_type_standered_invoiced'] == "standard"){
+                foreach ($collection->getItems() as $key => $value) {
+
+                    $payment = $value->getPayment();
+                    $method = $payment->getMethodInstance();
+                    $methodTitle = $method->getTitle();
+                    $address = $value->getShippingAddress();
+                    $countryId = "";
+                    if($address){
+                        $countryId = $address->getCountryId();
+                    }
+                    foreach ($value->getAllVisibleItems() as $value1) {
+                        if($countryId){
+                            $country = $this->countryFactory->create()->loadByCode($countryId);
+                            $countryName = $country->getName();
+                            if("Send an invoice to the customer by email (via Stripe Billing)" == $methodTitle){
+                                $methodTitle = "Stripe Billing";
+                            }
+                            if(isset($main[$methodTitle][$countryName][$value->getIncrementId()][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'])){
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] + 1;
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] +  $value1->getBaseRowTotal();
+                            }
+                            else{
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] = 1;
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal();
+                            }
+                        }
+                    }                
+                }
+
+                $fileName = "PaymentGateway-".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/PaymentGateway - '.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = ["Payment Gateway", 'Shipping Country', 'OrderId', 'SKU', 'COUNTA of Order Number','SUM of Product Amount'];
+                $stream->writeCsv($header);
+                $total = [];
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+
+                                $csvData = [];
+                                $csvData[] = $key;
+                                $csvData[] = $key1;
+                                $csvData[] = $key2;
+                                $csvData[] = $key3;
+                                $csvData[] = $value3['count_of_order_number'];
+                                $csvData[] = $value3['sum_of_product_amount'];
+                                $rowTotal['count_of_order_number'][] = $value3['count_of_order_number'];
+                                $rowTotal['sum_of_product_amount'][] = $value3['sum_of_product_amount'];
+                                $stream->writeCsv($csvData);
+                            }
+                        }
+                    }
+                }
+                if(isset($value3)){
+                    $total[] = "Grand Total";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = array_sum($rowTotal['count_of_order_number']);
+                    $total[] = array_sum($rowTotal['sum_of_product_amount']);
+                    $stream->writeCsv($total);
+                }
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                return $resultRedirect->setPath('*/*/listing');
+
+            }
+            else if($data['report_type_standered_invoiced'] == "invoiced"){
+
+                $invoiceCollection = $this->invoiceCollectionFactory->create();
+
+                // Add date filter
+                $dateRange = ['from' => $startDate, 'to' => $endDate];
+                $invoiceCollection->addFieldToFilter('created_at', $dateRange);
+
+                $invoiceCollection->addFieldToFilter('state', \Magento\Sales\Model\Order\Invoice::STATE_PAID);
+                $invoices = $invoiceCollection->load();
+                foreach ($invoices as $value) {
+
+                    foreach ($value->getOrder()->getAllVisibleItems() as $key1 => $value1) {
+                
+                        $payment = $value->getOrder()->getPayment();
+                        $method = $payment->getMethodInstance();
+                        $methodTitle = $method->getTitle();
+                        $address = $value->getShippingAddress();
+                        $countryId = "";
+                        if($address){
+                            $countryId = $address->getCountryId();
+                        }
+                        if($countryId){
+                            $country = $this->countryFactory->create()->loadByCode($countryId);
+                            $countryName = $country->getName();
+                            if("Send an invoice to the customer by email (via Stripe Billing)" == $methodTitle){
+                                $methodTitle = "Stripe Billing";
+                            }
+                            if(isset($main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['count_of_order_number'])){
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['count_of_order_number'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['count_of_order_number'] + 1;
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] +  $value1->getBaseRowTotal();
+                            }
+                            else{
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['count_of_order_number'] = 1;
+                                $main[$methodTitle][$countryName][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal();
+                            }
+                        }        
+                    }
+                    
+                }
+
+
+                $fileName = "PaymentGateway-".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/PaymentGateway - '.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = ["Payment Gateway", 'Shipping Country', 'InvoiceId', 'OrderId', 'SKU', 'COUNTA of Order Number','SUM of Product Amount'];
+                $stream->writeCsv($header);
+                $total = [];
+                foreach ($main as $key => $value) {
+                    foreach ($main[$key] as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                foreach ($value3 as $key4 => $value4) {
+
+                                    $csvData = [];
+                                    $csvData[] = $key;
+                                    $csvData[] = $key1;
+                                    $csvData[] = $key2;
+                                    $csvData[] = $key3;
+                                    $csvData[] = $key4;
+                                    $csvData[] = $value4['count_of_order_number'];
+                                    $csvData[] = $value4['sum_of_product_amount'];
+                                    $rowTotal['count_of_order_number'][] = $value4['count_of_order_number'];
+                                    $rowTotal['sum_of_product_amount'][] = $value4['sum_of_product_amount'];
+                                    $stream->writeCsv($csvData);
+                                }
+                            }
+                        }
+                    }
+                }
+                if(isset($value3)){
+                    $total[] = "Grand Total";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = array_sum($rowTotal['count_of_order_number']);
+                    $total[] = array_sum($rowTotal['sum_of_product_amount']);
+                    $stream->writeCsv($total);
+                }
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                return $resultRedirect->setPath('*/*/listing');
+
+            }
+            
+        }
+        else if($data['report_type'] == "vendor_wise"){
+            $main = [];
+
+            if($data['report_type_standered_invoiced'] == "standard"){
+                foreach ($collection->getItems() as $key => $value) {
+                    foreach ($value->getAllVisibleItems() as $value1) {
+                        if($value1->getOrderItemVendor()){
+                            $productId = $this->product->getIdBySku($value1->getSku());
+                            $product = "";
+                            $product = $this->product->load($productId);
+                            $address = $value->getBillingAddress();
+                            $countryId = "";
+                            if($address){
+                                $countryId = $address->getCountryId();
+                            }
+
+                            if($product && $countryId){
+                                if(isset($main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'])){
+                                    if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyToRefund());
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyToRefund());
+                                    }
+                                    else{
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyOrdered());
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyOrdered());
+                                    }
+                                }
+                                else{
+                                    if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyToRefund();
+                                    }
+                                    else{
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyOrdered();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $fileName = "Vendor-".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/Vendor - '.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = ["Vendor Name", 'Country', 'OrderId', 'SKU', 'SUM of No of Products', 'SUM of Product Amount','SUM of Product LP'];
+                $stream->writeCsv($header);
+                $total = [];
+                $rowTotal = [];
+                foreach ($main as $key => $value) {
+
+                    foreach ($value as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                $csvData = [];
+                                $csvData[] = $key;
+                                $csvData[] = $key1;
+                                $csvData[] = $key2;
+                                $csvData[] = $key3;
+                                $csvData[] = $value3['sum_of_no_of_products'];
+                                $csvData[] = $value3['sum_of_product_amount'];
+                                $csvData[] = $value3['sum_of_product_lp'];
+                                $rowTotal['sum_of_no_of_products'][] = $value3['sum_of_no_of_products'];
+                                $rowTotal['sum_of_product_amount'][] = $value3['sum_of_product_amount'];
+                                $rowTotal['sum_of_product_lp'][] = $value3['sum_of_product_lp'];
+                                $stream->writeCsv($csvData);
+                            }
+                        }
+                    }
+                }
+                if(isset($rowTotal)){
+                    $total[] = "Grand Total";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = array_sum($rowTotal['sum_of_no_of_products']);
+                    $total[] = array_sum($rowTotal['sum_of_product_amount']);
+                    $total[] = array_sum($rowTotal['sum_of_product_lp']);
+                    $stream->writeCsv($total);
+                }
+
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                return $resultRedirect->setPath('*/*/listing');
+            }
+            else if($data['report_type_standered_invoiced'] == "invoiced"){
+
+                $invoiceCollection = $this->invoiceCollectionFactory->create();
+
+                // Add date filter
+                $dateRange = ['from' => $startDate, 'to' => $endDate];
+                $invoiceCollection->addFieldToFilter('created_at', $dateRange);
+
+                $invoiceCollection->addFieldToFilter('state', \Magento\Sales\Model\Order\Invoice::STATE_PAID);
+                $invoices = $invoiceCollection->load();
+                foreach ($invoices as $value) {
+
+                    foreach ($value->getOrder()->getAllVisibleItems() as $value1) {
+                        if($value1->getOrderItemVendor()){
+                            $productId = $this->product->getIdBySku($value1->getSku());
+                            $product = "";
+                            $product = $this->product->load($productId);
+                            $address = $value->getOrder()->getBillingAddress();
+                            $countryId = "";
+                            if($address){
+                                $countryId = $address->getCountryId();
+                            }
+
+                            if($product && $countryId){
+                                if(isset($main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'])){
+                                    if(($value->getOrder()->hasInvoices() || $value->getOrder()->hasShipments()) && $value1->getQtyToRefund()){
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyToRefund());
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyToRefund());
+                                    }
+                                    else{
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyOrdered());
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyOrdered());
+                                    }
+                                }
+                                else{
+                                    if(($value->getOrder()->hasInvoices() || $value->getOrder()->hasShipments()) && $value1->getQtyToRefund()){
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyToRefund();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyToRefund();
+                                    }
+                                    else{
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyOrdered();
+                                        $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyOrdered();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $fileName = "Vendor-".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/Vendor - '.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = ["Vendor Name", 'Country', 'InvoiceId', 'OrderId', 'SKU', 'SUM of No of Products', 'SUM of Product Amount','SUM of Product LP'];
+                $stream->writeCsv($header);
+                $total = [];
+                $rowTotal = [];
+                foreach ($main as $key => $value) {
+
+                    foreach ($value as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            foreach ($value2 as $key3 => $value3) {
+                                foreach ($value3 as $key4 => $value4) {
+                                    $csvData = [];
+                                    $csvData[] = $key;
+                                    $csvData[] = $key1;
+                                    $csvData[] = $key2;
+                                    $csvData[] = $key3;
+                                    $csvData[] = $key4;
+                                    $csvData[] = $value4['sum_of_no_of_products'];
+                                    $csvData[] = $value4['sum_of_product_amount'];
+                                    $csvData[] = $value4['sum_of_product_lp'];
+                                    $rowTotal['sum_of_no_of_products'][] = $value4['sum_of_no_of_products'];
+                                    $rowTotal['sum_of_product_amount'][] = $value4['sum_of_product_amount'];
+                                    $rowTotal['sum_of_product_lp'][] = $value4['sum_of_product_lp'];
+                                    $stream->writeCsv($csvData);
+                                }
+                            }
+                        }
+                    }
+                }
+                if(isset($rowTotal)){
+                    $total[] = "Grand Total";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = "";
+                    $total[] = array_sum($rowTotal['sum_of_no_of_products']);
+                    $total[] = array_sum($rowTotal['sum_of_product_amount']);
+                    $total[] = array_sum($rowTotal['sum_of_product_lp']);
+                    $stream->writeCsv($total);
+                }
+
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                return $resultRedirect->setPath('*/*/listing');
+            }
+        }
+        else if($data['report_type'] == "category_wise"){
             $configCat = $this->scopeConfig->getValue(
                 'report/general/category_id',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -123,20 +859,9 @@ class Save extends Action
                 $category = $this->_categoryFactory->create()->load($value);
                 $catNameArr[$value] = $category->getName();
             }
-            foreach ($collection->getItems() as $key => $value) {
 
-                if($data['report_type'] == "shipping_country_wise_category"){
-                    $address = $value->getShippingAddress();
-                }
-                else if($data['report_type'] == "billing_country_wise_category"){
-                    $address = $value->getBillingAddress();
-                }
-                
-                if(isset($address)){
-                    $countryId = $address->getCountryId();
-                    $country = $this->countryFactory->create()->loadByCode($countryId);
-                    $countryId = $country->getName();
-                    $arr = [];
+            if($data['report_type_standered_invoiced'] == "standard"){
+                foreach ($collection->getItems() as $key => $value) {
                     foreach ($value->getAllVisibleItems() as $value1) {
 
                         $productId = $this->product->getIdBySku($value1->getSku());
@@ -153,33 +878,26 @@ class Save extends Action
                                     if(!empty($catArr)){
                                         foreach ($catArr as $pCat) {
                                             $arr[$value->getId()][] = $product->getSku();
-                                            if(isset($main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'])){
+                                            if(isset($main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'])){
                                                 if($value->hasInvoices() || $value->hasShipments()){
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
+                                                    $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
                                                 }
                                                 else{
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
+                                                    $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
                                                 }
-                                                $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
-                                                $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
-                                                if(!in_array($product->getSku(), $arr)){
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] + 1;
-                                                }
+                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
                                             }
                                             else{
                                                 if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
+                                                    $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
                                                 }
                                                 else{
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
+                                                    $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
                                                 }
-                                                $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
-                                                $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['avg_of_product_amount'] =  $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'] / $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product'];
-                                                if(!in_array($product->getSku(), $arr)){
-                                                    $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['countunique_of_order_number'] = 1;
-                                                }
+                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
                                             }
-                                            $main[$countryId][$value->getIncrementId()][$pCat]['sum_of_product_amount_for_avg'][] = $main[$countryId][$value->getIncrementId()][$pCat][$product->getSku()]['sum_of_product_amount'];
+                                            $main[$pCat][$value->getIncrementId()]['sum_of_product_amount_for_avg'][] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'];
+                                            $main[$pCat][$value->getIncrementId()]['sum_of_product_for_total'][] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'];
                                             break;
                                         }
                                     }
@@ -188,360 +906,158 @@ class Save extends Action
                         }
                     }
                 }
-            }
-            $sumOfAllProduct = 0;
-            foreach ($main as $key => $value) {
-                foreach ($main[$key] as $key1 => $value1) {
-                    foreach ($value1 as $key2 => $value2) {
-                        $sumOfAllProduct = $sumOfAllProduct + array_sum($value2['sum_of_product_amount_for_avg']);
-                        unset($main[$key][$key1][$key2]['sum_of_product_amount_for_avg']);
+
+                $fileName = "Category - ".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/'.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
+
+                $header = ['Category', 'OrderId', 'SUM of Product Amount','SUM of No of Products','SUM of Product Amount'];
+                $stream->writeCsv($header);
+
+                $total = [];
+                $total1[] = "Grand Total";
+                $total1[] = "";
+                foreach ($main as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $csvData = [];
+                        $csvData[] = $catNameArr[$key];
+                        $csvData[] = $key1;
+                        $csvData[] = array_sum($value1['sum_of_product_amount_for_avg']);
+                        $csvData[] = array_sum($value1['sum_of_product_for_total']);
+                        $csvData[] = array_sum($value1['sum_of_product_amount_for_avg']) / ((array_sum($value1['sum_of_product_amount_for_avg'])) * 100);
+                        
+                        $total['sum_of_product_amount_for_avg'][] = array_sum($value1['sum_of_product_amount_for_avg']);
+                        $total['sum_of_product_for_total'][] = array_sum($value1['sum_of_product_for_total']);
+                        $total['sum_of_product_amount_for_avg_avg'][] = array_sum($value1['sum_of_product_amount_for_avg']) / ((array_sum($value1['sum_of_product_amount_for_avg'])) * 100);
+                        $stream->writeCsv($csvData);
                     }
                 }
-            }
-            foreach ($main as $key => $value) {
-                foreach ($main[$key] as $key1 => $value1) {
-                    foreach ($value1 as $key2 => $value2) {
-                        foreach ($value2 as $key3 => $value3) {
-                            $main[$key][$key1][$key2][$key3]['sum_of_product_amount_avg'] = $value3['sum_of_product_amount']/$sumOfAllProduct*100;
-                        }
-                    }
+
+                if(count($total)){
+                    $total1[] = array_sum($total['sum_of_product_amount_for_avg']);
+                    $total1[] = array_sum($total['sum_of_product_for_total']);
+                    $total1[] = array_sum($total['sum_of_product_amount_for_avg_avg']);
+                    $stream->writeCsv($total1);
                 }
+
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                
+                return $resultRedirect->setPath('*/*/listing');
             }
-            if($data['report_type'] == "shipping_country_wise_category"){
-                $fieldTitle = 'Shipping Country';
-            }
-            else if($data['report_type'] == "billing_country_wise_category"){
-                $fieldTitle = 'Billing Country';
-            }
-            $fileName = $fieldTitle." - ".$data['start_date']." TO ".$data['to_date'].'.csv';
-            $filepath = 'export/'.$fileName;
-            $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-            $directory->create('export');
-            $stream = $directory->openFile($filepath, 'w+');
-            $stream->lock();
+            else if($data['report_type_standered_invoiced'] == "invoiced"){
 
-            $header = [$fieldTitle, 'Category', 'OrderId', 'SKU','SUM of No of Products','SUM of Product Amount','AVERAGE of Product Amount','SUM of Product Amount','COUNTUNIQUE of Order Number'];
-            $stream->writeCsv($header);
+                $invoiceCollection = $this->invoiceCollectionFactory->create();
 
-            $total = [];
-            $total[] = "Grand Total";
-            $total[] = "";
-            $total[] = "";
-            $total[] = "";
-            $total['sum_of_product'] = 0;
-            $total['sum_of_product_amount'] = 0;
-            $total['avg_of_product_amount'] = 0;
-            $total['sum_of_product_amount_avg'] = 0;
-            $total['countunique_of_order_number'] = 0;
-            foreach ($main as $key => $value) {
-                foreach ($main[$key] as $key1 => $value1) {
-                    foreach ($value1 as $key2 => $value2) {
-                        foreach ($value2 as $key3 => $value3) {
-                            $csvData = [];
-                            $csvData[] = $key;
-                            $csvData[] = $catNameArr[$key2];
-                            $csvData[] = $key1;
-                            $csvData[] = $key3;
-                            $csvData[] = $value3['sum_of_product'];
-                            $csvData[] = number_format($value3['sum_of_product_amount'],2);
-                            $csvData[] = number_format($value3['avg_of_product_amount'],2);
-                            $csvData[] = number_format($value3['sum_of_product_amount_avg'],2);
-                            $csvData[] = number_format($value3['countunique_of_order_number'],2);
-                            $total['sum_of_product'] =  $total['sum_of_product'] + $value3['sum_of_product'];
-                            $total['sum_of_product_amount'] =  $total['sum_of_product_amount'] + $value3['sum_of_product_amount'];
-                            $total['avg_of_product_amount'] =  $total['avg_of_product_amount'] + $value3['avg_of_product_amount'];
-                            $total['sum_of_product_amount_avg'] =  $total['sum_of_product_amount_avg'] + $value3['sum_of_product_amount_avg'];
-                            $total['countunique_of_order_number'] =  $total['countunique_of_order_number'] + $value3['countunique_of_order_number'];
-                            $stream->writeCsv($csvData);
-                        }
-                    }
-                }
-            }
-            
-            $stream->writeCsv($total);
+                // Add date filter
+                $dateRange = ['from' => $startDate, 'to' => $endDate];
+                $invoiceCollection->addFieldToFilter('created_at', $dateRange);
 
-            $downloadedFileName = $fileName;
-            $content['type'] = 'filename';
-            $content['value'] = $filepath;
-            $content['rm'] = 1;
-            $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
-            
-            return $resultRedirect->setPath('*/*/listing');
-        }
-        else if($data['report_type'] == "payment_gateway"){
-            $main = [];
-            foreach ($collection->getItems() as $key => $value) {
+                $invoiceCollection->addFieldToFilter('state', \Magento\Sales\Model\Order\Invoice::STATE_PAID);
+                $invoices = $invoiceCollection->load();
+                foreach ($invoices as $value) {
 
-                $payment = $value->getPayment();
-                $method = $payment->getMethodInstance();
-                $methodTitle = $method->getTitle();
-                $address = $value->getShippingAddress();
-                $countryId = "";
-                if($address){
-                    $countryId = $address->getCountryId();
-                }
-                foreach ($value->getAllVisibleItems() as $value1) {
-                    if($countryId){
-                        $country = $this->countryFactory->create()->loadByCode($countryId);
-                        $countryName = $country->getName();
-                        if("Send an invoice to the customer by email (via Stripe Billing)" == $methodTitle){
-                            $methodTitle = "Stripe Billing";
-                        }
-                        if(isset($main[$methodTitle][$countryName][$value->getIncrementId()][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'])){
-                            $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] + 1;
-                            $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] +  $value1->getBaseRowTotal();
-                        }
-                        else{
-                            $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['count_of_order_number'] = 1;
-                            $main[$methodTitle][$countryName][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal();
-                        }
-                    }
-                }                
-            }
 
-            $fileName = "PaymentGateway-".$data['start_date']." TO ".$data['to_date'].'.csv';
-            $filepath = 'export/PaymentGateway - '.$fileName;
-            $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+                    foreach ($value->getOrder()->getAllVisibleItems() as $value1) {
 
-            $directory->create('export');
-            $stream = $directory->openFile($filepath, 'w+');
-            $stream->lock();
-
-            $header = ["Payment Gateway", 'Shipping Country', 'OrderId', 'SKU', 'COUNTA of Order Number','SUM of Product Amount'];
-            $stream->writeCsv($header);
-            $total = [];
-            foreach ($main as $key => $value) {
-                foreach ($main[$key] as $key1 => $value1) {
-                    foreach ($value1 as $key2 => $value2) {
-                        foreach ($value2 as $key3 => $value3) {
-
-                            $csvData = [];
-                            $csvData[] = $key;
-                            $csvData[] = $key1;
-                            $csvData[] = $key2;
-                            $csvData[] = $key3;
-                            $csvData[] = $value3['count_of_order_number'];
-                            $csvData[] = $value3['sum_of_product_amount'];
-                            $rowTotal['count_of_order_number'][] = $value3['count_of_order_number'];
-                            $rowTotal['sum_of_product_amount'][] = $value3['sum_of_product_amount'];
-                            $stream->writeCsv($csvData);
-                        }
-                    }
-                }
-            }
-            if(isset($value3)){
-                $total[] = "Grand Total";
-                $total[] = "";
-                $total[] = "";
-                $total[] = "";
-                $total[] = array_sum($rowTotal['count_of_order_number']);
-                $total[] = array_sum($rowTotal['sum_of_product_amount']);
-                $stream->writeCsv($total);
-            }
-            $downloadedFileName = $fileName;
-            $content['type'] = 'filename';
-            $content['value'] = $filepath;
-            $content['rm'] = 1;
-            $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
-            return $resultRedirect->setPath('*/*/listing');
-            
-        }
-        else if($data['report_type'] == "vendor_wise"){
-            $main = [];
-            foreach ($collection->getItems() as $key => $value) {
-                foreach ($value->getAllVisibleItems() as $value1) {
-                    if($value1->getOrderItemVendor()){
                         $productId = $this->product->getIdBySku($value1->getSku());
-                        $product = "";
                         $product = $this->product->load($productId);
-                        $address = $value->getBillingAddress();
-                        $countryId = "";
-                        if($address){
-                            $countryId = $address->getCountryId();
-                        }
 
-                        if($product && $countryId){
-                            if(isset($main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'])){
-                                if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyToRefund();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyToRefund());
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyToRefund());
-                                }
-                                else{
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] + $value1->getQtyOrdered();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] + ($value1->getPrice() * $value1->getQtyOrdered());
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] + ($value1->getBaseCost() * $value1->getQtyOrdered());
-                                }
-                            }
-                            else{
-                                if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyToRefund();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyToRefund();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyToRefund();
-                                }
-                                else{
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_no_of_products'] = $value1->getQtyOrdered();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_amount'] = $value1->getPrice() * $value1->getQtyOrdered();
-                                    $main[$value1->getOrderItemVendor()][$countryId][$value->getIncrementId()][$value1->getSku()]['sum_of_product_lp'] = $value1->getBaseCost() * $value1->getQtyOrdered();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
-            $fileName = "Vendor-".$data['start_date']." TO ".$data['to_date'].'.csv';
-            $filepath = 'export/Vendor - '.$fileName;
-            $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-
-            $directory->create('export');
-            $stream = $directory->openFile($filepath, 'w+');
-            $stream->lock();
-
-            $header = ["Vendor Name", 'Country', 'OrderId', 'SKU', 'SUM of No of Products', 'SUM of Product Amount','SUM of Product LP'];
-            $stream->writeCsv($header);
-            $total = [];
-            $rowTotal = [];
-            foreach ($main as $key => $value) {
-
-                foreach ($value as $key1 => $value1) {
-                    foreach ($value1 as $key2 => $value2) {
-                        foreach ($value2 as $key3 => $value3) {
-                            $csvData = [];
-                            $csvData[] = $key;
-                            $csvData[] = $key1;
-                            $csvData[] = $key2;
-                            $csvData[] = $key3;
-                            $csvData[] = $value3['sum_of_no_of_products'];
-                            $csvData[] = $value3['sum_of_product_amount'];
-                            $csvData[] = $value3['sum_of_product_lp'];
-                            $rowTotal['sum_of_no_of_products'][] = $value3['sum_of_no_of_products'];
-                            $rowTotal['sum_of_product_amount'][] = $value3['sum_of_product_amount'];
-                            $rowTotal['sum_of_product_lp'][] = $value3['sum_of_product_lp'];
-                            $stream->writeCsv($csvData);
-                        }
-                    }
-                }
-            }
-            if(isset($rowTotal)){
-                $total[] = "Grand Total";
-                $total[] = "";
-                $total[] = "";
-                $total[] = "";
-                $total[] = array_sum($rowTotal['sum_of_no_of_products']);
-                $total[] = array_sum($rowTotal['sum_of_product_amount']);
-                $total[] = array_sum($rowTotal['sum_of_product_lp']);
-                $stream->writeCsv($total);
-            }
-
-            $downloadedFileName = $fileName;
-            $content['type'] = 'filename';
-            $content['value'] = $filepath;
-            $content['rm'] = 1;
-            $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
-            return $resultRedirect->setPath('*/*/listing');
-        }
-        else if($data['report_type'] == "category_wise"){
-            $configCat = $this->scopeConfig->getValue(
-                'report/general/category_id',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            );
-            $categoryIds = explode(',', $configCat);
-            
-            $catNameArr = [];
-            foreach ($categoryIds as $key => $value) {
-                $category = $this->_categoryFactory->create()->load($value);
-                $catNameArr[$value] = $category->getName();
-            }
-            foreach ($collection->getItems() as $key => $value) {
-                foreach ($value->getAllVisibleItems() as $value1) {
-
-                    $productId = $this->product->getIdBySku($value1->getSku());
-                    $product = $this->product->load($productId);
-
-                    $productCategory = $this->productCategoryList->getCategoryIds($productId);
-                    $productCategory = array_unique($productCategory);
-                    $pid = $product->getId();
-                    if($pid){
-                        if($productCategory){
-                            if($product->getQtyOrdered() > 0 || $value1->getQtyToRefund()){
-                                $catArr = [];
-                                $catArr = array_intersect($categoryIds, $productCategory);
-                                if(!empty($catArr)){
-                                    foreach ($catArr as $pCat) {
-                                        $arr[$value->getId()][] = $product->getSku();
-                                        if(isset($main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'])){
-                                            if($value->hasInvoices() || $value->hasShipments()){
-                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
+                        $productCategory = $this->productCategoryList->getCategoryIds($productId);
+                        $productCategory = array_unique($productCategory);
+                        $pid = $product->getId();
+                        if($pid){
+                            if($productCategory){
+                                if($value1->getQtyOrdered() > 0 || $value1->getQtyToRefund()){
+                                    $catArr = [];
+                                    $catArr = array_intersect($categoryIds, $productCategory);
+                                    if(!empty($catArr)){
+                                        foreach ($catArr as $pCat) {
+                                            $arr[$value->getId()][] = $product->getSku();
+                                            if(isset($main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'])){
+                                                if($value->hasInvoices() || $value->hasShipments()){
+                                                    $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyToRefund();
+                                                }
+                                                else{
+                                                    $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
+                                                }
+                                                $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
                                             }
                                             else{
-                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] + $value1->getQtyOrdered();
+                                                if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
+                                                    $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
+                                                }
+                                                else{
+                                                    $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
+                                                }
+                                                $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
                                             }
-                                            $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] + ($value1->getBaseRowTotal() - $value1->getBaseDiscountAmount());
+                                            $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()]['sum_of_product_amount_for_avg'][] = $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product_amount'];
+                                            $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()]['sum_of_product_for_total'][] = $main[$pCat][$value->getIncrementId()][$value->getOrder()->getIncrementId()][$product->getSku()]['sum_of_product'];
+                                            break;
                                         }
-                                        else{
-                                            if(($value->hasInvoices() || $value->hasShipments()) && $value1->getQtyToRefund()){
-                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyToRefund();
-                                            }
-                                            else{
-                                                $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'] = $value1->getQtyOrdered();
-                                            }
-                                            $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'] = $value1->getBaseRowTotal() - $value1->getBaseDiscountAmount();
-                                        }
-                                        $main[$pCat][$value->getIncrementId()]['sum_of_product_amount_for_avg'][] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product_amount'];
-                                        $main[$pCat][$value->getIncrementId()]['sum_of_product_for_total'][] = $main[$pCat][$value->getIncrementId()][$product->getSku()]['sum_of_product'];
-                                        break;
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            $fileName = "Category - ".$data['start_date']." TO ".$data['to_date'].'.csv';
-            $filepath = 'export/'.$fileName;
-            $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-            $directory->create('export');
-            $stream = $directory->openFile($filepath, 'w+');
-            $stream->lock();
+                $fileName = "Category - ".$data['start_date']." TO ".$data['to_date'].'.csv';
+                $filepath = 'export/'.$fileName;
+                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+                $directory->create('export');
+                $stream = $directory->openFile($filepath, 'w+');
+                $stream->lock();
 
-            $header = ['Category', 'OrderId', 'SUM of Product Amount','SUM of No of Products','SUM of Product Amount'];
-            $stream->writeCsv($header);
+                $header = ['Category', 'InvoiceId', 'OrderId', 'SUM of Product Amount','SUM of No of Products','SUM of Product Amount'];
+                $stream->writeCsv($header);
 
-            $total = [];
-            $total1[] = "Grand Total";
-            $total1[] = "";
-            foreach ($main as $key => $value) {
-                foreach ($value as $key1 => $value1) {
-                    $csvData = [];
-                    $csvData[] = $catNameArr[$key];
-                    $csvData[] = $key1;
-                    $csvData[] = array_sum($value1['sum_of_product_amount_for_avg']);
-                    $csvData[] = array_sum($value1['sum_of_product_for_total']);
-                    $csvData[] = array_sum($value1['sum_of_product_amount_for_avg']) / ((array_sum($value1['sum_of_product_amount_for_avg'])) * 100);
-                    
-                    $total['sum_of_product_amount_for_avg'][] = array_sum($value1['sum_of_product_amount_for_avg']);
-                    $total['sum_of_product_for_total'][] = array_sum($value1['sum_of_product_for_total']);
-                    $total['sum_of_product_amount_for_avg_avg'][] = array_sum($value1['sum_of_product_amount_for_avg']) / ((array_sum($value1['sum_of_product_amount_for_avg'])) * 100);
-                    $stream->writeCsv($csvData);
+                $total = [];
+                $total1[] = "Grand Total";
+                $total1[] = "";
+                $total1[] = "";
+                foreach ($main as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        foreach ($value1 as $key2 => $value2) {
+                            $csvData = [];
+                            $csvData[] = $catNameArr[$key];
+                            $csvData[] = $key1;
+                            $csvData[] = $key2;
+                            $csvData[] = array_sum($value2['sum_of_product_amount_for_avg']);
+                            $csvData[] = array_sum($value2['sum_of_product_for_total']);
+                            $csvData[] = array_sum($value2['sum_of_product_amount_for_avg']) / ((array_sum($value2['sum_of_product_amount_for_avg'])) * 100);
+                            
+                            $total['sum_of_product_amount_for_avg'][] = array_sum($value2['sum_of_product_amount_for_avg']);
+                            $total['sum_of_product_for_total'][] = array_sum($value2['sum_of_product_for_total']);
+                            $total['sum_of_product_amount_for_avg_avg'][] = array_sum($value2['sum_of_product_amount_for_avg']) / ((array_sum($value2['sum_of_product_amount_for_avg'])) * 100);
+                            $stream->writeCsv($csvData);
+                        }
+                    }
                 }
-            }
 
-            if(count($total)){
-                $total1[] = array_sum($total['sum_of_product_amount_for_avg']);
-                $total1[] = array_sum($total['sum_of_product_for_total']);
-                $total1[] = array_sum($total['sum_of_product_amount_for_avg_avg']);
-                $stream->writeCsv($total1);
-            }
+                if(count($total)){
+                    $total1[] = array_sum($total['sum_of_product_amount_for_avg']);
+                    $total1[] = array_sum($total['sum_of_product_for_total']);
+                    $total1[] = array_sum($total['sum_of_product_amount_for_avg_avg']);
+                    $stream->writeCsv($total1);
+                }
 
-            $downloadedFileName = $fileName;
-            $content['type'] = 'filename';
-            $content['value'] = $filepath;
-            $content['rm'] = 1;
-            $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                $downloadedFileName = $fileName;
+                $content['type'] = 'filename';
+                $content['value'] = $filepath;
+                $content['rm'] = 1;
+                $this->fileFactory->create($downloadedFileName, $content, DirectoryList::VAR_DIR);
+                
+                return $resultRedirect->setPath('*/*/listing');
             
-            return $resultRedirect->setPath('*/*/listing');
+            }
         }
         else if($data['report_type'] == "refunded"){
             $main = [];
