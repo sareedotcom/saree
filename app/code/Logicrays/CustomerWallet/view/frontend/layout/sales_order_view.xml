@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales.order.info.buttons" template="Logicrays_CustomerWallet::order/info/buttons.phtml">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">
+                    Logicrays_CustomerWallet::order/info/buttons.phtml
+                </argument>
+            </action>
+            <arguments>
+                <argument name="wallet_request_view_model"
+                xsi:type="object">Logicrays\CustomerWallet\ViewModel\WalletRequest</argument>
+            </arguments>
+
+        </referenceBlock>
+        <referenceContainer name="order_totals">
+            <block class="Logicrays\CustomerWallet\Block\Sales\Totals\WalletAmount" name="wallet_amount_order"/>
+        </referenceContainer>
+    </body>
+</page>

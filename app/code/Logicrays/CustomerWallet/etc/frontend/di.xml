@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- set wallet amount into checkot window for payment method -->
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="additional_provider" xsi:type="object">Logicrays\CustomerWallet\Model\WalletPayment</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

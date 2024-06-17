@@ -1,0 +1,48 @@
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<!--@subject {{trans "New Customer Wallet Request "}}  @-->
+
+{{template config_path="design/email/header_template"}}
+<table class="message-details">
+    <tr>
+        <td colspan="2">
+            <strong>
+                <h3>
+                    {{trans "New Customer Wallet Request"}}
+                </h3>
+            </strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>{{trans "Name"}}</strong>
+        </td>
+        <td>{{trans " %name" name=$name}}</td>
+    </tr>
+    <tr>
+        <td><strong>{{trans "Email "}}</strong></td>
+        <td>{{trans " %email" email=$email}}</td>
+    </tr>
+    <tr>
+        <td><strong>{{trans "Amount "}}</strong></td>
+        <td>{{trans " %symbol" symbol=$symbol}}{{trans " %amount" amount=$amount}}</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>{{trans "Status"}}</strong>
+        </td>
+        <td>{{trans " %init_status" init_status=$init_status}}</td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

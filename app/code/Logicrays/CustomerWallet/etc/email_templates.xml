@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+	<template id="customerwallet_email_admintemplate" label="Admin Email"
+	file="admin_email.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+
+	<template id="customerwallet_email_customertemplate" label="Customer Email"
+	file="customer_request_email.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+
+	<template id="customerwallet_email_adminadjust" label="Wallet Request Admin Adjust"
+	file="customer_wallet_adminadjust.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+
+	<template id="customerwallet_email_sendmoney" label="Sender Wallet Money"
+	file="customer_wallet_sendmoney.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+
+	<template id="customerwallet_email_receivemoney" label="Receiver Wallet Money"
+	file="customer_wallet_receivemoney.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+
+	<template id="customerwallet_email_resendotp" label="Re-send OTP"
+	file="customer_wallet_resendotp.html" type="html" module="Logicrays_CustomerWallet" area="frontend"/>
+</config>

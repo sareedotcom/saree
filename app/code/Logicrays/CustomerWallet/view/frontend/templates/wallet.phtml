@@ -1,0 +1,83 @@
+<?php
+/** @var \Logicrays\CustomerWallet\Block\CustomerWallet $block */
+?>
+
+<div class="row-main">
+    <div class="col-md-12">
+        <div class="wallet-head">
+            <!-- wallet details from child block -->
+            <?= $block->getChildHtml('customers_wallet_details', true); ?>
+
+            <?php if ($block->getWalletAmount() != 0): ?>
+                <div class="wallet-tranfer">
+                    <a href="<?= /** noEscap */ $block->getPayee()?>" class="button action primary"
+                        target="_blank" style="padding: 10px 20px;">
+                        <?php if ($block->getTextSendMoneyFriends()): ?>
+                            <?= /** noEscap */ $block->getTextSendMoneyFriends();?>
+                        <?php else: ?>
+                            <?= $block->escapeHtmlAttr(__('Send Money'))?>
+                        <?php endif; ?>
+                    </a>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <div class="wallet-paynow">
+            <span class="reacharge-wallet">
+                <?= $block->escapeHtmlAttr(__('Recharge Your Wallet '))?>
+            </span>
+            <form class="pay-now-form" id="pay-now-form" method="post"
+                data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+                data-mage-init='{"validation":{}}'>
+                <input type="text" id="wallet-amount" name="wallet-amount"
+                placeholder="Enter Amount" value=""
+                data-validate="{required:true, 'validate-greater-than-zero':true,'validate-number':true}">
+                <input type="hidden" name="product-sku-wallet" value="<?= /** noEscap */ $block->getWalletSKU()?>">
+                <button type="submit" id="pay-now-btn" class="action primary">
+                    <?= $block->escapeHtml(__('Pay Now')) ?>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+<h2>Your Wallet Transaction History</h2>
+<?= $block->getChildHtml('customers_wallet_transactions', true); ?>
+
+<script>
+  require([
+        'jquery',
+        'mage/url',
+        'mage/validation'
+    ], function($, url){
+    $(document).on('submit', '#pay-now-form', function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        var formData = $(this).serialize();
+        var linkUrl = url.build('wallet/customer/paynow');
+
+        $.ajax({
+            url: linkUrl,
+            data: formData,
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function() {
+                // show loader
+            },
+            success: function(response) {
+                $('#wallet-amount').val('');
+                // console.log(response);
+                if (response.success == true) {
+                    window.location.href = url.build('checkout/');
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#wallet-amount').val('');
+                console.log(error);
+            }
+        });
+        return false;
+    });
+});
+</script>

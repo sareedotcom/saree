@@ -1,0 +1,24 @@
+<?php
+/** @var \Logicrays\CustomerWallet\Block\CustomerWallet $block */
+?>
+
+<div class="wallet-icon">
+    <!-- icon -->
+</div>
+<div class="wallet-details">
+    <h4 class="balance">
+        <span>
+            <?php if ($block->getWalletBalanceText()): ?>
+                <?= /** noEscap */ $block->getWalletBalanceText() ?>
+                <?php else: ?>
+                    <?= $block->escapeHtmlAttr(__('Your Wallet Balance ')) ?>
+            <?php endif; ?>
+        </span>
+    </h4>
+    <h2 class="your-wallet-amount">
+        <span>
+            <?= /** noEscap */ $block->getCurrencySymbol(); ?>
+            <?= /** noEscap */ $block->getWalletAmount()?>
+        </span>
+    </h2>
+</div>

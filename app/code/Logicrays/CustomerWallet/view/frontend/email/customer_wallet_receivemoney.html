@@ -1,0 +1,45 @@
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<!--@subject {{trans "Received money"}}  @-->
+
+{{template config_path="design/email/header_template"}}
+<table class="message-details">
+    <tr>
+        <td>{{trans "Hello,"}}
+            <strong>{{trans " %name" name=$name}}</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>{{trans "Money "}}</span>
+            <strong>{{trans "%symbol" symbol=$symbol}}</strong>
+            <strong>{{trans " %amount" amount=$amount}}</strong>
+            <span>{{trans " %note" note=$note}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>
+                {{trans
+                    'Please <a href="%check_wallet">Check Your Wallet</a>, Thanks.'
+                    check_wallet="$this.getUrl($store,'wallet/customer/')"
+                |raw}}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <strong>{{trans "Happy Shopping"}}</strong>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

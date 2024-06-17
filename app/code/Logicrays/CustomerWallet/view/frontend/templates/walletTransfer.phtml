@@ -1,0 +1,71 @@
+<?php
+/** @var \Logicrays\CustomerWallet\Block\WalletTransfer $block */
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php $gridrecords = $block->getCustomerWalletCollection(); ?>
+
+<?php if ($gridrecords && sizeof($gridrecords)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+        <caption class="table-caption"> <?= /** noEscap */ __('Grid Record') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"> <?= /** noEscap */ __('ID') ?></th>
+                    <th scope="col" class="col payee-email"> <?= /** noEscap */ __('Payee Email') ?></th>
+                    <th scope="col" class="col amount"> <?= /** noEscap */ __('Amount') ?></th>
+                    <th scope="col" class="col note"> <?= /** noEscap */ __('Note') ?></th>
+                    <th scope="col" class="col status"> <?= /** noEscap */ __('Status') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($gridrecords as $gridrecord): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('ID')) ?>" class="col id">
+                        <?= /** noEscap */ $gridrecord->getId() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Payee Email')) ?>" class="col payee-email">
+                        <?= /** noEscap */ $gridrecord->getPayeeEmail() ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Amount')) ?>" class="col amount">
+                        <?= /** noEscap */ $block->getCurrencySymbol(); ?>
+                        <?= /** noEscap */ $gridrecord->getAmount(); ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Note')) ?>" class="col note">
+                        <?= /** noEscap */ $gridrecord->getNote(); ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Status')) ?>"
+                        class="col status" id="status_<?= /** noEscap */ $gridrecord->getStatus(); ?>">
+                        <?php if ($gridrecord->getStatus() == 0): ?>
+                            <?php if ($gridrecord->getIsVerified()==0): ?>
+                                <span id="otp-not-verified"><?= $block->escapeHtml(__('OTP Not Verified')) ?></span>
+                            <?php endif; ?>
+                        <?php elseif ($gridrecord->getStatus() == 1): ?>
+                            <span class="wallet-credited" id="wallet-credited">
+                                <?= $block->escapeHtml(__('Credited')) ?>
+                            </span>
+                        <?php elseif ($gridrecord->getStatus() == 2): ?>
+                            <span id="wallet-canceled"><?= $block->escapeHtml(__('Canceled')) ?></span>
+                        <?php elseif ($gridrecord->getStatus() == 4): ?>
+                            <span id="wallet-debited"><?= $block->escapeHtml(__('Debited')) ?></span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom">
+            <?= /** noEscap */ $block->getPagerHtml(); ?>
+        </div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty">
+        <span>
+            <?= /** noEscap */ __('No Wallet Amount Transaction Found.'); ?>
+        </span>
+    </div>
+<?php endif ?>
+

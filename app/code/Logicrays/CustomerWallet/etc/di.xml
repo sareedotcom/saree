@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- resctrict customer to update cart when wallet request in cart -->
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="restrict_cart_update"
+        type="Logicrays\CustomerWallet\Plugin\RestrictCartUpdate" sortOrder="10"/>
+    </type>
+
+    <!-- setting zero subtoal order to place order using wallet -->
+    <preference for="Magento\Quote\Model\PaymentMethodManagement"
+    type="Logicrays\CustomerWallet\Model\Quote\PaymentMethodManagement" />
+
+    <!-- Data source for Custoemr Wallet Request -->
+    <virtualType name="Logicrays\CustomerWallet\Model\ResourceModel\CustomerWallet\CustomerWallet\Collection"
+        type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">logicrays_customerwallet</argument>
+            <argument name="resourceModel" xsi:type="string">Logicrays\CustomerWallet\Model\ResourceModel\CustomerWallet</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="customerwallet_customerwallet_list_data_source" xsi:type="string">Logicrays\CustomerWallet\Model\ResourceModel\CustomerWallet\CustomerWallet\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

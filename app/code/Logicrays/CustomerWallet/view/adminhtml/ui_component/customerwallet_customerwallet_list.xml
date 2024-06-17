@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">customerwallet_customerwallet_list.customerwallet_customerwallet_list_data_source</item>
+            <item name="deps" xsi:type="string">customerwallet_customerwallet_list.customerwallet_customerwallet_list_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">columns</item>
+    </argument>
+    <dataSource name="customerwallet_customerwallet_list_data_source" component="Magento_Ui/js/grid/provider">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">customerwallet_customerwallet_list_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render" />
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <filters name="listing_filters" />
+        <bookmark name="bookmarks" />
+        <columnsControls name="columns_controls"/>
+        <exportButton name="export_button"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <columns name="columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="resizeConfig" xsi:type="array">
+                    <item name="enabled" xsi:type="boolean">false</item>
+                </item>
+            </item>
+        </argument>
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">customerwallet_customerwallet_list.customerwallet_customerwallet_list.columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <column name="id">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="payee_email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Payee Email</label>
+            </settings>
+        </column>
+        <column name="amount" class="Logicrays\CustomerWallet\Ui\Component\Listing\Column\PriceFormater">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Amount</label>
+            </settings>
+        </column>
+        <column name="note">
+            <settings>
+                <label translate="true">Note</label>
+            </settings>
+        </column>
+        <actionsColumn name="orderid" class="Logicrays\CustomerWallet\Ui\Component\Listing\Column\ViewOrder">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">View Order</label>
+            </settings>
+        </actionsColumn>
+        <column name="status" class="Logicrays\CustomerWallet\Ui\Component\Listing\Column\Status">
+            <settings>
+                <filter>text</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" >
+           <settings>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" >
+           <settings>
+                <label translate="true">Updated At</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

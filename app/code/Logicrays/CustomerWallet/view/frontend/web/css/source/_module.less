@@ -1,0 +1,190 @@
+// variable for responsive
+@xl:1400px;
+@lg:1999px;
+@md:991px;
+@sm:767px;
+@xs:575px;
+
+.wallet-icon {
+    padding: 5px 5px;
+    &:before {
+        content: "";
+        background-image: url(Logicrays_CustomerWallet::images/wallet-icon.svg);
+        background-size: 80px;
+        display: inline-block;
+        width: 80px;
+        height: 70px;
+        background-repeat: no-repeat;
+    }
+}
+
+// resizing popup modal
+.send-money-modal{
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.wallet-head ,
+.wallet-transfer-head{
+    display: flex;
+    flex-wrap: wrap;
+    align-items:center;
+    justify-content:space-between;
+    .wallet-icon {
+       width:10%;
+       @media screen and (max-width:@sm){
+         width: 100%;
+         text-align: center;
+       }
+    }
+    .wallet-details {
+        width:65%;
+        box-sizing:border-box;
+        @media screen and (max-width:@lg){
+            width: 50%;
+        }
+        @media screen and (max-width:@sm){
+            width: 100%;
+            text-align: center;
+          }
+        h4.balance {
+            margin:0 0 10px;
+            span{
+                font-size:22px;
+                font-weight:700;
+                line-height:30px;
+                @media screen and (max-width:@lg){
+                  font-size: 18px;
+                }
+            }
+        }
+        h2{
+            font-size:18px;
+            font-weight:500;
+            @media screen and (max-width:@lg){
+                font-size: 20px;
+              }
+        }
+    }
+    .wallet-tranfer {
+       width:23%;
+       text-align:left;
+       @media screen and (max-width:@lg){
+         width: 28%;
+       }
+       @media screen and (max-width:@sm){
+        width: 100%;
+        text-align: center;
+      }
+    }
+}
+
+.wallet-paynow {
+    border: 1px solid #ccc;
+    margin: 40px 20px;
+    padding: 25px;
+    @media screen and (max-width:@xs){
+        margin: 40px 0px;
+    }
+    .pay-now-form{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        input[name="wallet-amount"]{
+            &:focus{
+                outline: none;
+                box-shadow: none;
+            }
+            background: 0 0;
+            border-bottom: 1px solid #bdbdbd !important;
+            border: 1px solid transparent;
+            width: 85%;
+            order: 1;
+            @media screen and (max-width:@lg){
+                width: 75%;
+            }
+            @media screen and (max-width:@xs){
+                width: 100%;
+            }
+        }
+        .mage-error{
+            width: 100%;
+            order: 4;
+            @media screen and (max-width:@xs){
+               order: 2;
+               margin: 10px 0;
+            }
+        }
+        .action.primary{
+            order:2;
+            @media screen and (max-width:@xs){
+                order: 4;
+                margin: 10px auto;
+             }
+        }
+    }
+}
+
+.send-money-to-payee {
+    margin: 40px 20px;
+    padding: 25px;
+    border: 1px solid #ccc;
+}
+
+#wallet-credited{
+    color: green;
+    font-weight: 700;
+}
+#wallet-pending{
+    color: yellowgreen;
+    font-weight: 700;
+}
+#wallet-canceled{
+    color: red;
+    font-weight: 700;
+}
+#wallet-debited{
+    color: red;
+    font-weight: 700;
+}
+#otp-not-verified{
+    color: rgb(214, 24, 3);
+    font-weight: 700;
+}
+// 10-05-23
+.verify-otp-details {
+    width: 500px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.verify-otp-details .field.required.verify-otp-input-box {
+    margin-bottom:20px;
+}
+
+.verify-otp-details b{
+  float:right;
+  margin-top:-20px;
+}
+.wallet-paynow {
+    position: relative;
+    padding:30px;
+}
+
+span.reacharge-wallet {
+    position: absolute;
+    top: 6px;
+}
+@media screen and (max-width:767px){
+    .verify-otp-details {
+    
+        margin-bottom: 20px;
+      }
+}
+@media screen and (max-width:575px){
+    .verify-otp-details {
+      width:80%;
+      margin-bottom: 20px;
+    }
+}

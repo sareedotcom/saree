@@ -1,0 +1,19 @@
+<?php
+/** @var \Logicrays\CustomerWallet\Block\CustomerWallet $block */
+?>
+
+<div class="verify-otp-details">
+    <form id="verify-otp-form" method="post"
+        data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+        data-mage-init='{"validation":{}}' action="<?= /** noEscap */ $block->verifyOtp();?>">
+        <div class="field required verify-otp-input-box">
+            <input type="text" id="verify-otp" class="validate-length minimum-length-4 maximum-length-4"
+            name="verify-otp" placeholder="Enter OTP" value=""
+            data-validate="{required:true, 'validate-greater-than-zero':true,'validate-number':true}">
+        </div>
+        <button type="submit" id="verify-otp-btn" class="action primary">
+            <?= $block->escapeHtml(__('Verify OTP')) ?>
+        </button>
+    </form>
+    <b><a href="<?= /** noEscap */ $block->resendOtp()?>">Re-Send OTP</a></b>
+</div>

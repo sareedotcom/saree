@@ -1,0 +1,54 @@
+<!-- ko if: isEnabled() -->
+    <!-- ko if: disableWalletPay() === 0 -->
+        <!-- ko if: isLoggedIn() -->
+        <li id="wallet-choose" role="presentation" class="checkout-payment-method">
+            <div id="checkout-step-payment"
+                class="step-content"
+                data-role="content"
+                role="tabpanel"
+                aria-hidden="false">
+                <form id="co-wallet-form" class="form payments" novalidate="novalidate">
+                    <input type="hidden" name="form_key"/>
+                    <fieldset>
+                        <div class="wallet-box">
+                            <!-- ko if: getValidateWalletAmount() === 0 -->
+                                <strong>Please add amount into your wallet to use it</strong>
+                            <!-- /ko -->
+                            <!-- ko if: getValidateWalletAmount() != 0 -->
+                                <input type="checkbox" id="wallet" name="wallet"
+                                data-bind="checked: isChecked, event: {change: applyWalletAmount()} ">
+                                <label for="wallet"><strong>Use Wallet Amount</strong></label>
+                            <!-- /ko -->
+                        </div>
+                        <div class="amount-to-pay">
+                            <label>
+                                Amount to be Pay
+                                <strong data-bind="html: getOrderGrandTotal()"></strong>
+                            </label>
+                        </div>
+                        <div class="amount-in-wallet">
+                            <label>
+                                Amount in Wallet
+                                <strong data-bind="html: getWalletAmount()"></strong>
+                            </label>
+                        </div>
+                        <div class="pay-balance-amount">
+                            <label>
+                                Select and Option to pay Ramaining
+                                <strong data-bind="html: getOrderRamainingToPay()"></strong>
+                            </label>
+                        </div>
+
+                        <div class="remaining-balance">
+                            <label>
+                                Remaining Wallet Balance
+                                <strong data-bind="html: getRemainingWalletBalance()"></strong>
+                            </label>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </li>
+        <!-- /ko -->
+    <!-- /ko -->
+<!-- /ko -->

@@ -1,0 +1,10 @@
+<!-- ko if: isWalletUsedShowInSummary() -->
+    <!-- ko if: isDisplayedWalletamount() -->
+    <tr class="totals walletamount excl">
+        <th class="mark" colspan="1" scope="row" data-bind="text: walletamount"></th>
+        <td class="amount">
+            <span class="price" data-bind="text: getWalletPaidAmount(), attr: {'data-th': walletamount}"></span>
+        </td>
+    </tr>
+    <!-- /ko -->
+ <!-- /ko -->

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="creditmemo_totals">
+            <block class="Logicrays\CustomerWallet\Block\Adminhtml\Order\Creditmemo\Totals\WalletAmount" name="wallet_amount_applied_creditmemo"/>
+        </referenceContainer>
+    </body>
+</page>

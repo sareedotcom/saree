@@ -1,0 +1,108 @@
+<?php
+/** @var \Logicrays\CustomerWallet\Block\CustomerWallet $block */
+?>
+
+<div class="wallet-transfer-head">
+    <!-- wallet details from child block -->
+    <?= $block->getChildHtml('customers_wallet_details', true); ?>
+
+    <!-- For Popup model -->
+    <?php if ($block->getWalletAmount() == 0): ?>
+        <div class="message info empty">
+            <span>
+                <?= /** noEscap */ __('Please Add Money Into Wallet First.'); ?>
+            </span>
+            <div class="payee-popup-model wallet-tranfer">
+                <button type="submit" class="action primary send-money" disabled>Send Money</button>
+            </div>
+            <b><a href="<?= /** noEscap */ $block->addMoney()?>">Add Money</a></b>
+        </div>
+        <?php else: ?>
+        <div class="actions wallet-tranfer">
+            <div class="payee-popup-model">
+                <button type="submit" class="action primary send-money">Send Money</button>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<h2>Your Wallet Money Transfer History</h2>
+
+<?= $block->getChildHtml('customers_wallet_transfer_to_others', true); ?>
+
+<div id="payee-details-form" style="display:none;">
+    <div id="payee-details-form-verify-otp">
+        <div class="payee-details">
+            <form id="walletsystem_add_payee" method="post"
+                data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+                data-mage-init='{"validation":{}}' action="<?= /** noEscap */ $block->sendAmountToFriend();?>">
+                <input type="hidden" name="sender_email" value="<?= /** noEscap */ $block->getSenderEmail();?>">
+                <input type="hidden" name="customer_id" value="<?= /** noEscap */ $block->getSenderId();?>">
+                <input type="hidden" name="sender_name" value="<?= /** noEscap */ $block->getSenderName();?>">
+                <input type="hidden" name="wallet_amount" value="<?= /** noEscap */ $block->getWalletAmount();?>">
+                <div class="fieldset">
+                    <div class="field required">
+                        <label class="label" for="payee_name">Payee name</label>
+                        <input type="text" id="payee_name" name="name"
+                        class="payee_name" data-validate="{required:true}">
+                    </div>
+                    <div class="field required">
+                        <label class="label" for="payee_email">Email Address</label>
+                        <input type="text" id="payee_email" name="payee_email"
+                        class="payee_email" data-validate="{required:true, 'validate-email':true}">
+                    </div>
+                    <div class="field required">
+                        <label class="label" for="confirm-email">Confirm Email Address</label>
+                        <input type="text" id="confirm-email" name="confirm-email" class="confirm-email"
+                        data-validate="{required:true, 'validate-email':true, equalTo:'#payee_email'}">
+                    </div>
+                    <div class="field required">
+                        <label class="label" for="payee_amount">Amount</label>
+                        <input type="text" id="payee_amount" name="payee_amount" class="payee_amount"
+                        data-validate="{required:true, 'validate-greater-than-zero':true,'validate-number':true}">
+                    </div>
+                    <div class="field payee-note">
+                        <label class="label" for="payee_note">Note</label>
+                        <textarea name="payee_note" id="payee_note" name="payee_note"
+                        class="payee_note"></textarea>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="action submit primary">Send Money</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Send Your Wallet Money To Friend',
+                modalClass: 'send-money-modal',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'test-class',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+            var popup = modal(options, $('#payee-details-form'));
+            $(".send-money").on('click',function(){
+                $("#payee-details-form").modal("openModal");
+            });
+        }
+    );
+</script>

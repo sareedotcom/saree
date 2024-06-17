@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="customerwallet" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Customer Wallet</label>
+            <tab>logicrays</tab>
+            <resource>Logicrays_CustomerWallet::config_customerwallet</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="refund_in_wallet" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <label>Refund in Wallet</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="wallet_sku" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SKU</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>Product SKU for Wallet Request</comment>
+                </field>
+
+                <field id="enable_auto_invoice" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Auto Invoice</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable if you want to create Auto Invoice when wallet used and total payment become 0</comment>
+                </field>
+
+                <field id="auto_invoice_order_comment" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto Invoice Order Comment History</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>Provide comment to show when when auto invoice is created.</comment>
+                </field>
+
+                <field id="walletbalancetext" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text to show like, Your Wallet Balance</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This text will show in before wallet amount.</comment>
+                </field>
+
+                <field id="textsendmoneyfriends" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text to show like, Send Money to Friends</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This text will show on button Send Money to Friends.</comment>
+                </field>
+                <field id="textaddmoneytowallet" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text to show like, Money added to wallet</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This text will show in note like added money to wallet and then Order ID.</comment>
+                </field>
+                <field id="money_in_cart" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Warning Message Money in Cart</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This appear when MONEY in cart and try to add other products into cart.</comment>
+                </field>
+                <field id="other_products_in_cart" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Warning Message Other Products in Cart</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This appear when other Products in cart and try to add MONEY into cart.</comment>
+                </field>
+                <field id="otp_validity" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>OTP Expiry Duration</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>Provide in minutes how much time OTP will be valid.</comment>
+                </field>
+                <field id="max_limit" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Wallet Limit</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>Provide limit to add MONEY into wallet if you wish to.</comment>
+                </field>
+                <field id="max_limit_msg" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Wallet Limit Message</label>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <comment>This Message will show when add money is more than limit set.</comment>
+                </field>
+                <field id="disable_paymentmethods" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <label>Select Payment Methods</label>
+                    <source_model>Logicrays\CustomerWallet\Model\Config\Source\PaymentMethods</source_model>
+                    <comment>Select Payment Methods to disable when money added into cart</comment>
+                </field>
+                <field id="disable_methods" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <label>Disable Payment Methods When Wallet Used</label>
+                    <source_model>Logicrays\CustomerWallet\Model\Config\Source\PaymentMethods</source_model>
+                    <comment>Select Payment Methods to disable when wallet used and order total become zero (0)</comment>
+                </field>
+            </group>
+            <group id="email" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Mail Configuration</label>
+                <field id="sendemail" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <label>Send Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sender_email" translate="label" type="select" sortOrder="4" showInDefault="1"
+                    showInWebsite="1" showInStore="3" canRestore="1">
+                    <label>Email sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="send_admin_mail" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <depends>
+                        <field id="customerwallet/email/sendemail">1</field>
+                        <field id="customerwallet/general/enabled">1</field>
+                    </depends>
+                    <label>Send Admin Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_email" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin Email ID</label>
+                    <depends>
+                        <field id="customerwallet/email/send_admin_mail">1</field>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="admintemplate" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Admin Email Template</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/email/send_admin_mail">1</field>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="customertemplate" translate="label comment" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Email Template</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="adminadjust" translate="label comment" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Admin Adjust Email Template</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="sendmoney" translate="label comment" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Money Email Template</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="receivemoney" translate="label comment" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Receive Money Email Template</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+                <field id="resendotp" translate="label comment" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Re-send OTP Email Template</label>
+                    <comment>Email template for Re-send OTP.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="customerwallet/general/enabled">1</field>
+                        <field id="customerwallet/email/sendemail">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+        <section id="payment">
+            <group id="walletpayment" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Wallet Payment</label>
+                <field id="active" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Wallet Payment</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

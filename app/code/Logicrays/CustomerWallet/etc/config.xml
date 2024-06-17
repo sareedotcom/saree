@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customerwallet>
+            <general>
+                <enabled>1</enabled>
+                <refund_in_wallet>0</refund_in_wallet>
+                <money_in_cart>You have Money Request in Cart</money_in_cart>
+                <wallet_sku>customer-wallet</wallet_sku>
+                <enable_auto_invoice>1</enable_auto_invoice>
+                <auto_invoice_order_comment>Invoice has been created, Order placed using wallet.</auto_invoice_order_comment>
+                <other_products_in_cart>Other products in cart, please proceed to checkout or clear it</other_products_in_cart>
+            </general>
+            <email>
+                <sendemail>0</sendemail>
+                <send_admin_mail>0</send_admin_mail>
+                <sender_email>general</sender_email>
+                <admintemplate>customerwallet_email_admintemplate</admintemplate>
+                <customertemplate>customerwallet_email_customertemplate</customertemplate>
+                <sendmoney>customerwallet_email_sendmoney</sendmoney>
+                <receivemoney>customerwallet_email_receivemoney</receivemoney>
+                <adminadjust>customerwallet_email_adminadjust</adminadjust>
+                <resendotp>customerwallet_email_resendotp</resendotp>
+            </email>
+        </customerwallet>
+        <payment>
+            <walletpayment>
+                <payment_action>authorize</payment_action><!-- You can use another methor like capture  -->
+                <model>Logicrays\CustomerWallet\Model\PaymentMethod</model>
+                <active>1</active>
+                <title>Wallet Payment</title>
+                <order_status>pending_payment</order_status><!-- set default order status-->
+            </walletpayment>
+        </payment>
+    </default>
+</config>

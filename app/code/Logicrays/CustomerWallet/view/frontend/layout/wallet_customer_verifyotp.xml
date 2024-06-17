@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<update handle="customer_account"/>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">My Wallet -&gt; OTP Verification</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="customer-account-navigation-custom">
+            <arguments>
+                <argument name="is_highlighted" xsi:type="boolean">true</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Logicrays\CustomerWallet\Block\CustomerWallet"
+            cacheable="false" ifconfig="customerwallet/general/enabled"
+            name="customer_wallet_verifyotp"
+            template="Logicrays_CustomerWallet::verifyotp.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

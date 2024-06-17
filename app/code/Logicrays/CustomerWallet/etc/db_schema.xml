@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="logicrays_customerwallet" resource="default" comment="logicrays customerwallet" charset="utf8">
+        <column name="id" xsi:type="int" padding="5" unsigned="true" identity="true" nullable="false"></column>
+        <column name="name" xsi:type="varchar" nullable="false" length="20"></column>
+        <column name="email" xsi:type="varchar" nullable="false" length="50"></column>
+        <column name="customer_id" xsi:type="varchar" nullable="false"></column>
+        <column name="payee_email" xsi:type="varchar" comment="payee email"  nullable="false" length="50"></column>
+        <column name="amount" xsi:type="varchar" nullable="false" length="10"></column>
+        <column name="note" xsi:type="varchar" nullable="true" length="255"></column>
+        <column name="status" xsi:type="boolean" nullable="false"></column>
+        <column name="transfer_wallet" xsi:type="boolean" nullable="false"></column>
+        <column name="otp" xsi:type="varchar" nullable="false" length="4"></column>
+        <column name="is_verified" xsi:type="boolean" nullable="false"></column>
+        <column name="orderid" xsi:type="varchar" nullable="false" length="10"></column>
+        <column name="created_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP"></column>
+        <column name="updated_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" on_update="true"></column>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+    <table name="logicrays_verifyotp" resource="default" comment="logicrays verifyotp" charset="utf8">
+        <column name="id" xsi:type="int" padding="5" unsigned="true" identity="true" nullable="false"></column>
+        <column name="request_id" xsi:type="int" padding="5" nullable="false"></column>
+        <column name="email" xsi:type="varchar" nullable="false" length="50"></column>
+        <column name="otp" xsi:type="varchar" nullable="false" length="4"></column>
+        <column name="is_verified" xsi:type="boolean" nullable="false"></column>
+        <column name="created_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP"></column>
+        <column name="updated_at" xsi:type="timestamp" default="CURRENT_TIMESTAMP" on_update="true"></column>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+    <table name="quote" resource="default" charset="utf8">
+        <column name="is_wallet_request" comment="is wallet request" xsi:type="boolean" nullable="false"></column>
+        <column name="walletamount" comment="is wallet applied" xsi:type="varchar" nullable="true" length="10"></column>
+    </table>
+    <table name="quote_address" resource="default" charset="utf8">
+        <column name="walletamount" comment="is wallet applied" xsi:type="varchar" nullable="true" length="10"></column>
+    </table>
+    <table name="sales_order">
+        <column name="walletamount" xsi:type="varchar" nullable="true" comment="walletamount in order"/>
+    </table>
+</schema>

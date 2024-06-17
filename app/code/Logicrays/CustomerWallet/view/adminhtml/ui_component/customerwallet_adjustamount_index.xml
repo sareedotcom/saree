@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">customerwallet_adjustamount_index.customerwallet_customerwallet_list_data_source</item>
+            <item name="namespace" xsi:type="string">customerwallet_adjustamount_index</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Adjust Wallet Amount</item>
+        <item name="layout" xsi:type="array">
+            <item name="navContainerName" xsi:type="string">left</item>
+            <item name="type" xsi:type="string">tabs</item>
+        </item>
+    </argument>
+    <settings>
+         <buttons>
+            <button name="back" class="Logicrays\CustomerWallet\Block\Adminhtml\AdjustAmount\BackButton"/>
+            <button name="save" class="Logicrays\CustomerWallet\Block\Adminhtml\AdjustAmount\Save"/>
+        </buttons>
+        <deps>
+            <dep>customerwallet_adjustamount_index.customerwallet_customerwallet_list_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="customerwallet_customerwallet_list_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">customerwallet_customerwallet_list_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/*/save" />
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="adjust_amount">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="amount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Enter Amount</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">amount</item>
+                    <item name="dataScope" xsi:type="string">amount</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-number" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="status" formElement="select">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Action on Amount</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">1</item>
+                                <item name="label" xsi:type="string">Credit Amount</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">4</item>
+                                <item name="label" xsi:type="string">Debit Amount</item>
+                            </option>
+                        </options>
+                        <caption translate="true">-- Please Select --</caption>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="note" formElement="textarea">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Note</label>
+            </settings>
+        </field>
+    </fieldset>
+
+    <!-- Tab 2 starts -->
+    <fieldset name="customer_wallet">
+        <settings>
+            <level>1</level>
+            <label translate="true">Customer Email</label>
+        </settings>
+
+        <field name="email" formElement="email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Customer Email </item>
+                    <item name="formElement" xsi:type="string">email</item>
+                    <item name="source" xsi:type="string">customer</item>
+                    <item name="dataScope" xsi:type="string">email</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-email" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

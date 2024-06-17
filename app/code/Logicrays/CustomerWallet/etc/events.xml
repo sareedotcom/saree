@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_place_after">
+        <observer name="sales_order_is_wallet_request"
+        instance="Logicrays\CustomerWallet\Observer\WalletRequestOrder" />
+    </event>
+    <!-- auto invoice when wallet used and total order become 0(zero) -->
+    <event name="checkout_submit_all_after">
+        <observer name="sales_order_become_zero_autoinvoice"
+        instance="Logicrays\CustomerWallet\Observer\AutoInvoice" />
+	</event>
+
+    <!-- remove Wallet Amount Applied from cart  -->
+    <event name="checkout_cart_save_before">
+        <observer name="update_cart_items"
+        instance="Logicrays\CustomerWallet\Observer\UpdateCartItems" />
+    </event>
+
+    <!-- when credit memo is creates then refund send in wallet -->
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="creditmemo_refund_in_wallet"
+        instance="Logicrays\CustomerWallet\Observer\RefundInWallet" />
+    </event>
+
+    <!-- add money in wallet when invoice creates -->
+    <event name="sales_order_invoice_save_after">
+        <observer name="addmoney_wallet_invoice_create_after"
+        instance="Logicrays\CustomerWallet\Observer\InvoiceCreateWalletMoney" />
+    </event>
+
+    <!-- disableing payment method when add money request checkout -->
+    <event name="payment_method_is_active">
+        <observer name="add_money_request_disable_payment_method"
+        instance="Logicrays\CustomerWallet\Observer\DisablePaymentMethod" />
+    </event>
+
+    <!-- remove wallet amount when clear cart -->
+    <event name="sales_quote_remove_item">
+        <observer name="remove_wallet_amount_clear_cart"
+        instance="Logicrays\CustomerWallet\Observer\ClearWalletAmount" />
+    </event>
+
+    <!-- refund back to wallet when order is cancelled -->
+    <event name="order_cancel_after">
+        <observer name="order_cancel_after_refund_back_to_wallet"
+        instance="Logicrays\CustomerWallet\Observer\OrderCancelled\RefundToWallet" />
+    </event>
+</config>

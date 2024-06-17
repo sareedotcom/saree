@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Logicrays_CustomerWallet::customerwallet"
+            title="Customer Wallet"
+            module="Logicrays_CustomerWallet"
+            sortOrder="10"
+            resource="Logicrays_CustomerWallet::customerwallet"
+            parent="Logicrays_Base::main"/>
+
+        <add
+            id="Logicrays_CustomerWallet::requests"
+            title="Customer Wallet Request"
+            module="Logicrays_CustomerWallet"
+            sortOrder="10"
+            resource="Logicrays_CustomerWallet::customerwallet"
+            parent="Logicrays_CustomerWallet::customerwallet"
+            action="customerwallet/customerwallet"/>
+
+        <add
+            id="Logicrays_CustomerWallet::adjust_amount"
+            title="Adjust Wallet Amount"
+            module="Logicrays_CustomerWallet"
+            sortOrder="10"
+            resource="Logicrays_CustomerWallet::customerwallet"
+            parent="Logicrays_CustomerWallet::requests"
+            action="customerwallet/adjustamount"/>
+
+        <add
+            id="Logicrays_CustomerWallet::wallet_configuration"
+            title="Configuration"
+            module="Logicrays_CustomerWallet"
+            sortOrder="10"
+            resource="Logicrays_CustomerWallet::wallet_configuration"
+            parent="Logicrays_CustomerWallet::adjust_amount"
+            action="admin/system_config/edit/section/customerwallet"/>
+
+    </menu>
+</config>

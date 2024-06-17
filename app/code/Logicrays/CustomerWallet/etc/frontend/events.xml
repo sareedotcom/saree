@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_CustomerWallet
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch_checkout_cart_add">
+        <observer name="restrict_add_to_cart" instance="Logicrays\CustomerWallet\Observer\RestrictAddToCart" />
+    </event>
+    <event name="checkout_cart_product_add_after">
+        <observer name="set_custom_price_amount" instance="Logicrays\CustomerWallet\Observer\SetAmount" />
+    </event>
+</config>
