@@ -1,0 +1,125 @@
+/**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_Base
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */
+ 
+@color0: #000000;
+@color1: #d33729;
+@color2: #cccccc;
+
+@width1: 22px;
+
+
+#menu-logicrays-base-main {
+	a:before {
+        content: '';
+        background-image: url(Logicrays_Base::images/lr-menu-icon.svg);
+        background-repeat: no-repeat;
+        background-size: 22px;
+        margin: 0 auto .3rem;
+        width: @width1;
+    }
+}
+.logicrays-extensions-tab {
+    .title:before {
+        content: "";
+        background-image: url(Logicrays_Base::images/lr-store-config-icon.svg);
+        background-repeat: no-repeat;
+        background-size: auto;
+        display: inline-block;
+        height: 21px;
+        width: 160px;
+    }
+}
+.lrbase-updates-block {
+	.lrbase-title {
+		border-bottom: 1px solid #ccccccb0;
+		color: #303030;
+		font-size: 17px;
+		font-weight: bold;
+		margin-top: 11px;
+		padding-bottom: 7px;
+	}
+	.lr-module-list {
+		column-gap: 15px;
+		display: flex;
+        .module-title {
+            color: @color0;
+            font-weight: 600;
+        }
+		.new-version {
+			label {
+				color: @color1;
+				font-size: 14px;
+				font-weight: 600;
+				position: relative;
+				&:before {
+					background-image: url(Logicrays_Base::images/lr-module-new-version.svg);
+					background-repeat: no-repeat;
+					background-size: 22px;
+					content: '';
+					display: block;
+					margin: 0 auto .3rem;
+					width: @width1;
+					position: absolute;
+					right: -26px;
+					height: 22px;
+				}
+			}
+		}
+		.lr-module-container {
+			border-radius: 10px;
+			border: 1px solid #ccccccbd;
+			display: inline-block;
+			padding-top: 20px;
+			padding: 30px 15px;
+			width: 30%;
+		}
+		.version-info {
+			column-gap: 20px;
+			display: flex;
+			margin-bottom: 12px;
+			margin-top: 18px;
+		}
+		.current-version {
+			label {
+				color: @color0;
+				font-size: 13px;
+				font-weight: 600;
+			}
+			p {
+				font-size: 14px;
+			}
+		}
+		.module-guide {
+			.change-log {
+				border-radius: 4px;
+				border: 2px solid #000000a8;
+				color: @color0;
+				font-size: 12px;
+				margin-right: 12px;
+				padding: 4px 9px;
+				text-decoration: none;
+			}
+			.user-guide {
+				background: @color1;
+				border-radius: 4px;
+				border: 2px solid @color1;
+				color: #ffffff;
+				font-size: 12px;
+				margin-right: 12px;
+				padding: 4px 9px;
+				text-decoration: none;
+			}
+		}
+	}
+}
+

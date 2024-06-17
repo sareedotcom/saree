@@ -1,0 +1,27 @@
+{
+    "name": "logicrays/module-base",
+    "description": "Logicrays base module for magento 2",
+    "require": {
+        "php": "~7.0.0|~7.1.3|~7.2.0|~7.3.0|~7.4.0|~8.1.13"
+    },
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "OSL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Logicrays",
+            "email": "biz@logicrays.com",
+            "homepage": "https://logicrays.com/"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Logicrays\\Base\\": ""
+        }
+    }
+}

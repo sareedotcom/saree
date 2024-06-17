@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_Base
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="logicrays" translate="label" sortOrder="400" class="logicrays-extensions-tab">
+            <label></label>
+        </tab>
+        <section id="installed_module" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0"
+            showInStore="0">
+            <label><![CDATA[Extensions & Notification]]></label>
+            <tab>logicrays</tab>
+            <resource>Logicrays_Base::config</resource>
+            <group id="header" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Installed Extensions</label>
+                <frontend_model>Logicrays\Base\Block\Adminhtml\Extensions</frontend_model>
+            </group>
+            
+        </section>
+    </system>
+</config>

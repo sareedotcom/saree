@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Logicrays
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Logicrays
+ * @package     Logicrays_Base
+ * @copyright   Copyright (c) Logicrays (https://www.logicrays.com/)
+ */
+
+ /** @var \Logicrays\Base\Block\Adminhtml\Extensions $block */
+?>
+
+<?php $finalModules = $block->getFinalModules(); ?>
+
+<div class="lrbase-updates-block">
+    <h2 class="lrbase-title">
+        <?= $block->escapeHtml(__('Installed Extensions')) ?>
+    </h2>
+    <div class="lr-module-list">
+        <?php foreach($finalModules as $module):?>
+                <div class="lr-module-container">
+                    <a target="_blank" class="module-title" href="<?php echo $module['module_url'];?>"><?php echo $module['module_name'];?></a>
+                    <div class="version-info">
+                        <div class="current-version">
+                            <label><?= $block->escapeHtml(__('Current Version')) ?></label>
+                            <p><?php echo $module['current_version'];?></p>
+                        </div>
+                        <?php if($module['current_version'] < $module['latest_version']):?>
+                            <div class="new-version">
+                                <label><?= $block->escapeHtml(__('New Version')) ?> </label>
+                                <p><?php echo $module['latest_version'];?></p>
+                            </div>
+                        <?php endif;?>
+                    </div>
+                    <div class="module-guide">
+                        <a target="_blank" class="change-log" href="<?php echo $module['change_log'];?>"><?= $block->escapeHtml(__('Change Log')) ?></a>
+                        <a target="_blank" class="user-guide" href="<?php echo $module['user_guide'];?>"><?= $block->escapeHtml(__('User Guide')) ?></a>
+                    </div>
+                </div>
+        <?php endforeach;?>
+    </div>
+</div>
